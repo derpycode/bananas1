@@ -196,7 +196,7 @@ Copyright \copyright\ \the\year\ \thanklessauthor
 \\Creative Commons Attribution-NonCommercial-ShareAlike 3.0 license (CC BY-NC-SA 3.0) 
 \\(http://creativecommons.org/licenses/by-nc-sa/3.0/)\index{license}
 
-\par\textit{Current printing, \monthyear}
+\par\textit{Current printing, \today}
 \end{fullwidth}
 
 %----------------------------------------------------------------------------------------
@@ -854,11 +854,12 @@ There are several basic and very useful ways of manipulating \textit{vectors} (a
 
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
-\item Display the contents of the \textit{vector} in the command window by typing its name at the \textsf{command line}. Obviously, this will quickly become useless for very large \textit{vectors}\sidenote[][-1.0in]{Try creating a \textit{vector} from 1 to 100,000 and assign it to a \textit{variable}. Refer to the use of the \docenv{color operator} (see earlier).
-\\You will find that adding a semicolon to the end of the line to suppress output and instead viewing the vector in the \textsf{Workspace Window}.}.
-\\Note that by default, the \textsf{Size} of variables is not one of the displayed columns (instead, it has to be added from \textsf{Choose Columns} right-mouse-button-click menu item)\sidenote[][-0.25in]{Although as per above -- the size is displayed under \textsf{Value} for a sufficiently large \textit{vector}.}. 
+\item Display the contents of the \textit{vector} in the command window by typing its name at the \textsf{command line}. Obviously, this will quickly become useless for very large \textit{vectors}\sidenote[][-1.0in]{Try creating a \textit{vector} from 1 to 100,000 and assign it to a \textit{variable}. Refer to the use of the \docenv{colon operator} (see earlier).
+\\You will find that adding a semicolon to the end of the line to suppress output and instead viewing the vector in the \textsf{Workspace Window}.}. 
 \vspace{1mm}
 \item Refer to the \textsf{Workspace window}, -- initially, the contents of the vector are displayed (under column \textsf{Value}) and you have to count, but after a certain point, the size (and not contents) of the \textit{vector} is displayed.
+\\Note that by default, the \textsf{Size} of variables is not one of the displayed columns (instead, it has to be added from \textsf{Choose Columns} right-mouse-button-click menu item)\sidenote[][-0.25in]{Although as per above -- the size is displayed under \textsf{Value} for a sufficiently large \textit{vector}.}.
+
 \vspace{1mm}
 \item Use the \docenv{length} or \docenv{size} function (see Box). 
 \end{enumerate}
@@ -895,10 +896,9 @@ If you find that you want a different orientation (row vs. column) of the a \tex
 D = B.'
 \end{docspec}
 
-\noindent will turn the vector \texttt{B} into one (assigned to the \textit{variable} \texttt{D}) with he same orientation as \texttt{C}. \sidenote{Note ... \textbf{MATLAB} gives the syntax as \texttt{.'}, whereas I always only ever added the \texttt{'} bit ... which works ...}
+\noindent will turn the vector \texttt{B} into one (assigned to the \textit{variable} \texttt{D}) with the same orientation as \texttt{C}. \sidenote{Note ... \textbf{MATLAB} gives the syntax as \texttt{.'}, whereas I always only ever added the \texttt{'} bit ... which works ...}
 
-You can also re-order the values in a \textit{vector} (hence addressing the restriction in using the \textit{colon operator} to create a \textit{vector} that the values must be monotonically increasing rather than decreasing). Depending on the orientation of the \textit{vector}, you can use either the \docenv{flipud} (for column \textit{vectors}), or \docenv{fliplr} (for row \textit{vectors}) \textit{functions} to re-order the elements.
-
+You can also re-order the values in a \textit{vector} (hence addressing the restriction in using the \textit{colon operator} to create a \textit{vector} that the values must be monotonically increasing rather than decreasing). Depending on the orientation of the \textit{vector}, you can use either the \docenv{flipud} (for column \textit{vectors}), or \docenv{fliplr} (for row \textit{vectors}) \textit{functions} to re-order the elements (see margin box).
 \marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{flipud}, \docenvdef{fliplr}
 \\These two functions allow you to re-order a vector. Their use is simple:
@@ -916,7 +916,7 @@ will invert the order of elements of a raw vector. Simples! Lesson over.
 
 \subsection{Addressing elements in vectors}
 
-This next bit is maybe the single most important (and weird) part of \textbf{MATLAB}. As you go through this section (and also the later one on \textit{matrices}) -- it may help to have \textbf{Excel} open as a aid to visualize how \textbf{MALTAB} represents \textit{arrays} (for the  following example, you would enter the 5 numbers, from 0.5 to 2.5, in sequential cells, working down from \textsf{A1}.
+This next bit is maybe the single most important (and weird) part of \textbf{MATLAB} (or programming in general). As you go through this section (and also the later one on \textit{matrices}) -- it may help to have \textbf{Excel} open as a aid to visualize how \textbf{MALTAB} represents \textit{arrays} (for the  following example, you would enter the 5 numbers, from 0.5 to 2.5, in sequential cells, working down from \textsf{A1}.
 
 In \textbf{MATLAB}, values can be extracted (or read) from a \textit{vector} by specifying the \textit{index} (technically, this should be an \textit{integer}, but \textbf{MATLAB} is pretty forgiving and you can get away with using a \textit{real} (number) when specifying an index) of the element required (counting along, left-to-right, or top-to-bottom, depending on the \textit{vector} orientation), e.g. 
 
@@ -950,7 +950,7 @@ In practice, you can get away with being lazy (and in fact this is how it was in
 (but get into the habit of using the formally correct, \textbf{Mathworks} official and UN-approved, syntax of \texttt{.'}).
 \end{mdframed}}
 
-\noindent(In this text, I will refer to accessing a particular element (or elements) of a \textit{vector} (or \textit{array}) via its \textit{index} as addressing. Unless I forget, then I might say something else. You'll have to keep on your toes -- don't expect consistency here!\sidenote{Recognise the parallel with \textbf{Excel} here -- the value in position \texttt{5} in the \textbf{MATLAB} vector \texttt{B}, is the same as specifying the contents of cell \textsf{A5} in \textbf{Excel}.}
+\noindent(In this text, I will refer to accessing a particular element (or elements) of a \textit{vector} (or \textit{array}) via its \textit{index} as \textit{addressing}. Unless I forget, then I might say something else. You'll have to keep on your toes -- don't expect consistency here!)\sidenote{Recognise the parallel with \textbf{Excel} here -- the value in position \texttt{5} in the \textbf{MATLAB} vector \texttt{B}, is the same as specifying the contents of cell \textsf{A5} in \textbf{Excel}.}
 
 There is a \textbf{MATLAB} \textit{function} \docenv{end} (see Box) that enables you to easily address (accessing via its index) the very last value in a \textit{vector} (in \textbf{MATLAB}, the \textit{index} of the first position is always \texttt{1}).
 
@@ -1004,7 +1004,7 @@ So far ... I suspect this is heavy-going and there is a lot to try and remember,
 
 \subsection{Plotting}
 
-First -- create yourself a dummy dataset to plot. You are going to need to create yourself a pair of \textit{vectors} -- these can have any values (all numbers though) in them that you like, but perhaps aim for 1 vector with values counting up from 1 to 10 (or similar) -- this will form your \textit{x}-axis, and the 2nd column ... whatever you like. \sidenote[][-3.00in]{Looking ahead -- you could create a y-axis \textit{vector} formed of the squares of the numbers in the x-axis \textit{vector}: 
+First -- create yourself a dummy dataset to plot. You are going to need to create yourself a pair of \textit{vectors} -- these can have any values in them that you like, but perhaps aim for 1 vector with values counting up from 1 to 10 (or similar) -- this will form your \textit{x}-axis, and the 2nd column ... whatever you like. \sidenote[][-3.00in]{Looking ahead -- you could create a y-axis \textit{vector} formed of the squares of the numbers in the x-axis \textit{vector}: 
 \begin{docspecmargin}
 >> Y = X.\(^{\wedge}\)2  
 \end{docspecmargin}
@@ -1028,7 +1028,14 @@ With any new \textbf{MATLAB} command (\textit{function}), get into the habit of 
 PLOT(X,Y) plots vector Y versus vector X.
 \end{docspec}
 
-\noindent This tells you that you need to pass to \texttt{plot}, your \textit{x}-axis data \textit{vector} (by its variable name), followed by your y-axis data \textit{vector} (by its variable name) -- comma separated. Do this, and depending on just what or how random your \textit{y}-axis data was, you should end up with something like Figure \ref{fig:plot-basic} in a window captioned "\texttt{Figure 1}".\sidenote{If you cannot see the figure window ... check that the window is not hidden behind the main \textbf{MATLAB} program window!} 
+\noindent This tells you that you need to 'pass' to \texttt{plot}, your \textit{x}-axis data \textit{vector} (by its variable name), followed by your y-axis data \textit{vector} (by its variable name), with the 2 variable names comma separated:
+
+\begin{docspec}
+\textbf{>> PLOT(X,Y)};
+\end{docspec}
+
+
+ Do this, and depending on just what or how random your \textit{y}-axis data was, you should end up with something like Figure \ref{fig:plot-basic} in a window captioned "\texttt{Figure 1}".\sidenote{If you cannot see the figure window ... check that the window is not hidden behind the main \textbf{MATLAB} program window!} 
 
 This ... is easily the least professional plot ever (aside from anything created in \textbf{Excel}). And one that breaks all the most basic rules of scientific presentation, such as an absence of any labelling of axes. There is also no title, although here in the course text I have added a figure caption in the document so I can sort of get away with it. This is the default output of the basic \texttt{plot} function and you'll just have to deal with it (i.e. add a series of commands to add missing elements of the \texttt{plot}).
 
@@ -1065,32 +1072,34 @@ You have two options for editing the figure and e.g. adding axis labels. Firstly
 
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
-\item The first, obvious thing to do is to add axis labels. The commands are simple -- \docenvdef{xlabel} and \docenvdef{ylabel}. They each take a string as an input, which is the text you would like to appear on the axis.
+\item The first, obvious thing to do is to add axis labels. The commands are simple -- \docenvdef{xlabel} and \docenvdef{ylabel}. They each take a string as an input, which is the text you would like to appear on the axis (see Box).
 If you change your mind, simply re-issue the command with the text you would like instead.
 \vspace{1mm}
-\item The command for title, perhaps unsurprisingly, is \docenvdef{title}. Again, pass the test you would like to appear as a string (in inverted commas \texttt{''}), or pass a the name of variable that contains a string (no \texttt{'}' then needed).
+\item The command for title, perhaps unsurprisingly, is \docenvdef{title} (also see Box). Again, pass the text you would like to appear as a string (in inverted commas \texttt{' '}), or pass a the name of variable that contains a string (no \texttt{'}' is then needed).
 \vspace{1mm}
-\item You might want to specify the axis limits. The command is \docenv{axis} and it takes a vector of 4 values as its input -- in order: minimum x, maximum x, minimum y, and maximum y value. e.g. \texttt{axis([0 10 -100 100])} would specify an \textit{x}-axis running from 0 to 10, and a \textit{y}-axis from -100 to 100.
+\item You might want to specify the axis limits. The command is \docenv{axis} (see Box) and it takes a vector of 4 values as its input -- in order: minimum x, maximum x, minimum y, and maximum y value. e.g. \texttt{axis([0 10 -100 100])} would specify an \textit{x}-axis running from 0 to 10, and a \textit{y}-axis from -100 to 100.
 \end{enumerate}
 
-Information as to how to use all of these commands can be found via \textbf{MATLAB} \texttt{help}. But a typical sequence, that gives rise to the improved plot shown in Figure \ref{fig:ch1-plot-basic2}, is given in the margin.
+Information as to how to use all of these commands can be found via \textbf{MATLAB} \texttt{help}. 
 
-\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+Employing the above 3 suggestions gives rise to the improved plot shown in Figure \ref{fig:ch1-plot-basic2}, is given in the margin.
+
+\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 Example of adding axis labels and a plot title ...
 \begin{docspecmargin}
 >> xlabel ... 
 \\ \ \ ('Whatever values');
 \\>> ylabel ...
-\\ \ \ ('Whatever values ... squared');
+\\ \ \ ('Values squared');
 \\>> title ...
 \\ \ \ ('A plot of some ...
-\\ \ \ values vs. their ... 
+\\ \ \ values vs the ... 
 \\ \ \ squares');   
 \end{docspecmargin}
-(The notation gets confusing in a narrow box -- the\texttt{ ...} indicates that the line should be continuous and not broken across 2 lines.)
+(The notation gets confusing in a narrow box like this -- the\texttt{ ...} indicates that the line should be \uline{continuous} and not broken across 2 different lines.)
 \end{mdframed}}
 
-Note that in the usage of all the above listed commands, they all require something to be passed within a set of parentheses -- \texttt{( )}. In fact, they are all \textbf{MATLAB} functions and require an input (hence the use of the parentheses). Some of the functions require a \textit{string} input, such as the name of the title in \docenv{title}, and this must be encased in quotation marks -- \texttt{' '} to designate it a string rather than a \textit{variable} name.\sidenote[][-0.5in]{You could instead assign a \textit{string} to a \textit{variable}, and then pass the \textit{variable} name (no quotation marks).}
+Note that in the usage of all the above listed commands, they all require something to be passed within a set of parentheses -- \texttt{( )}. In fact, they are all \textbf{MATLAB} \textit{functions} and require an input (hence the use of the parentheses). Some of the functions require a \textit{string} input, such as the name of the title in \docenv{title}, and this must be encased in quotation marks -- \texttt{' '} to designate it a string rather than a \textit{variable} name.\sidenote[][-0.5in]{You could instead assign a \textit{string} to a \textit{variable}, and then pass the \textit{variable} name (no quotation marks).} This will all become clearer once you start creating your own \textit{functions} (computer programs) in the next chapter.
 
 %------------------------------------------------
 
@@ -1109,6 +1118,7 @@ You can also have more than one plot in a single \textsf{Figure window}. As an e
 \\For once, helpfully, \textbf{MATLAB} says:
 \\"\textit{\texttt{axis([xmin xmax ymin ymax])} sets the limits for the x- and y-axis of the current axes.}"
 \\\noindent which is about all you need to know (other than the minimum and maximum limits along the \textit{x-axis} are represented by \texttt{xmin}, \texttt{xmax}, and the minimum and maximum limits along the \textit{y-axis} are \texttt{ymin}, \texttt{ymax}).
+Simply stick to the format, with a vector of 4 values (remembering the square bracket notation \texttt{[]}), inside of \texttt{axis()}, and you should not go wrong!
 \end{mdframed}}
 
 To place several different plots on the same figure uses the \docenvdef{subplot} command \sidenote{>> help subplot}. The \docenv{subplot} command is used as: \texttt{subplot(m,n,p)} where \texttt{m} is the number of rows of plots you want to have in your figure, \texttt{n} is the number of columns of plots in your figure, and \texttt{p} is the index of the plot you wish to create (see: Figure \ref{fig:ch1-subplot}).  
@@ -1139,7 +1149,7 @@ The basic code then goes something like:
 \subsection{Saving graphics and figures}
 
 You might just want to save the figure. (Why create it in the first place in fact if you are just going to throw it away ... ?) Again, you can do this via the \textit{GUI} or at the \textit{command line}
-\sidenote[][-0.25in]{
+\sidenote[][-0.0in]{
 To export a graphic at the command line, use the \docenvdef{print} function. To cut a long story short (see: \texttt{help print}), to print to a postscript file:
 \\\texttt{print('-dpsc2', FILENAME)}
 \\\noindent where \texttt{FILENAME} is the filename as a \textit{string} or a \textit{variable} containing a \textit{string}.
@@ -1471,7 +1481,7 @@ There are a number of different ways to load/import data into the \textbf{MATLAB
 
 \subsection{Where am I?}
 
-Before anything -- you need to know 'where you are'. If the file you want to load in is not in the directory \textbf{MATLAB} is using, it will not find it. And if you save something and have no idea where it is being saved ... that can hardly go well.
+Before anything -- you need to know 'where you are'. If the file you want to load in, is not in the directory \textbf{MATLAB} is using, it will not find it. And if you save something and have no idea where it is being saved ... that can hardly go well.
 
 \textbf{MATLAB} has a default directory that it starts up in and looks at first. For basic Windoz installations\sidenote[][-1.0in]{At installation, this directory can be specified and hence may not be this one. Also -- different operating systems will have different default locations.} of the software, this directory is:
 
@@ -1503,7 +1513,13 @@ where \texttt{FILEMANE} is the name of the file (remember: \texttt{FILEMANE} nee
 (all one line)
 \end{mdframed}}
 
-It is unlikely that you want to have to save all your files here. More likely, you may have a course folder somewhere, possibly with sub-folders for each week (or whatever), so you will need to change the \textbf{MATLAB} directory that you are working in, to match where your files are. At the command line -- you can change the directory that \textbf{MATLAB} is working from by typing:
+It is unlikely that you want to have to save all your files here. More likely, you may have a course folder somewhere, possibly with sub-folders for each week (or whatever), so you will need to change the \textbf{MATLAB} directory that you are working in, to match the one where your files are. 
+
+Easiest ... is to use the GUI -- the toolbar above the \textsf{Command Window} can be used to change the current (working) folder. The contents of the current folder are automatically displayed in the \textsf{Current Folder} pane on the left. (If the \textsf{Current Folder} pane is not present in your \textbf{MATLAB} layout, it can be selected form the \textsf{Layout} drop-down menu.)
+
+You can also do this at the the command line ... which is much less fun and you are less likely to need to do it this way. The instructions are included below for completeness.
+
+You can change the directory that \textbf{MATLAB} is working from by typing:
 \begin{docspec}
 >> cd DIRECTORY\_PATH
 \end{docspec}
@@ -1516,7 +1532,7 @@ If, you have a directory \textsf{working} on the USB drive, you could change \te
 >> cd E:\textbackslash working
 \end{docspec}
 
-Note that an alternative format (syntax) for \texttt{cd} is as a \textit{function}, e.g,
+\noindent Note that an alternative format (syntax) for \texttt{cd} is as a \textit{function}, e.g,
 \begin{docspec}
 >> cd('E:\textbackslash working')
 \end{docspec}
@@ -1536,23 +1552,21 @@ would keep your current working directory unchanged, but tell \textbf{MATLAB} to
 \\where \texttt{DIRECTORY\_PATH} is a \textit{string} (characters in between inverted commas) or name of a variable containing a string.}
 \end{mdframed}}
 
-Easier ... is to use the GUI -- the toolbar above the \textsf{Command Window} can be used to change the current (working) folder. The contents of the current folder are automatically displayed in the \textsf{Current Folder} pane on the left. (If the \textsf{Current Folder} pane is not present in your \textbf{MATLAB} layout, it can be selected form the \textsf{Layout} drop-down menu.)
-
-In summary: go with whatever works best for you in terms of working directory.  
+In summary: go with whatever works best for you in terms of working directory.
 
 %------------------------------------------------
 
 \subsection{Loading and importing data}
 
-The simplest way to import data into \textbf{MATLAB} is to use the \textit{GUI} -- from the \texttt{File} menu, selecting the option \texttt{Import Data..}. will run the data import Wizard -- note that you might have to select \texttt{All Files (*.*)} from the file type option box in order to find the file. I'll leave you to work the rest out for yourselves ... Maybe try importing the data into \textbf{MATLAB} this way once you have done it successfully using the \docenv{load} function at the command line. The \textit{GUI} can also be used to change the directory you are working from (duplicating the functionality of the \texttt{cd} command) and add paths to search (duplicating the functionality of the \texttt{addpath} command).
+The simplest way to import data into \textbf{MATLAB} is also to use the \textit{GUI} -- from the \texttt{File} menu, selecting the option \texttt{Import Data..}. will run the data import Wizard -- note that you might have to select \texttt{All Files (*.*)} from the file type option box in order to find the file. I'll leave you to work the rest out for yourselves ... Maybe try importing the data into \textbf{MATLAB} this way once you have done it successfully using the \docenv{load} function at the command line. The \textit{GUI} can also be used to change the directory you are working from (duplicating the functionality of the \texttt{cd} command) and add paths to search (duplicating the functionality of the \texttt{addpath} command).
 
-A more flexible way and one you can embed in programs, is to use the \docenv{load} function (see Box)\sidenote{There is also a much more flexible way of loading text-based data using the function \texttt{textscan}, but that also requires files to be explicitly opened and closed using \docenvdef{fprintf}. We'll see a little of this later.}.
+A more flexible way and one you can embed in programs, is to use the \docenv{load} function (see Box)\sidenote{There is also a much more flexible way of loading text-based data using the function \texttt{textscan}, but that also requires files to be explicitly opened and closed using \docenvdef{fprintf}. We'll see a little of this later.} and we'll concentrate on that method  in this course.
 
-As a brief exercise and practice using \texttt{load} -- first download the data file \texttt{etheridge\_etal\_1996.txt} (labelled as 'historical ice-core pCO2 record \uline{data}') from the course webpage\sidenote{\texttt{http://www.seao2.info/teaching.html}}. Note that you need to either save this file directly in the folder you intend to work from (and which you have directly \textbf{MATLAB} to), or copy the file from your computers 'Download' folder if it ends up there.
+As a brief exercise and practice in using \texttt{load} -- first download the data file \texttt{etheridge\_etal\_1996.txt} (labelled as 'historical ice-core pCO2 record \uline{data}') from the course webpage\sidenote{\texttt{http://www.seao2.info/teaching.html}}. Note that you need to either save this file directly in the folder you intend to work from (and which you have directed \textbf{MATLAB} to by changing its working directory), or copy the file from your computers 'Download' folder if it ends up there, to the working directory.
  
 You might start by viewing the contents of the file by opening it in any text viewer (or \textbf{Excel}\sidenote{In fact, you could even try first plotting it in \textbf{Excel}.}). This is always a good place to start as it enables you to see what you are getting yourself in to (i.e. format of the file, any potential formatting issues, approximate size and complexity of the dataset, etc).
 
-Now, import the data into the \textbf{MATLAB} workspace using the  \texttt{load} command. Because the data is a plain text (ASCII) format and not a special \textbf{MATLAB} \textsf{.mat} file, you need to specify the format as '\texttt{ascii}' when using the \texttt{load} command (see box or \textsf{help}):
+Now, import the data into the \textbf{MATLAB} workspace using the  \texttt{load} command. Because the data is a plain text (ASCII) format and not a special \textbf{MATLAB} \textsf{.mat} file, you need to specify the format as '\texttt{ascii}' when using the \texttt{load} command (see box or \textsf{help}). This looks like:
 
 \begin{docspec}
 \textbf{>> load('etheridge\_etal\_1996.txt','-ascii');}
@@ -1564,9 +1578,9 @@ If you tell \textbf{MATLAB} nothing different, it will create a variable for you
 >> MYDATA = load('etheridge\_etal\_1996.txt','-ascii');
 \end{docspec}
 
-\noindent instead assigns the \texttt{load}-ed data to the \textit{variable} \texttt{MYDATA}.
+\noindent is exactly the same as before, but instead assigns the \texttt{load}-ed data to the \textit{variable} \texttt{MYDATA} rather than to an automatically-generated default filename.
 
-Try  typing the name of the \textit{variable} that was automatically created (\texttt{etheridge\_etal\_1996}) (or the one you chose if you assigned the imported data to a specific variable name  as per detailed in the Box) to provide a crude view of the data. To view the contents of the \textit{variable} in the \textsf{Variables window} -- double  click on the name of the \textit{variable} in the \textbf{MATLAB} \textsf{Workspace window.} This should open up a spreadsheet-like window in which the data can be viewed, sorted, and even edited.
+Try  typing the name of the \textit{variable} that was automatically created (\texttt{etheridge\_etal\_1996}) (or the one you chose if you assigned the imported data to a specific variable name  as per detailed in the Box) to provide a crude view of the data. A better way to  view the contents of the \textit{variable} is through the \textsf{Variables window} -- double  click on the name of the \textit{variable} in the \textbf{MATLAB} \textsf{Workspace window.} This should open up a spreadsheet-like window in which the data can be viewed, sorted, and even edited.
 
 For practice, try plotting the data\sidenote[][-2.5in]{using \texttt{plot}} and remembering to label the figure appropriately\sidenote[][-2.25in]{ FYI: the first column of the data and x-axis is year, and the 2nd column of the data and y-axis is the mixing ratio of CO\(_{2}\) in air in units of ppm.}. \uline{However} ... remember, the format of the \textbf{MATLAB} \texttt{plot} function is:
 
@@ -1574,7 +1588,7 @@ For practice, try plotting the data\sidenote[][-2.5in]{using \texttt{plot}} and 
 plot(X,Y) plots vector Y versus vector X
 \end{docspec}
 
-\noindent So you need to specify each column of the data (i.e. each \textit{vector}) separately and explicitly.\footnote[][-2.5in]{If you just type \texttt{plot} and pass the (here: default) name of the data array: 
+\noindent so you will need to specify each column of the data (i.e. each \textit{vector}) separately and explicitly.\footnote[][-2.5in]{If you just type \texttt{plot} and pass the (here: default) name of the data array: 
 \begin{docspecmargin}
 >> plot(etheridge\_etal\_1996);
 \end{docspecmargin}
@@ -1589,18 +1603,18 @@ plot(X,Y) plots vector Y versus vector X
 You can do this step-by-step, and create yourself 2 vectors, one for the x-values and one for the y-values, and then \texttt{plot}:
 
 \begin{docspec}
->> X = etheridge\_etal\_1996(:,1);\\
+\textbf{>> X = etheridge\_etal\_1996(:,1);\\
 >> Y = etheridge\_etal\_1996(:,2);\\
->> plot(X,Y);
+>> plot(X,Y);}
 \end{docspec}
 
-Or go straight for the kill:
+Or, if you are comfortable with more complex, single lines of code, go straight for the kill:
 
 \begin{docspec}
->> plot(etheridge\_etal\_1996(:,1),etheridge\_etal\_1996(:,2));
+\textbf{>> plot(etheridge\_etal\_1996(:,1),etheridge\_etal\_1996(:,2));}
 \end{docspec}
 
-Breaking things down like  is an equally valid way of doing things. It is longer ... taking 3 lines rather than 1, but the most important thing is to be happy that you understand what is going on. If breaking things down into multiple lines and creating new \textit{variables} helps -- \uline{DO IT}! Ultimately, you should end up with something like Figure \ref{fig:ch1-plot-icecore}.
+Breaking things down into multiple bite-sized chunks rather than single long and complex lines,  is an equally valid way of doing things. It is longer ... taking 3 lines rather than 1, but the most important thing is to be happy that you understand what is going on. If breaking things down into multiple lines and creating new \textit{variables} helps -- \uline{DO IT}! Ultimately, and regardless of the method, you should end up with something like Figure \ref{fig:ch1-plot-icecore}.
 
 \begin{marginfigure}[-0.5in]
 \includegraphics[width=\linewidth]{ch1-plot-icecore.eps}
@@ -1622,7 +1636,7 @@ text file (with a new filename) ... and then load it in again.
 \subsection{Loading and saving the workspace}
 
 The entire workspace (including all variables and their values, or just the values in a single variable if you wish) can be saved to a file and then later re-opened. The file format is specific to the \textbf{MATLAB} program and the file-name extension by default is \docenv{.mat}. You might find this very helpful to use in long lab exercise or large modelling projects, particularly if you do not come back to work at the exact same computer each time or wish to use continue the same piece of work on a laptop elsewhere. Try saving the current \textsf{Workspace}, then close down the \textbf{MATLAB} program. Re-running it, and then loading in your saved \texttt{.mat} file.
-\sidenote[][-1.00in]{This sequence is going to look something like:
+\sidenote[][-3.00in]{This sequence is going to look something like:
 \begin{docspecmargin}
 >> save MYSTUFF
 \\>> exit
@@ -1634,7 +1648,7 @@ load MYSTUFF
 Remember that when you re-start \textbf{MATLAB} you may have to change directories, add a path (\textsf{addpath}), or provide a full path to the \texttt{.mat} file, depending on where you saved it. 
 }
 
-\marginnote[-0.00in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-1.00in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{save}
 \\Saves variables from the workspace to a file. There are two main forms (syntaxes) of the command:
 \begin{docspecmargin}
@@ -1668,23 +1682,29 @@ This section runs through a couple of common basic data manipulation/processes t
 
 \subsection{Sorting data (in arrays)}
 
-As an example to kick-off some data-processing tricks, load in the dataset of ('proxy') reconstructed atmospheric CO\(_{2}\) concentrations spanning the Phanerozoic: \textsf{paleo\_CO2\_data.txt} (labelled as 'Phanerozoic pCO2 proxy \uline{data}'). You can just import it into \textbf{MATLAB} using the \docenv{load} function -- remember the specific syntax of load:
+As an example to kick-off some data-processing tricks, load in the dataset of ('proxy') reconstructed atmospheric CO\(_{2}\) concentrations spanning the Phanerozoic: \textsf{paleo\_CO2\_data.txt} (labelled as 'Phanerozoic pCO2 proxy \uline{data}'). You can just import it into \textbf{MATLAB} using the \docenv{load} function as before -- remember the specific syntax of load:
 
 \begin{docspec}
->> load(FILENAME)
+>> load(FILENAME,'-ascii')
 \end{docspec}
 
-where your \texttt{FILENAME} is \textsf{paleo\_CO2\_data.txt} and needs to be passed to load as a string, i.e.
+\noindent where your \texttt{FILENAME} is \textsf{paleo\_CO2\_data.txt} and needs to be passed to load as a string, i.e.
 
 \begin{docspec}
->> load('paleo\_CO2\_data.txt')
+>> load('paleo\_CO2\_data.txt','-ascii')
 \end{docspec}
 
-If you tell \textbf{MATLAB} nothing different (and do not assign the results of the \texttt{load} function to a different \textit{variable} name), \textbf{MATLAB} will create a \textit{variable} called \texttt{ paleo\_CO2\_data} (see \textsf{Workspace}).
+If you tell \textbf{MATLAB} nothing different (and do not assign the results of the \texttt{load} function to a different \textit{variable} name), \textbf{MATLAB} will again automatically create a \textit{variable} called \texttt{ paleo\_CO2\_data} (see \textsf{Workspace}) and assigned the loaded data into that.
 
-If you view the contents of the variable\texttt{ paleo\_CO2\_data} (or whatever you might have passed the \texttt{load}-ed data to), you will see that there is a slight complication  -- unlike the ice core CO2 dataset, you now have 4 columns in this array\sidenote{Remember that you can diagnose its size with ... \texttt{size} (or refer to the Workspace window)}. The first column is age (Ma), the second the mean CO\(_{2}\) value, while the 3d and 4th columns are the low and high, respectively, uncertainty limits of the CO\(_{2}\) value.
+If you view the contents of the variable\texttt{ paleo\_CO2\_data} (or whatever you might have passed the \texttt{load}-ed data to), you will see that there is a slight complication  -- unlike the ice core CO2 dataset, you now have 4 columns in this array\sidenote{Remember that you can diagnose its size with ... \texttt{size} (or refer to the Workspace window)}. The first column is age (Ma), the second the mean CO\(_{2}\) value, while the 3d and 4th columns are the low and high, respectively, uncertainty limits of the estimated past CO\(_{2}\) value.
 
-Recalling how to reference specific columns of data in a matrix\sidenote{HINT: the \texttt{colon operator} (see earlier).}, and either referencing the columns of the array directly, or creating yourself separate vectors \texttt{X} and \texttt{Y} (see earlier) -- plot the mean paleo CO\(_{2}\) value as a function of age (in Ma). If you  closed the previous \textsf{Figure} window (see earlier), it is not essential to explicitly open one (using the \texttt{Figure} command) -- when you use the \texttt{plot} command, if there is no open \textsf{Figure} window, \textbf{MATLAB} will kindly open one for you. How thoughtful. The result should be something like \ref{fig:plot-CO2basic}.
+Recalling how to reference specific columns of data in a matrix\sidenote{HINT: the \texttt{colon operator} (see earlier).}, and either referencing the columns of the array directly, or creating yourself separate vectors \texttt{X} and \texttt{Y} (see earlier) -- plot the mean paleo CO\(_{2}\) value as a function of age (in Ma). If you  closed the previous \textsf{Figure} window (see earlier), it is not essential to explicitly open one (using the \texttt{Figure} command) -- when you use the \texttt{plot} command, if there is no open \textsf{Figure} window, \textbf{MATLAB} will kindly open one for you. How thoughtful. The result of:
+
+\begin{docspec}
+>> plot(paleo\_CO2\_data(:,1),paleo\_CO2\_data(:,2));
+\end{docspec}
+
+\noindent (plotting the 2nd column out of the 4 columns, vs. the 1st column), should be something like \ref{fig:plot-CO2basic} ...
 
 O dear ...
 
@@ -1694,21 +1714,21 @@ O dear ...
 \label{fig:plot-CO2basic}
 \end{marginfigure}
 
-So ... that was not so successful. What is happening in the default behaviour of \texttt{plot}, is that the location defined by each subsequent row of data is being joined to the previous one with a line. This was fine for the ice-core CO2 example dataset because time progressed monotonically  in the first column, e.g. the data was ordered as a function of time. If you view the paleo CO\(_{2}\) data, this is not the case and time (age in Myr) does not progress monotonically in an always-getting-older (or always-getting younger) fashion.\footnote{In fact, in the original, full version of the data, ordering is by proxy type first, and then study citation, and only then age ...}
+So ... that was not so successful. Why? What is happening in the default behaviour of \texttt{plot}, is that the (x,y) location defined by each subsequent row of data is being joined to the previous one with a line. This was fine for the ice-core CO2 example dataset because time progressed monotonically  in the first column, e.g. the data was ordered as a function of time. If you view the paleo CO\(_{2}\) data, this is not the case and time (age in Myr) does not progress monotonically in an always-getting-older (or always-getting younger) fashion.\footnote{In fact, in the original, full version of the data, ordering is by proxy type first, and then study citation, and only then age ...}
 
 Your options are then:
 
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
-\item You could import the data into \textbf{Excel}, then re-order (sort) it, then export it, then re-load it ...
+\item You could import the data into \textbf{Excel}, then re-order (sort) it, then export (save) it, then re-load it ...
 \vspace{1mm}
 \item You could sort it in \textbf{MATLAB} using the \textit{GUI} variable view window. But lets not cheat for now.
 \vspace{1mm}
-\item You could sort it in \textbf{MATLAB} at the command line. How? Well, a reasonable gamble, which actually turns out to be a total win, is to try:
+\item You could sort it in \textbf{MATLAB} at the command line. How? Well, a reasonable gamble is to try:
 \begin{docspec}
 >> help sort
 \end{docspec}
-However, reading the \textsf{help} text carefully (and you can always try it out and see what exactly it does if you are not sure), \docenv{sort} will sort all columns independently of each other, whereas we want the first column sorted and the remaining columns linked to this order. So this is not the \textit{function} that you are looking for.
+However, reading the \textsf{help} text \uline{carefully} (and you can always try it out and see what exactly it does if you are not sure), you will find that the \textit{function} \docenv{sort} will sort all columns \uline{independently} of each other, whereas we want the first column sorted and the remaining columns linked to this order. So this is not the \textit{function} that you are looking for.
 \end{enumerate}
 
 This is where it is worth paying attention to the bottom of \textbf{MATLAB} \textsf{help} and the \textsf{\uline{see also}} section. In this case, \textbf{MATLAB}\ lists \docenv{sortrows} as a possibility. The \textsf{help} text on this looks a little more promising. It is still slightly opaque (so also see Box), so the best thing to do is to try it (and view the results)! 
@@ -1725,7 +1745,7 @@ This is where it is worth paying attention to the bottom of \textbf{MATLAB} \tex
 
 \noindent it looks rather better -- Figure \ref{fig:plot-CO2basic2}. (This is a good illustration of a guess of a \textit{function} that was not quite what was needed, but following up on the \texttt{help} suggestions leads to a more appropriate \textit{function}.) At least now the curve is reminiscent of past changes in global temperature and the geological Wilson cycle, with high \(CO_{2}\) values in the Cretaceous and Jurassic and then lower again in the Carboniferous (roughly matching the progression of ice and hot house (and then back to recent ice ages) climates).
 
-\marginnote[-2.25in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-4.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{sortrows}
 \\In its simplest usage: 
 \begin{docspecmargin}
@@ -1735,13 +1755,13 @@ This is where it is worth paying attention to the bottom of \textbf{MATLAB} \tex
 \\So, if the first column of the matrix was time, the data would be sorted into ascending time.
 \end{mdframed}}
 
-\begin{marginfigure}[0.0in]
+\begin{marginfigure}[-1.5in]
 \includegraphics[width=\linewidth]{plot-CO2basic2.eps}
 \caption{Proxy reconstructed past variability in atmospheric CO2 (sorted data).}
 \label{fig:plot-CO2basic2}
 \end{marginfigure}
 
-A little later you will meet an alternative plotting \textit{function} that does not require the data to be sorted into any sort of order. But you should note that you can also use \docenv{plot}, but omitting the line segments by specifying only a symbol, e.g.
+A little later you will meet an alternative plotting \textit{function} that does not require the data to be sorted into any sort of order (\texttt{scatter}). But you should note that you can also use \docenv{plot}, but omitting the line segments by specifying only a symbol, e.g.
 
 \begin{docspec}
 plot(x,y,'ro');
@@ -1757,7 +1777,7 @@ plot(x,y,'ro');
 
 \vspace{1mm} \textsf{temperature\_globalanom.txt} \vspace{1mm}
 
-\noindent (Labelled as: 'Observed global mean temperature anomaly \uline{data}'.)
+\noindent (Labelled on the website as: 'Observed global mean temperature anomaly \uline{data}'.)
 
 The columns are: (1) year, (2) annual mean ocean+land surface temperature \uline{anomaly} (i.e. temperature change relate to some reference value, where here is the observed 1901-2000 mean). Remember, you can \texttt{load} and assign data to an easier-to remember variable by e.g.:
 
@@ -1771,7 +1791,7 @@ Plot the annual mean temperature anomaly for the full range of years, as per Fig
 >> plot(data1);
 \end{docspec}
 
-\noindent but instead, must pass the 2 vectors (of x, and y-axis data), seperately:
+\noindent but instead, must pass the 2 vectors (of x, and y-axis data), separately:
 
 \begin{docspec}
 >> plot(data1(:,1),data1(:,2));
@@ -1779,13 +1799,13 @@ Plot the annual mean temperature anomaly for the full range of years, as per Fig
 
 \noindent (where e.g. \texttt{data1(:,1)} specifies all the rows of the 1st column of array \texttt{data1}).
 
-\begin{marginfigure}[-2.5in]
+\begin{marginfigure}[-4.5in]
 \includegraphics[width=\linewidth]{ch1-plot-temperature1.eps}
 \caption{Observed annual global mean surface temperature anomaly (compared to year 1910 to 2000 average).}
 \label{fig:ch1-plot-temperature1}
 \end{marginfigure}
 
-The 20th century average global temperature across land and ocean surface areas is apparently 13.9\degree C. So first, change the temperature anomaly data into absolute temperatures -- you'll do this by by adding the 20th century global average value, 13.9, to all the data values in the second column of your array.\sidenote[][-1.0in]{Remember -- you can increase the value of every element in an array, by simply adding that number, e.g. if \texttt{A} is you array of data, and \texttt{B} is a \textit{scalar} (the value you want to increase all array values by);
+We are not going to transform the  data so that it is as an \uline{absolute}, rather than \uline{relative}, temperature. The 20th century average global temperature across land and ocean surface  is apparently 13.9\degree C. So first -- change the temperature anomaly data into absolute temperatures -- you'll do this by by adding the 20th century global average value, 13.9, to all the data values in the second column of your array.\sidenote[][-2.0in]{Remember -- you can increase the value of every element in an array, by simply adding that number, e.g. if \texttt{A} is you array of data, and \texttt{B} is a \textit{scalar} (the value you want to increase all array values by);
 \begin{docspecmargin}
 >> C = A + B;
 \end{docspecmargin}
@@ -1799,7 +1819,7 @@ In your specific example:
 \\data1(:,2) + 13.9
 \end{docspecmargin}
 (all one line) will have the effect of taking the 2nd column of the array \texttt{data1}, adding 13.9 to all the values, and writing the new values back into the 2nd column of the array \texttt{data1}.
-}
+} (If you are being good and reading the margin text ... the answer is there ...)
 
 Now re-plot.
 
@@ -1811,19 +1831,19 @@ Next, convert the temperature units from \degree C to \degree F. An approximate 
 
 \noindent where \(T_{(\degree F)}\) is the (new) temperature in \degree F, and \(T_{(\degree C)}\) the (old) temperature in \degree C.
 
-For this, you will need to take your data (which is the 2nd column of the array), e.g. \texttt{data1(:,2)}, multiple by 1.8 as per the equation (\texttt{1.8*data1(:,2)}) and then add 32 (\texttt{1.8*data1(:,2) + 32})\footnote{If you have any doubts as to the order in which the operators are applied, add a set of parentheses, e.g. \\ \texttt{(1.8*data1(:,2)) + 32}}. And ... assign the results of this to a new vector or array. Or you can replace the original column (if you are feeling confident), e.g.
+For this, you will need to take your data (which is the 2nd column of the array), e.g. \texttt{data1(:,2)}, multilpy it by 1.8 as per the equation (\texttt{1.8*data1(:,2)}) and then add 32 (\texttt{1.8*data1(:,2) + 32})\footnote{If you have any doubts as to the order in which the operators are applied, add a set of parentheses, e.g. \\ \texttt{(1.8*data1(:,2)) + 32}}. And ... assign the results of this to a new vector or array. Or you can replace the original column (if you are feeling totally confident), e.g.
 
 \begin{docspec}
 >> data1(:,2) = 1.8*data1(:,2) + 32;
 \end{docspec}
  
-\noindent The aim is to obtain a data array in \textbf{MATLAB}, with year as the first column (year, as per the original data) and the 2nd  column as annual mean  temperature in units of \degree F.
+\noindent The aim is to obtain a modified data array in \textbf{MATLAB}, with year as the first column (year, as per the original data) but with the 2nd  column now being annual mean  temperature in units of \degree F.
 
 If it helps -- play  the data conversion game in \textbf{Excel} first (e.g. creating new columns in a spreadsheet to firstly hold  absolute temperatures rather than anomalies, and then temperatures in \degree F rather than \degree C). Also if it helps -- create a new array with the modified temperature units data in (rather than replacing the 2nd column of  the original array, \texttt{data}). You can also do the conversion in 2 stages -- multiplying the (absolute) temperature (\degree C) by \(1.8\) first (perhaps creating a new array to hold this in), then adding \(32\).
 
 Re-plot (in \textbf{MATLAB}) once again the final temperature trends in \degree F. This should look like Figure \ref{fig:ch1-plot-temperature3}.
 
-\begin{marginfigure}[0.0in]
+\begin{marginfigure}[-2.0in]
 \includegraphics[width=\linewidth]{ch1-plot-temperature3.eps}
 \caption{Observed annual global mean surface temperature.}
 \label{fig:ch1-plot-temperature3}
@@ -1847,7 +1867,7 @@ The first deviant activity you can engage in with \texttt{plot}, is to graph the
 
 A summary of a few of the more common plotting options is provided in the Box. For any previous plot you have made, try changing the line style (or no line), and the marker shape and color.
 
-\marginnote[-2.25in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-3.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 The main (i.e. not an exhaustive list) data display options for the \texttt{plot} function are:
 \\(1) point style
 \\\noindent \texttt{.} -- point, \texttt{o} -- circle, \texttt{x} -- x-mark, \texttt{+} -- plus, \texttt{*} -- star, \texttt{s} -- square, \texttt{d} -- diamond, \texttt{v} -- triangle (down).
@@ -1859,11 +1879,11 @@ The main (i.e. not an exhaustive list) data display options for the \texttt{plot
 \begin{docspecmargin}
 plot(x,y);
 \end{docspecmargin}
-now add, following a comma, the point and line style option, encased in a pair of inverted commas, e.g. for a red, dashed line:
+you now add, following a comma, the point and line style option you want, which must be encased in a pair of inverted commas, e.g. for a red, dashed line, you would type:
 \begin{docspecmargin}
 plot(x,y,'r--');
 \end{docspecmargin}
-and for blue circles (no line):
+and for blue circles (with no line):
 \begin{docspecmargin}
 plot(x,y,'bo');
 \end{docspecmargin}
@@ -1880,22 +1900,28 @@ plot(x,y,'bo');
 \subsection{Plotting multiple data-sets}
 
 So far, so good. But so boring, although simple marker-only and joined-by-line plots have their place. For a start, the original data-set included an estimate of the uncertainty in the CO\(_{2}\) reconstructions in the form of the min and max plausible value for each 'central' (best guess?) estimate. \textbf{Excel} can make plots incorporating errors, including non-symmetric errors, relatively easily. What about in \textbf{MATLAB}? There is a function for this -- 
-\docenv{errorbar} -- see \textbf{MATLAB} \textsf{help}.
+\docenv{errorbar} -- see \textbf{MATLAB} \textsf{help} and the margin Box.
 
-Or  one could plot the min and max values as points, using different symbols. This requires a further little trick in \textbf{MATLAB}, which involves the command \docenv{hold}. This is nice and simple and takes the additional (2nd) word: \texttt{on}, or \texttt{off}.
+The complication here is that none of the options for \docenv{errorbar} allow for absolute values to be used for error plotting. So we need to replace the absolute min, max column values, with their respective deviations from the mean value (2rd column). Hopefully, you can see the way to do this. For instance, to create an error for the maximum estimate (4th column):
+
+\begin{docspec}
+sorted\_data(:,4) = sorted\_data(:,4)-sorted\_data(:,2);
+\end{docspec}
+
+\noindent where we are saying: take all the values in the 4th column of the array, subtract the values in the 2nd column of the array, and assign the values back into the 4th column (hence replacing the absolute maximum estimate with the deviation of the maximum from the mean, i.e. the +ve error). (And then do similarly for the minimum values of the 3rd column.) 
+
+Or , rather crudely, one could plot the min and max values as points, using different symbols. This requires a further little trick in \textbf{MATLAB}, which involves the command \docenv{hold}. This is nice and simple and takes the additional (2nd) word: \texttt{on}, or \texttt{off}.
 \\ \texttt{>> hold on} -- will enable you to add additional elements to a graphic,
 \\ \texttt{>> hold off} -- returns to the default in which a new graphic replaces the current on in a Figure window. 
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
 
-\newpage
-
-\marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-2.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{errorbar}
 \\Works like \texttt{plot}, except it adds error bars. The 2 most useful usages are:
 \\\texttt{errorbar(x,y,err)} plots y versus x and draws a vertical error bar at each data point. All of \texttt{x}, \texttt{y}, and \texttt{err}, are vectors (all of the same length).
-\\\texttt{errorbar(x,y,neg,pos)}draws a vertical error bar at each data point, where neg determines the length below the data point and pos determines the length above the data point, respectivel. All of \texttt{x}, \texttt{y}, \texttt{neg}, and \texttt{pos}, are vectors (all of the same length).
+\\\texttt{errorbar(x,y,neg,pos)}draws a vertical error bar at each data point, where neg determines the length below the data point and pos determines the length above the data point, respectively. All of \texttt{x}, \texttt{y}, \texttt{neg}, and \texttt{pos}, are vectors (all of the same length).
 \end{mdframed}}
 
 \marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
@@ -1949,13 +1975,15 @@ Other property parameters\sidenote{Again -- refer to \textbf{MATLAB} \textsf{hel
 'FontAngle','italic'
 \end{docspec}
 
+\noindent (You can, of course, also adjust everyting about the look and feel of your plot via the figure window \textit{GUI}.)
+
 %------------------------------------------------
 
 \subsection{Scatter plots}
 
 Returning back to the Phanerozoic proxy (CO\(_{2}\)) data, we can now put a different (graphical) spin on it.
 
-\marginnote[-0.5in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-2.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{scatter}
 \\"\textit{... creates a scatter plot with circles at the locations specified by the vectors x and y. This type of graph is also known as a bubble plot.}"
 \\The simplest usage is:
@@ -1983,7 +2011,7 @@ scatter(X,Y,Z,'filled')
 \end{docspecmargin}
 \end{mdframed}}
 
-\begin{marginfigure}[0.5in]
+\begin{marginfigure}[0.0in]
 \includegraphics[width=\linewidth]{plot-CO2scatter.eps}
 \caption{Proxy reconstructed past variability in atmospheric CO2 (scatter plot).}
 \label{fig:plot-CO2scatter}
@@ -1993,9 +2021,9 @@ Consider ... \docenvdef{scatter}. In fact, don't just considered it, \texttt{hel
 \begin{docspec}
 SCATTER(X,Y) draws the markers in the default size and color.
 \end{docspec}
-(where \texttt{X} and \texttt{Y} are vectors). This almost could not be more straight-forward.  Make yourself an \texttt{X} and \texttt{Y} vector out of the loaded-in dataset (or if you are feeling brave, you can pass in directly the appropriate parts of the dataset array), close the existing Figure window\sidenote[][1.75in]{See earlier.}, and \texttt{scatter}-plot the (mean) CO\(_{2}\) data.
+(where \texttt{X} and \texttt{Y} are vectors). This almost could not be more straight-forward.  Make yourself an \texttt{X} and \texttt{Y} vector out of the loaded-in dataset (or if you are feeling brave, you can pass in directly the appropriate parts of the dataset array), close the existing Figure window, and \texttt{scatter}-plot the (mean) CO\(_{2}\) data.
 
-\begin{marginfigure}[2.5in]
+\begin{marginfigure}[-0.0in]
 \includegraphics[width=\linewidth]{plot-CO2scatter2.eps}
 \caption{Proxy reconstructed past variability in atmospheric CO2 (scatter plot).}
 \label{fig:plot-CO2scatter2}
@@ -2022,15 +2050,15 @@ There are 2 different simple \textbf{MATLAB} commands for visualizing a 2D datas
 
 As something (2D data) to play with -- \texttt{load} in the data matrix: \texttt{model\_grid.txt} (labelled as: '2D model grid \uline{data}'). Then, view the data in the array viewer, just to get a feel for what you are dealing with here (although you are unlikely to be much wiser after doing so). Lastly,  go ahead and employ the \docenv{pcolor} function in its simplest possible usage (see Box) to visualize the data. You can see (Figure \ref{fig:ch1-plot-pcolor1} ) that it is ... something. Maybe a little like the continents, but up-side-down at the very least. What to do?
 
-Well, it is a good job that you remember how to re-orientate arrays, right?\sidenote[][0.0in]{You don't? See earlier in the Chapter ...} If you guess right first time (three different basic transformations of a matrix were described), you will get Figure \ref{fig:ch1-plot-pcolor2}.
+Well, it is a good job that you remember how to re-orientate arrays, right? If you guess right first time (three different basic transformations of a matrix were described), you will get Figure \ref{fig:ch1-plot-pcolor2}.
 
-\begin{marginfigure}[-.0in]
+\begin{marginfigure}[-3.5in]
 \includegraphics[width=\linewidth]{ch1-plot-pcolor1.eps}
 \caption{A 2D plot of some random gridded model data.}
 \label{fig:ch1-plot-pcolor1}
 \end{marginfigure}
 
-\begin{marginfigure}[0.0in]
+\begin{marginfigure}[-1.0in]
 \includegraphics[width=\linewidth]{ch1-plot-pcolor2.eps}
 \caption{A 2D plot of some random gridded model data ... but with the underlying data matrix re-orientated before plotting.}
 \label{fig:ch1-plot-pcolor2}
@@ -2069,7 +2097,7 @@ You can also use \textbf{MATLAB}'s powerful matrix functionality to solve real-w
 
 The layout of the lake system is shown schematically in Figure \ref{fig:ch4-lakes_schematic}, together with the mean volumes of the lakes and the annual flow rate of water out of them.
 
-A cocktail of heavy metals pours into each lake, the amount dependent largely upon the population within the catchments of the lake. The input rates to each of the 5 lakes are given below.
+We can analyse the net result of a cocktail of heavy metals pouring into each lake, the amount dependent largely upon the population within the catchments of the lake. The assumed input rates to each of the 5 lakes are given below.
 
 \begin{table}[h]\index{typefaces!sizes}
 \footnotesize%
@@ -2108,7 +2136,7 @@ Lets call the concentrations (kg km\(^{-3}\)) of heavy metals in the lakes; \tex
 \\3000 + 173*cE = 208*cO
 \end{docspec}
 
-It is not hard to work your way down these, solving first (\texttt{cS = 1000/63} is not so hard to solve ...) and then the 2nd, which then allows you to solve the 3rd, before then solving the 4th and 5th in turn .... However, the system of equations you might have to solve could be (and usually is) much more complicated. Fortunately, we can get MATLAB to do the work. :) It may be far from obvious what \textbf{MATLAB} has to do with this, so I'll do a little re-arranging of the 5 equations:
+It is not hard to work your way down these, solving first (\texttt{cS = 1000/63} is not so hard to solve ...) and then the 2nd, which then allows you to solve the 3rd, before then solving the 4th and 5th in turn .... However, the system of equations you might have to solve could be (and usually is) much more complicated. Fortunately, we can get \textbf{MATLAB} to do the work. :) It may be far from obvious what \textbf{MATLAB} has to do with this, so I'll do a little re-arranging of the 5 equations:
 
 \begin{docspec}
 \ 63*cS + \ \ 0*cM + \ \ 0*cH + \ \ 0*cE +  \ \ 0*cO = 1000
@@ -2146,7 +2174,7 @@ cO \\
 \end{pmatrix}\)
 \end{docspec}
 
-Brush up on your matrix maths and check that Eq. 5 is exactly the same as before. It is just the series of 5 separate equations, but represented in matrix math form. Write out the matrix multiplication in full to get the 5 separate equations back again if you are not convinced that this is the case.
+Brush up on your matrix maths and check that this is exactly the same as before. It is just the series of 5 separate equations, but represented in matrix math form. Write out the matrix multiplication in full to get the 5 separate equations back again if you are not convinced that this is the case.
 
 In a new \textbf{MATLAB} \textsf{m-file}, create a 5\(\times\)5 array containing the values in the matrix on the left hand side of the equation above and assign it to the variable \texttt{R} (for \uline{R}iver flow). Create a 5\(\times\)1 array containing the vector values on the right hand side of the equation and assign it to the variable \texttt{F} (for heavy metal \uline{F}lux). The solution to this problem is the set of (steady-state) concentrations of heavy metals in the 5 lakes. (Call this variable \texttt{C}.) We thus have the equation:
 \begin{docspec}
@@ -2165,7 +2193,7 @@ Recognizing that a matrix (\texttt{R}) multiplied by its inverse (\texttt{R\(^{-
 \\\(\Rightarrow C = R^{-1} \times F\)
 \end{docspec}
 
-We are there! We have R and F, so by multiplying \texttt{F} by the inverse of R, we get our set of 5 solutions (in the 5\(\times\)1 vector \texttt{C}). And \textbf{MATLAB} will give you the inverse of \texttt{R} (if it exists) on a plate.\sidenote{At the command line; type:
+We are there! We have \texttt{R} and \texttt{F}, so by multiplying \texttt{F} by the inverse of \texttt{R}, we get our set of 5 solutions (in the 5\(\times\)1 vector \texttt{C}). And \textbf{MATLAB} will give you the inverse of \texttt{R} (if it exists) on a plate.\sidenote{At the command line; type:
 \begin{docspecmargin}
 >> help inv
 \end{docspecmargin}
