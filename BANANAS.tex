@@ -909,7 +909,7 @@ will invert the order of elements of a column vector, and:
 \begin{docspecmargin}
 >> B = fliplr(A)
 \end{docspecmargin}
-will invert the order of elements of a raw vector. Simples! Lesson over.
+will invert the order of elements of a row vector. Simples! Lesson over.
 \end{mdframed}}
 
 %------------------------------------------------
@@ -1119,6 +1119,10 @@ You can also have more than one plot in a single \textsf{Figure window}. As an e
 \\"\textit{\texttt{axis([xmin xmax ymin ymax])} sets the limits for the x- and y-axis of the current axes.}"
 \\\noindent which is about all you need to know (other than the minimum and maximum limits along the \textit{x-axis} are represented by \texttt{xmin}, \texttt{xmax}, and the minimum and maximum limits along the \textit{y-axis} are \texttt{ymin}, \texttt{ymax}).
 Simply stick to the format, with a vector of 4 values (remembering the square bracket notation \texttt{[]}), inside of \texttt{axis()}, and you should not go wrong!
+\\For example, to scale the plot with the x-axis going from 0-10, and the y-axis from -100-100, you would type:
+\begin{docspecmargin}
+axis([0 10 -100 100]); 
+\end{docspecmargin}
 \end{mdframed}}
 
 To place several different plots on the same figure uses the \docenvdef{subplot} command \sidenote{>> help subplot}. The \docenv{subplot} command is used as: \texttt{subplot(m,n,p)} where \texttt{m} is the number of rows of plots you want to have in your figure, \texttt{n} is the number of columns of plots in your figure, and \texttt{p} is the index of the plot you wish to create (see: Figure \ref{fig:ch1-subplot}).  
@@ -1497,27 +1501,19 @@ You can determine which directory \textbf{MATLAB} is currently 'in', either at t
 
 \noindent or it should be displayed in a toolbar above the \textsf{Command Window}. 
 
-\marginnote[-1.75in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{load}
-\\Loads variable from a file into the workspace. The syntax is:
-\begin{docspecmargin}
->> load(FILENAME)
-\end{docspecmargin}
-where \texttt{FILEMANE} is the name of the file (remember: \texttt{FILEMANE} needs to be a string and enclosed in quotation marks, OR, a variable that points to a string.
-\\ The file might be plain text (ASCII) or a \textbf{MATLAB} workspace file (see below). To force \textbf{MATLAB} to treat the file input as ASCII or a \textbf{MATLAB} workspace file, pass a second parameter (separated from the filename by a comma) -- \texttt{'-ascii'} for ascii, and \texttt{'-mat'} for a \textbf{MATLAB} workspace file. 
-\\Note that in loading an ASCII data file, any line starting with a \texttt{\%} is ignored. Also note that the data \uline{must} be in a column format with no missing data.
-\\ For an ASCII file, the name of the variable created to hold the data being imported is automatically generated. So in the example of the data file being called \texttt{'twilight.txt'}, the variable generated will be called \texttt{twilight}. You can instead chose to assign the imported data to a variable name of your choice, by e.g.: 
-\begin{docspecmargin}
->> sparkle = load('twilight.txt','-ascii');
-\end{docspecmargin}
-(all one line)
-\end{mdframed}}
-
 It is unlikely that you want to have to save all your files here. More likely, you may have a course folder somewhere, possibly with sub-folders for each week (or whatever), so you will need to change the \textbf{MATLAB} directory that you are working in, to match the one where your files are. 
 
 Easiest ... is to use the GUI -- the toolbar above the \textsf{Command Window} can be used to change the current (working) folder. The contents of the current folder are automatically displayed in the \textsf{Current Folder} pane on the left. (If the \textsf{Current Folder} pane is not present in your \textbf{MATLAB} layout, it can be selected form the \textsf{Layout} drop-down menu.)
 
-You can also do this at the the command line ... which is much less fun and you are less likely to need to do it this way. The instructions are included below for completeness.
+You can also do this at the the command line ... which is much less fun and you are less likely to need to do it this way. The instructions are included below for completeness ... but you can skip over them if you wish
+\sidenote[][-0.0in]{Just remember that there are ways of navigating around your computer storage via the command line.} ...
+
+\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]{
+\docenvdef{addpath}
+\\The command \docenv{addpath} will add a search path to the \textbf{MATLAB} workspace. The syntax is:
+\\\texttt{addpath(DIRECTORY\_PATH)}
+\\where \texttt{DIRECTORY\_PATH} is a \textit{string} (characters in between inverted commas) or name of a variable containing a string.}
+\end{mdframed}}
 
 You can change the directory that \textbf{MATLAB} is working from by typing:
 \begin{docspec}
@@ -1545,18 +1541,34 @@ Another alternative is to add a 'search path' (\texttt{addpath}) so that \textbf
 \end{docspec}
 would keep your current working directory unchanged, but tell \textbf{MATLAB} to also look in the directory \textsf{E:\textbackslash} for files.
 
-\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]{
-\docenvdef{addpath}
-\\The command \docenv{addpath} will add a search path to the \textbf{MATLAB} workspace. The syntax is:
-\\\texttt{addpath(DIRECTORY\_PATH)}
-\\where \texttt{DIRECTORY\_PATH} is a \textit{string} (characters in between inverted commas) or name of a variable containing a string.}
-\end{mdframed}}
-
 In summary: go with whatever works best for you in terms of working directory.
 
 %------------------------------------------------
 
 \subsection{Loading and importing data}
+
+
+\marginnote[-5.125in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{load}
+\\Loads variable from a file into the workspace. The syntax is:
+\begin{docspecmargin}
+>> load(FILENAME)
+\end{docspecmargin}
+where \texttt{FILEMANE} is the name of the file (remember: \texttt{FILEMANE} needs to be a string and enclosed in quotation marks, OR, a variable that points to a string.
+\\ The file might be plain text (ASCII) or a \textbf{MATLAB} workspace file (see below). To force \textbf{MATLAB} to treat the file input as ASCII or a \textbf{MATLAB} workspace file, pass a second parameter (separated from the filename by a comma) -- \texttt{'-ascii'} for ascii, and \texttt{'-mat'} for a \textbf{MATLAB} workspace file, i.e.
+\vspace{-4mm}
+\begin{docspecmargin}
+>>load(FILENAME,'-ascii')
+\end{docspecmargin}
+would specify that a plain text (ASCII) file is loaded.
+\\Note that in loading an ASCII data file, any line starting with a \texttt{\%} is ignored. Also note that the data \uline{must} be in a column format with no missing data.
+\\ For an ASCII file, the name of the variable created to hold the data being imported is automatically generated. So in the example of the data file being called \texttt{'twilight.txt'}, the variable generated will be called \texttt{twilight}. You can instead chose to assign the imported data to a variable name of your choice, by e.g.: 
+\begin{docspecmargin}
+>> sparkle = load('twilight.txt');
+\end{docspecmargin}
+(all one line)
+\\Newer versions of \textbf{MATLAB} can tell between ASCII and \textbf{MATLAB} workspace formats, and the \texttt{'-ascii'} bit is generally not necessary.
+\end{mdframed}}
 
 The simplest way to import data into \textbf{MATLAB} is also to use the \textit{GUI} -- from the \texttt{File} menu, selecting the option \texttt{Import Data..}. will run the data import Wizard -- note that you might have to select \texttt{All Files (*.*)} from the file type option box in order to find the file. I'll leave you to work the rest out for yourselves ... Maybe try importing the data into \textbf{MATLAB} this way once you have done it successfully using the \docenv{load} function at the command line. The \textit{GUI} can also be used to change the directory you are working from (duplicating the functionality of the \texttt{cd} command) and add paths to search (duplicating the functionality of the \texttt{addpath} command).
 
@@ -1569,13 +1581,13 @@ You might start by viewing the contents of the file by opening it in any text vi
 Now, import the data into the \textbf{MATLAB} workspace using the  \texttt{load} command. Because the data is a plain text (ASCII) format and not a special \textbf{MATLAB} \textsf{.mat} file, you need to specify the format as '\texttt{ascii}' when using the \texttt{load} command (see box or \textsf{help}). This looks like:
 
 \begin{docspec}
-\textbf{>> load('etheridge\_etal\_1996.txt','-ascii');}
+\textbf{>> load('etheridge\_etal\_1996.txt');}
 \end{docspec}
 
 If you tell \textbf{MATLAB} nothing different, it will create a variable for you containing the file content, with the variable name based on the filename (minus the extension). If you prefer a different variable name, then simply pass the results of the load command -- the contents of your file -- to a different \textit{variable}, e.g.
 
 \begin{docspec}
->> MYDATA = load('etheridge\_etal\_1996.txt','-ascii');
+>> MYDATA = load('etheridge\_etal\_1996.txt');
 \end{docspec}
 
 \noindent is exactly the same as before, but instead assigns the \texttt{load}-ed data to the \textit{variable} \texttt{MYDATA} rather than to an automatically-generated default filename.
@@ -1589,8 +1601,9 @@ plot(X,Y) plots vector Y versus vector X
 \end{docspec}
 
 \noindent so you will need to specify each column of the data (i.e. each \textit{vector}) separately and explicitly.\footnote[][-2.5in]{If you just type \texttt{plot} and pass the (here: default) name of the data array: 
+\vspace{-4mm}
 \begin{docspecmargin}
->> plot(etheridge\_etal\_1996);
+>>plot(etheridge\_etal\_1996);
 \end{docspecmargin}
 ... strange ... things are happening (as per Figure \ref{fig:ch1-plot-icecore_default}). In fact, \textbf{MATLAB} is doing what \textbf{Excel} would in a \textsf{Line Chart} with 2 columns of data selected -- rather than plot y (2nd column) vs. x (1st column), the values of both columns are plotted against row number. Which is why you should remember to use the \textsf{Scatter} (or \textsf{(X,Y)}) \textsf{Chart} in \textbf{Excel} for plotting (x,y) data.}
 
@@ -1616,7 +1629,7 @@ Or, if you are comfortable with more complex, single lines of code, go straight 
 
 Breaking things down into multiple bite-sized chunks rather than single long and complex lines,  is an equally valid way of doing things. It is longer ... taking 3 lines rather than 1, but the most important thing is to be happy that you understand what is going on. If breaking things down into multiple lines and creating new \textit{variables} helps -- \uline{DO IT}! Ultimately, and regardless of the method, you should end up with something like Figure \ref{fig:ch1-plot-icecore}.
 
-\begin{marginfigure}[-0.5in]
+\begin{marginfigure}[-2.0in]
 \includegraphics[width=\linewidth]{ch1-plot-icecore.eps}
 \caption{Spline fit to measured changes in CO2 concentration in Law Done ice core, following \textit{Etheridge et al.} [1996].}
 \label{fig:ch1-plot-icecore}
@@ -1635,8 +1648,8 @@ text file (with a new filename) ... and then load it in again.
 
 \subsection{Loading and saving the workspace}
 
-The entire workspace (including all variables and their values, or just the values in a single variable if you wish) can be saved to a file and then later re-opened. The file format is specific to the \textbf{MATLAB} program and the file-name extension by default is \docenv{.mat}. You might find this very helpful to use in long lab exercise or large modelling projects, particularly if you do not come back to work at the exact same computer each time or wish to use continue the same piece of work on a laptop elsewhere. Try saving the current \textsf{Workspace}, then close down the \textbf{MATLAB} program. Re-running it, and then loading in your saved \texttt{.mat} file.
-\sidenote[][-3.00in]{This sequence is going to look something like:
+The entire workspace (including all variables and their values, or just the values in a single variable if you wish) can be saved to a file and then later re-opened. The file format is specific to the \textbf{MATLAB} program and the file-name extension by default is \docenv{.mat}\sidenote[][-1.00in]{\textbf{MATLAB}'s proprietary file format for saving the contents of your current Workspace is indicated by a \docenvdef{.mat} file name extension (in Windoz).} You might find this very helpful to use in long lab exercise or large modelling projects, particularly if you do not come back to work at the exact same computer each time or wish to use continue the same piece of work on a laptop elsewhere. Try saving the current \textsf{Workspace}, then close down the \textbf{MATLAB} program. Re-running it, and then loading in your saved \texttt{.mat} file.
+\sidenote[][-4.00in]{This sequence is going to look something like:
 \begin{docspecmargin}
 >> save MYSTUFF
 \\>> exit
@@ -1648,22 +1661,24 @@ load MYSTUFF
 Remember that when you re-start \textbf{MATLAB} you may have to change directories, add a path (\textsf{addpath}), or provide a full path to the \texttt{.mat} file, depending on where you saved it. 
 }
 
-\marginnote[-1.00in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{save}
 \\Saves variables from the workspace to a file. There are two main forms (syntaxes) of the command:
 \begin{docspecmargin}
->> save(filename)
+>> save(FILENAME)
 \end{docspecmargin}
-which saves the entire workspace to a \textsf{.mat} file (with the filename given by the string \texttt{filename} (in quotation marks), and:
+which saves the entire workspace to a \textsf{.mat} file (with the filename given by the string \texttt{FILENAME} (in quotation marks), and:
+\vspace{-4mm}
 \begin{docspecmargin}
->> ...
-\\ \ save(filename,A,'-ascii')
+>>save(FILENAME,A,'-ascii')
 \end{docspecmargin}
 saves the data in the variable \texttt{A} (which must be given as a string, i.e. also enclosed in quotation marks) in plain text (ASCII) format. 
-\end{mdframed}}
-
-\marginnote[-0.00in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\textbf{MATLAB}'s proprietary file format for saving the contents of your current Workspace is indicated by a \docenvdef{.mat} file name extension (in Windoz). 
+\\For example, if you had a variable \texttt{bananas}, and you want to save the contents (data) as the file \texttt{bananas\_data.txt}, you would write:
+\vspace{-4mm}
+\begin{docspecmargin}
+>>save('bananas\_data.txt', ...'bananas','-ascii')
+\end{docspecmargin}
+(remembering this should be a single line and the \texttt{...} simply indicates that the line should be continuous)
 \end{mdframed}}
 
 Hopefully ... all your loaded/created variables etc. have been recovered ... ?
@@ -1685,13 +1700,13 @@ This section runs through a couple of common basic data manipulation/processes t
 As an example to kick-off some data-processing tricks, load in the dataset of ('proxy') reconstructed atmospheric CO\(_{2}\) concentrations spanning the Phanerozoic: \textsf{paleo\_CO2\_data.txt} (labelled as 'Phanerozoic pCO2 proxy \uline{data}'). You can just import it into \textbf{MATLAB} using the \docenv{load} function as before -- remember the specific syntax of load:
 
 \begin{docspec}
->> load(FILENAME,'-ascii')
+>> load(FILENAME)
 \end{docspec}
 
 \noindent where your \texttt{FILENAME} is \textsf{paleo\_CO2\_data.txt} and needs to be passed to load as a string, i.e.
 
 \begin{docspec}
->> load('paleo\_CO2\_data.txt','-ascii')
+>> load('paleo\_CO2\_data.txt')
 \end{docspec}
 
 If you tell \textbf{MATLAB} nothing different (and do not assign the results of the \texttt{load} function to a different \textit{variable} name), \textbf{MATLAB} will again automatically create a \textit{variable} called \texttt{ paleo\_CO2\_data} (see \textsf{Workspace}) and assigned the loaded data into that.
@@ -1708,7 +1723,7 @@ Recalling how to reference specific columns of data in a matrix\sidenote{HINT: t
 
 O dear ...
 
-\begin{marginfigure}[0.0in]
+\begin{marginfigure}[-2.0in]
 \includegraphics[width=\linewidth]{plot-CO2basic.eps}
 \caption{proxy reconstructed past variability in atmospheric CO2.}
 \label{fig:plot-CO2basic}
@@ -1734,10 +1749,10 @@ However, reading the \textsf{help} text \uline{carefully} (and you can always tr
 This is where it is worth paying attention to the bottom of \textbf{MATLAB} \textsf{help} and the \textsf{\uline{see also}} section. In this case, \textbf{MATLAB}\ lists \docenv{sortrows} as a possibility. The \textsf{help} text on this looks a little more promising. It is still slightly opaque (so also see Box), so the best thing to do is to try it (and view the results)! 
 
 \begin{docspec}
->> ordered\_data = sortrows(paleo\_CO2\_data)
+>> sorted\_data = sortrows(paleo\_CO2\_data)
 \end{docspec}
 
-\noindent where the result of sorting the rows (of all columns) I have assigned to the variable \texttt{ordered\_data}. If you now try plotting this, e.g.
+\noindent where the result of sorting the rows (of all columns) I have assigned to the variable \texttt{sorted\_data}. If you now try plotting this, e.g.
 
 \begin{docspec}
 >> plot(sorted\_data(:,1),sorted\_data(:,2));
@@ -1745,7 +1760,7 @@ This is where it is worth paying attention to the bottom of \textbf{MATLAB} \tex
 
 \noindent it looks rather better -- Figure \ref{fig:plot-CO2basic2}. (This is a good illustration of a guess of a \textit{function} that was not quite what was needed, but following up on the \texttt{help} suggestions leads to a more appropriate \textit{function}.) At least now the curve is reminiscent of past changes in global temperature and the geological Wilson cycle, with high \(CO_{2}\) values in the Cretaceous and Jurassic and then lower again in the Carboniferous (roughly matching the progression of ice and hot house (and then back to recent ice ages) climates).
 
-\marginnote[-4.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-6.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{sortrows}
 \\In its simplest usage: 
 \begin{docspecmargin}
@@ -1753,6 +1768,16 @@ This is where it is worth paying attention to the bottom of \textbf{MATLAB} \tex
 \end{docspecmargin}
 ... "sorts the rows of a matrix in ascending order based on the elements in the first column. When the first column contains repeated elements, \texttt{sortrows} sorts according to the next column and repeats this behavior for succeeding equal values."
 \\So, if the first column of the matrix was time, the data would be sorted into ascending time.
+\\Beyond this usage, if you wanted to sort by a different column to the first, you would use:
+\begin{docspecmargin}
+>> B = sortrows(A,N)
+\end{docspecmargin}
+where \texttt{N} is the column number.
+\\You can also sort in descending order:
+\begin{docspecmargin}
+>> B = ... sortrows(A,'descend')
+\end{docspecmargin}
+(ascend is the default).
 \end{mdframed}}
 
 \begin{marginfigure}[-1.5in]
@@ -1782,7 +1807,7 @@ plot(x,y,'ro');
 The columns are: (1) year, (2) annual mean ocean+land surface temperature \uline{anomaly} (i.e. temperature change relate to some reference value, where here is the observed 1901-2000 mean). Remember, you can \texttt{load} and assign data to an easier-to remember variable by e.g.:
 
 \begin{docspec}
->> data1 = load('temperature\_globalanom.txt','-ascii');
+>> data1 = load('temperature\_globalanom.txt');
 \end{docspec}
 
 Plot the annual mean temperature anomaly for the full range of years, as per Figure \ref{fig:ch1-plot-temperature1}. (plus labels, title, etc etc), remembering again that you \uline{cannot} pass only the entire array to plot, as per:
@@ -1931,6 +1956,21 @@ Or , rather crudely, one could plot the min and max values as points, using diff
 \\\texttt{hold off} sets the hold state to off so that new plots added to the axes clear existing plots and reset all axes properties.
 \end{mdframed}}
 
+\marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{legend}
+\\According to \textbf{MATLAB} \textsf{help}:
+\\The command \texttt{legend} on its own, by default will label your datasets, 'data1', 'data2', etc etc, which is probably not what you want ...
+\\So you have to supply strings -- one for each dataset plotted:
+\vspace{-4mm}
+\begin{docspecmargin}
+legend('DATANAME1','DATANAME2', ...,'DATANAMEN');
+\end{docspecmargin}
+So if your plot had 2 greenhouse datasets -- 'CO2' and 'CH4', you would type:
+\begin{docspecmargin}
+legend('CO2','CH4');
+\end{docspecmargin}
+\end{mdframed}}
+
 \newthought{As an example} -- set:
 
 \begin{docspec}
@@ -1943,7 +1983,7 @@ Or , rather crudely, one could plot the min and max values as points, using diff
 \end{docspec}
 (all one line) and it should end up looking like Figure \ref{fig:plot-CO2basic4}.
 
-\begin{marginfigure}[0.5in]
+\begin{marginfigure}[-0.0in]
 \includegraphics[width=\linewidth]{plot-CO2basic4.eps}
 \caption{Proxy reconstructed past variability in atmospheric CO2 (sorted data).}
 \label{fig:plot-CO2basic4}
