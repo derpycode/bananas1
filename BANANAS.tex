@@ -1892,7 +1892,7 @@ The first deviant activity you can engage in with \texttt{plot}, is to graph the
 
 A summary of a few of the more common plotting options is provided in the Box. For any previous plot you have made, try changing the line style (or no line), and the marker shape and color.
 
-\marginnote[-3.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-3.75in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 The main (i.e. not an exhaustive list) data display options for the \texttt{plot} function are:
 \\(1) point style
 \\\noindent \texttt{.} -- point, \texttt{o} -- circle, \texttt{x} -- x-mark, \texttt{+} -- plus, \texttt{*} -- star, \texttt{s} -- square, \texttt{d} -- diamond, \texttt{v} -- triangle (down).
@@ -1924,51 +1924,19 @@ plot(x,y,'bo');
 
 \subsection{Plotting multiple data-sets}
 
-So far, so good. But so boring, although simple marker-only and joined-by-line plots have their place. For a start, the original data-set included an estimate of the uncertainty in the CO\(_{2}\) reconstructions in the form of the min and max plausible value for each 'central' (best guess?) estimate. \textbf{Excel} can make plots incorporating errors, including non-symmetric errors, relatively easily. What about in \textbf{MATLAB}? There is a function for this -- 
-\docenv{errorbar} -- see \textbf{MATLAB} \textsf{help} and the margin Box.
-
-The complication here is that none of the options for \docenv{errorbar} allow for absolute values to be used for error plotting. So we need to replace the absolute min, max column values, with their respective deviations from the mean value (2rd column). Hopefully, you can see the way to do this. For instance, to create an error for the maximum estimate (4th column):
-
-\begin{docspec}
-sorted\_data(:,4) = sorted\_data(:,4)-sorted\_data(:,2);
-\end{docspec}
-
-\noindent where we are saying: take all the values in the 4th column of the array, subtract the values in the 2nd column of the array, and assign the values back into the 4th column (hence replacing the absolute maximum estimate with the deviation of the maximum from the mean, i.e. the +ve error). (And then do similarly for the minimum values of the 3rd column.) 
-
-Or , rather crudely, one could plot the min and max values as points, using different symbols. This requires a further little trick in \textbf{MATLAB}, which involves the command \docenv{hold}. This is nice and simple and takes the additional (2nd) word: \texttt{on}, or \texttt{off}.
+So far, so good. But so boring, although simple marker-only and joined-by-line plots have their place. For a start, the original data-set included an estimate of the uncertainty in the \(CO_{2}\) reconstructions in the form of the min and max plausible value for each 'central' (best guess?) estimate. As a visual indication of the uncertainty in the \(CO_{2}\) reconstructions, one could plot the min and max values as points, using different symbols. This requires a further little trick in \textbf{MATLAB}, which involves the command \docenv{hold}. This is nice and simple and takes the additional (2nd) word: \texttt{on}, or \texttt{off}.
 \\ \texttt{>> hold on} -- will enable you to add additional elements to a graphic,
 \\ \texttt{>> hold off} -- returns to the default in which a new graphic replaces the current on in a Figure window. 
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
-
-\marginnote[-2.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{errorbar}
-\\Works like \texttt{plot}, except it adds error bars. The 2 most useful usages are:
-\\\texttt{errorbar(x,y,err)} plots y versus x and draws a vertical error bar at each data point. All of \texttt{x}, \texttt{y}, and \texttt{err}, are vectors (all of the same length).
-\\\texttt{errorbar(x,y,neg,pos)}draws a vertical error bar at each data point, where neg determines the length below the data point and pos determines the length above the data point, respectively. All of \texttt{x}, \texttt{y}, \texttt{neg}, and \texttt{pos}, are vectors (all of the same length).
-\end{mdframed}}
+\vspace{-2mm}
 
 \marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{hold}
 \\According to \textbf{MATLAB} \textsf{help}:
 \\\texttt{hold on} -- retains plots in the current axes so that new plots added to the axes do not delete existing plots.
 \\\texttt{hold off} sets the hold state to off so that new plots added to the axes clear existing plots and reset all axes properties.
-\end{mdframed}}
-
-\marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{legend}
-\\According to \textbf{MATLAB} \textsf{help}:
-\\The command \texttt{legend} on its own, by default will label your datasets, 'data1', 'data2', etc etc, which is probably not what you want ...
-\\So you have to supply strings -- one for each dataset plotted:
-\vspace{-4mm}
-\begin{docspecmargin}
-legend('DATANAME1','DATANAME2', ...,'DATANAMEN');
-\end{docspecmargin}
-So if your plot had 2 greenhouse datasets -- 'CO2' and 'CH4', you would type:
-\begin{docspecmargin}
-legend('CO2','CH4');
-\end{docspecmargin}
 \end{mdframed}}
 
 \newthought{As an example} -- set:
@@ -1983,11 +1951,48 @@ legend('CO2','CH4');
 \end{docspec}
 (all one line) and it should end up looking like Figure \ref{fig:plot-CO2basic4}.
 
+\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{legend}
+\\According to \textbf{MATLAB} \textsf{help}:
+\\The command \texttt{legend} on its own, by default will label your datasets, 'data1', 'data2', etc etc, which is probably not what you want ...
+\\So you have to supply strings -- one for each dataset plotted:
+\vspace{-4mm}
+\begin{docspecmargin}
+legend('DATANAME1','DATANAME2', ...,'DATANAMEN');
+\end{docspecmargin}
+So if your plot had 2 greenhouse datasets -- 'CO2' and 'CH4', you would type:
+\begin{docspecmargin}
+legend('CO2','CH4');
+\end{docspecmargin}
+\end{mdframed}}
+
 \begin{marginfigure}[-0.0in]
 \includegraphics[width=\linewidth]{plot-CO2basic4.eps}
 \caption{Proxy reconstructed past variability in atmospheric CO2 (sorted data).}
 \label{fig:plot-CO2basic4}
 \end{marginfigure}
+
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{1mm}
+
+\marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{errorbar}
+\\Works like \texttt{plot}, except it adds error bars. The 2 most useful usages are:
+\\\texttt{errorbar(x,y,err)} plots y versus x and draws a vertical error bar at each data point. All of \texttt{x}, \texttt{y}, and \texttt{err}, are vectors (all of the same length).
+\\\texttt{errorbar(x,y,neg,pos)}draws a vertical error bar at each data point, where neg determines the length below the data point and pos determines the length above the data point, respectively. All of \texttt{x}, \texttt{y}, \texttt{neg}, and \texttt{pos}, are vectors (all of the same length).
+\end{mdframed}}
+
+\noindent It is not something to worry about here (or even necessarily try), but just to make you aware that \textbf{MATLAB} has a function  -- 
+\docenv{errorbar} -- to help you to visualize errors, including non-symmetric errors, relatively easily. (See \textbf{MATLAB} \textsf{help} and the margin Box.)
+
+The complication here is that none of the options for \docenv{errorbar} allow for absolute values to be used for error plotting. So to use it in this particular example, we need to replace the absolute min, max column values, with their respective deviations from the mean value (2rd column). Hopefully, you can see the way to do this. For instance, to create an error for the maximum estimate (4th column):
+
+\begin{docspec}
+sorted\_data(:,4) = sorted\_data(:,4)-sorted\_data(:,2);
+\end{docspec}
+
+\noindent where we are saying: take all the values in the 4th column of the array, subtract the values in the 2nd column of the array, and assign the values back into the 4th column (hence replacing the absolute maximum estimate with the deviation of the maximum from the mean, i.e. the +ve error). (And then do similarly for the minimum values of the 3rd column.)
 
 %------------------------------------------------
 
