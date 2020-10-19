@@ -3163,21 +3163,21 @@ In this subsection we'll start with a very straight-forward and somewhat abstrac
 
 \newthought{Loops Ground Zero}. Basically -- \texttt{for} \textit{loops} cycle through a series of numbers between specific limits, or if you like, 'count' up (or down) through a series of numbers. As the loop counts (cycles), it allows you to execute some code, so for each count (or cycle), the (same) block of code is executed. We'll worry about what you might 'do'\sidenote{Note intentionally a joke. Actually, this is only funny if you know \textbf{FORTRAN}, and even then it is only marginally funny.} (i.e. the code fragment) in a \textit{loop}, later.
 
-Consider, or rather: create a new \textit{script} \textsf{m-file}\sidenote{Comment it!}, and add following  code for a simple loop:
-\begin{docspec}
+Consider, or rather: \textbf{create a new \textit{script} \textsf{m-file}}, and add following  code for a simple loop:
+\begin{docspecbold}
 for n=1:10
 \\end
-\end{docspec}
+\end{docspecbold}
 Save the file and then run the \textit{script}. What did it do?
 
-I bet you have absolutely no idea! It actually cycled around ten times, counting from \texttt{n=1} through \texttt{n=10}, but you would not know it as there was no code within the loop to do anything and tell you anything about it.\sidenote{You get one clue -- if you look in the variables \textsf{Workspace window}, you'll see there is a \textit{variable} \texttt{n}, with a value of \texttt{10} -- the last value it was assigned before the \textit{loop} ended.}
+I bet you have absolutely no idea! It actually cycled around ten times, counting from \texttt{n=1} through \texttt{n=10}, but you would not know it as there was no code within the loop to do anything and tell you anything about it.\sidenote[][0.125in]{You get one clue -- if you look in the variables \textsf{Workspace window}, you'll see there is a \textit{variable} \texttt{n}, with a value of \texttt{10} -- the last value it was assigned before the \textit{loop} ended.}
 
 There are 2 alternative (but very crude debugging strategies) you could take in order to investigate the behaviour of the code\sidenote{Plus, you could add a \textit{breakpoint} and view the value of n in the \textsf{Workspace window} each cycle around the loop.}:
 
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
 
-\item In the \textbf{MATLAB} \textsf{Editor}, add a \textit{breakpoint} to the \texttt{end} line of the loop. When you run the script, the program stops after the first time around the loop (and the \texttt{end}). You can now e.g. interrogate the value of n by hovering your mouse pointer over it. You can also \textsf{Continue} (button in the icon bar) the program, and it will then go around the loop once more and then stop again at end. 
+\item In the \textbf{MATLAB} \textsf{Editor}, add a \textit{breakpoint} to the \texttt{end} line of the loop. When you run the script, the program stops after the first time around the loop (and as it reaches the \texttt{end} statement). You can now e.g. interrogate the value of \texttt{n} by hovering your mouse pointer over it. You can also \textsf{Continue} (button in the icon bar) the program, and it will then go around the loop once more and then stop again at end. 
 \\Typically, there will be one or more lines of code within the loop, and you could create the \textit{breakpoint} at the first line of code (within the loop).
 
 \item Simply add a line \uline{within the loop} with the name of the (counting) variable, e.g.
@@ -3198,7 +3198,7 @@ for n=1:10
 \\ \ \ \ disp(n)
 \\end
 \end{docspec}
-You could tart this up further by creating a string that provides more explicit information back to you, which is when you really need to use \texttt{num2str}, e.g.
+You could 'tart this up'\sidenote[][-0.0in]{(make look nicer)} further by creating a string that provides more explicit information back to you, which is when you really need to use \texttt{num2str}, e.g.
 \begin{docspec}
 for n=1:10
 \\ \ \ \ my\_string = ['The value of n is: ' num2str(n)]
@@ -3227,7 +3227,7 @@ my\_string = ['The value of n is: ' num2str(n)]
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
 
-\newthought{Loops in action}. So, consider the following (somewhat contrived) problem -- you want to be able to enter a series of numbers and return their sum (although equally one could perform and return all sorts of statistics).\sidenote{Obviously, one way to do this would be to enter the numbers into a file first, use the load function, and calculate the sum.} The basic code is simple and you can try it out by first creating a new (\textit{script}) \textsf{m-file}.
+\newthought{Loops in action}. So, consider the following (somewhat contrived) problem -- you want to be able to enter a series of numbers and return their sum (although equally one could perform and return all sorts of statistics).\sidenote{Obviously, one way to do this would be to enter the numbers into a file first, use the load function, and calculate the sum.} The basic code is simple and you can try it out by \textbf{first creating a new (\textit{script}) \textsf{m-file}}.
 
 Using the other (numerical input) form of \texttt{input} (see earlier), the code for entering 2 numbers, one after the other, might look like this (although in practice, your code is full of helpful comments, right?):
 \begin{docspec}
@@ -3244,7 +3244,7 @@ answer = A+B;
 \\answer\_string = num2str(answer);
 \\disp(answer\_string);
 \end{docspec}
-then please do! There is no particular computational penalty in \textbf{MATLAB} (at least, not at this stage) for creating as many variables as you like and breaking down code into multiple lines.
+then please do! There is no particular computational penalty in \textbf{MATLAB} for creating as many variables as you like and breaking down code into multiple lines.
 
 So far so good. But what if you wanted 4 numbers summed ...
 \begin{docspec}
@@ -3281,9 +3281,18 @@ The easy part is the configuration of the loop -- in the previous example with 4
 \begin{docspec}
 for n = 1:4
 \end{docspec}
-and the \textit{loop} with go around 4 times as the counter \texttt{n} counts from 1 to 4 (\texttt{MAX\_N}) in increments of 1 (the default behavior of the \textit{colon operator}). Each time around the \textit{loop} the block of (2 lines of) code is executed and a number is inputted. But what is still missing? Try it exactly like this and see if you can see what is going on, or rather, not going on. If you think it is not working as expected -- try some debugging (i.e. adding one (or more) \texttt{disp} statements within the loop code, \uline{or} add a \textit{breakpoint} within the \textit{loop}).  See if you can come up with a solution once you see what the problem is. (Warning: the spoiler is in the margin.)
+and the \textit{loop} with go around 4 times as the counter \texttt{n} counts from 1 to 4 (\texttt{MAX\_N}) in increments of 1 (the default behavior of the \textit{colon operator}). Each time around the \textit{loop} the block of (2 lines of) code is executed and a number is inputted. But what is still missing? Try this (in a new \textsf{m-file}): 
+\begin{docspecbold}
+for n = 1:4
+\\ \ \ \ my\_question = 'Please enter a number: ';
+\\ \ \ \ x = input(my\_question);
+\\end
+\end{docspecbold}
+and see if you can see what is going on, or rather, not going on. If you think that it is not working as expected -- try some debugging (i.e. adding one (or more) \texttt{disp} statements within the loop code, \uline{or} add a \textit{breakpoint} within the \textit{loop}). (You should have deduced that what is not going on, is that you are not learning what the sum of all those numbers is.)  
 
-\marginnote[-1.75in]{
+See if you can come up with a solution for how to determine the sum of all the numbers you inputted. (Warning: the spoiler is in the margin.)
+
+\marginnote[-5.875in]{
 It should be apparent if you tried it out, that the value of \texttt{x} at the very end of the program, is equal to the last value you entered. In other words, each time you go around the loop you are over-writing the previous entered value and end up with nothing to sum at the end. There are two (or more) possibilities to solve this:
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
@@ -3311,7 +3320,7 @@ y = [y z];
 \end{enumerate} 
 }
 
-After having tried your own solutions, try out  both of the given alternatives (see margin) (assuming that one of them was not also your solution). Note that you are not given the complete code needed and some further debugging might be needed (but they do both work!).
+Try out  both of the given alternatives (see margin) (assuming that one of them was not also your solution). Note that you are not given the complete code needed and some further debugging might be needed (but they do both work!).
 
 Two things to be aware of in doing this:
 
@@ -3320,18 +3329,19 @@ Two things to be aware of in doing this:
 \vspace{1mm}
 \item If you set the maximum number of items quite high and then get bored and need to exit the program -- press the key combination \textsf{Ctrl-C} and \textbf{MATLAB} will exit your program (but leave \textbf{MATLAB} itself still running).
 \vspace{1mm}
-\item If you run the program a second time and use the \textit{vector} approach, something very odd starts to happen to the reported sum. This is because there already exists a \textit{vector} with the same name left over from the first time you ran the \textit{script} program. You can solve this (first try it out -- running the program several times in a row to see what happens) either by initializing the vector \texttt{y}, just like you did for \texttt{x} in the 1st solution, i.e.
+\item If you run the program a second time and use the \textit{vector} approach (see margin), something very odd starts to happen to the reported sum. This is because there already exists a \textit{vector} with the same name left over from the first time you ran the \textit{script} program. You can solve this (first try it out -- running the program several times in a row to see what happens) either by initializing the vector \texttt{y}, just like you did for \texttt{x} in the 1st solution, i.e.
 \begin{docspec}
 y = [];
 \end{docspec}
-(before the loop starts, of course), or you can clear the workspace using \texttt{>> clear all} (clears *all* variables), or clear just the problem variable (\texttt{y}) that will end up growing and growing and growing ... (\texttt{>> clear y}).  
+(before the loop starts, of course), or you can clear the workspace using \texttt{>> clear all} (clears *all* variables), or clear just the problem variable (\texttt{y}) that will end up growing and growing and growing ... (\texttt{>> clear y}).
+\\You could also add \texttt{clear all} to the very start of your \textit{script} \textsf{m-file}.
 \end{enumerate}
 
 \vspace{-1mm}
 \noindent\rule{4cm}{0.5pt}
 \vspace{2mm}
 
-A different and simpler way of looking at creating a running sum, or in the case below, incrementing the value of a variable within the loop is to consider creating an explicit counting variable, sperate form the loop counter. Recall:
+\noindent A different and simpler way of looking at creating a running sum, or in the case below, incrementing the value of a variable within the loop, is to consider creating an explicit counting variable, sperate from the loop counter. Recall:
 
 \begin{docspec}
 for n = 1:10\\
@@ -3343,24 +3353,17 @@ end
 Create a new \textsf{m-file} and enter the following code:
 
 \begin{docspec}
-m = 0;\\
+\textbf{m = 0;\\
 for n = 1:10\\
 \ \ \ m = m+1;\\
-end
+end}
 \end{docspec}
 
-\noindent What do you expect to happen to the value of m? Add some \texttt{disp} statements and print out the values of \texttt{n} and \texttt{m} (from within the \textit{loop}), each time around the \textit{loop}, or add one or more \textit{breakpoints} in the \textbf{MATLAB} code editor. Was this what you expected? Why? What about the following?
-
-\begin{docspec}
-m = 1;\\
-for n = 1:10\\
-\ \ \ m = m+1;\\
-end
-\end{docspec}
+\noindent What do you expect to happen to the value of m? Add some \texttt{disp} statements and print out the values of \texttt{n} and \texttt{m} (from within the \textit{loop}), each time around the \textit{loop}, or add one or more \textit{breakpoints} in the \textbf{MATLAB} code editor. Was this what you expected? Why?
 
 As abstracted and odd as it might seem now, later, this will all be important to understand. Please make sure you do!
 
-\marginnote{You might note that you should not substitute the variable name \texttt{n}, for \texttt{m}, i.e. as in something like:
+\marginnote{Note that you \uline{should not} re-use the same variable name \texttt{n} that you use for the \textit{loop} counter, as in something like:
 \begin{docspecmargin}
 n = 0;\\
 for n = 1:10\\
@@ -3382,6 +3385,10 @@ for n = 1:max\_count
 \\ \ \ \ x = input(my\_question);
 \\end
 \end{docspec}
+and the all-important \textit{function} header line would be:
+\begin{docspec}
+function [] = function\_sum(max\_count)
+\end{docspec}
 
 Referring to the previous lessons on \textit{functions} (as well as \textsf{help} if need be), create a \textit{function} that when you call it, e.g. like:
 \begin{docspec}
@@ -3389,7 +3396,7 @@ Referring to the previous lessons on \textit{functions} (as well as \textsf{help
 \end{docspec}
 will request 5 inputs in turn, and at the end, display the sum.\sidenote{So in addition to the code fragment given, you need to define (at the top) and then end (at the bottom) a \textit{function}, you need to create a running sum, and then after the \textit{loop} finishes, display the sum.}
 
-Also create a variant of this \textit{function}, and have it return the sum, rather than display it. i.e. this \textit{function} will now take as input, the number of numbers you wish to input, and will return the sum of those numbers.
+Also create a variant of this \textit{function}, and have it return the sum, rather than display it. i.e. this \textit{function} will now take as input, the number of numbers you wish to input, but will now return the sum of those numbers as a single output.
 
 Alternatively, you could write your program as a \textit{script} and before the loop starts,  ask for the number of values to be entered, passing this to the variable \texttt{max\_count}, with the loop then looking exactly like the above. In both cases you are substituting a fixed number (e.g. 4) for a variable that might contain any number.
 
@@ -3403,7 +3410,7 @@ for n = 10:10:100
 \\ \ \ \ ...
 \\end
 \end{docspec}
-is exactly equivalent in terms of the number of iterations carried out to
+is  equivalent in terms of the number of iterations carried out to
 \begin{docspec}
 for n = 1:1:10
 \\ \ \ \ ...
@@ -3417,6 +3424,8 @@ for n = 1:10
 \end{docspec}
 The value of  the loop counter \texttt{n} simply differs by a factor of 10 at every iteration between the top and bottom two versions.
 
+\newpage 
+
 %------------------------------------------------
 
 \subsection{Fun(!) worked examples}
@@ -3429,42 +3438,33 @@ The value of  the loop counter \texttt{n} simply differs by a factor of 10 at ev
 
 \newthought{\textit{Loops}, camera, action!}\footnote{\textcolor{red}{\textbf{Example codes provided}}}\footnote{(at end of text)} (A more colorful example of \textit{loops} in action.) What we are going to do is (load and) plot a sequence of monthly data-sets and put them together to create a movie (animated graphic) to illustrate the seasonality of temperature in global climate. You will hopefully thereby better appreciate the value of constructs such as \textit{loops} in computer programming in saving you a whole bunch of effort and needless duplication of code. (Equally, you might not have wanted a movie as the end result, but simply a number of plots, all identical except in the specific array of data they were plotted from.)
 
-First download all the monthly global surface temperature data-files on the  course webpage (there are 12 files to download)\sidenote{In scripting, it is also possible to automate downloading files from the internet.}. Then you are going to want to plot them all ... which would get desperately tedious if you had to do this at the command line 12 times. Think how much more of your life you would be wasting if the data were weekly. Or monthly data for 1972 through 2003, some 372 separate data-files ... You would never have time to go get a coffee ever again(?)
+First download all the monthly global surface temperature data-files on the  course webpage (there are 12 files to download)\sidenote{In scripting, it is also possible to automate downloading files from the internet.}. Then you are going to want to plot them all ... which would get desperately tedious if you had to do this at the command line 12 times. Think how much more of your life you would be wasting if the data were weekly. Or monthly data for 1972 through 2003, some 372 separate data-files ... You would never have time to go get a coffee ever again(?) So we are going to use a \textit{loop}.
 
-To make an animation, we need to make a series of frames, with each one being a different monthly temperature plot (in sequence; Jan through Dec). The files are rather conveniently named: \texttt{temp1.tsv}, \texttt{temp2.tsv}, ... \texttt{temp12.tsv}\sidenote{Don't worry about the \texttt{.tsv} file extension -- the file format is plain old text (ASCII) and could have instead been \texttt{.txt}.}. We should start by loading this little lot in. For the first file we could write:
-
+To make an animation, we need to make a series of frames, with each one being a different monthly temperature plot (in sequence; Jan through Dec). The files are rather conveniently named: \texttt{temp1.tsv}, \texttt{temp2.tsv}, ... \texttt{temp12.tsv}\sidenote{Don't worry about the \texttt{.tsv} file extension -- the file format is plain old text (ASCII) and could have instead been \texttt{.txt}.}. We should start by loading this little lot in. For example, at the command line, to load in the the first file we could write:
 \begin{docspecbold}
->> temp = load('temp1.tsv','-ascii');
+>> temp = load('temp1.tsv');
 \end{docspecbold}
-
 or equally:
-
+\begin{docspec}
+>> temp(:,:) = load('temp1.tsv');
+\end{docspec}
+Then for the 2nd file:
 \begin{docspecbold}
->> temp(:,:) = load('temp1.tsv','-ascii');
+>> temp = load('temp2.tsv');
 \end{docspecbold}
-
-Or if we wanted to save all the data in a 3D array, we could also write:
-
+and the third ...
 \begin{docspecbold}
->> temp(:,:,1) = load('temp1.tsv','-ascii');
+>> temp = load('temp3.tsv');
 \end{docspecbold}
+...
 
-Can you see that these statements are identical? Try them all out, just to be sure. The last form is really useful, because we can now go on and write:
+This is something that a \textit{loop} could be used for while you go off for a coffee. So this is what we are going to do -- use a \textit{loop} to load in all of the files in turn.
 
-\begin{docspecbold}
->> temp(:,:,2) = load('temp2.tsv','-ascii');
-\end{docspecbold}
+\textbf{Create a new \textit{script} \textsf{m-file}.} Call it ... anything you like\sidenote{\texttt{bob\_the\_builder.m} counts as 'anything you like', but that looks pretty lame and it certainly won't help you remember what the script does if you came back to it sometime in the future.}. However, as well as appropriately naming your \textit{script} file, add a \textit{comment} on the first line of the file as a reminder to yourself of what it is going to do. (If you get totally confused as to what should be going into the program and where -- refer to the 'answers' for this section at the back of the book.)
 
-What you have done here is to load the January 2D (lon-lat) temperature distribution into the 1st 2D layer of the \texttt{temp} array, and then we have gone and created a second 2D layer on top of the first with the February climate data in it. Look at the \textbf{Workspace window} (or type \texttt{size(temp)}) -- you now have a 3D (94\(\times\)192\(\times\)2) array. Fancy! This is your first 3D array -- there is nothing really conceptually different from the 2D arrays that you have already been using, we simply have a 3rd index for the third dimension -- if it helps, \uline{you can think of a 3D array as being indexed by: row, column, layer}. 
+We first need to construct the \textit{loop} framework. We'll call the month number counter variable, \texttt{month}. Create a \texttt{for} \textit{loop} (with nothing in it yet) with \texttt{month} (as the counting variable) going from \texttt{1} to \texttt{12}.\sidenote{Don't forget to suitably comment what it is that the \textit{loop} does with a line (or even 2, but don't write a whole essay) beginning with a \%.} Refer to the course text (this document!), and/or the \textbf{MATLAB}  documentation, and/or the entirety of the internet, if necessary. The syntax (and examples) is described in full under \texttt{>> help for}. Save the script (\textsf{m-file}) and run it\sidenote{Typing: the \texttt{m-file} filename without the extension.}. What happens? Can you tell?
 
-You could go on and load in the March, April, etc data in a similar fashion, but you should be able to see a pattern forming here -- each filename differs only in the number at the end of its name and this number corresponds not only to the number of the month, but will also correspond to the layer index of the 3D array that you will create. This is something that a \textit{loop} could be used for while you go off for a coffee. So this is what we are going to do -- use a \textit{loop} to load in all of the files. So go back and delete the lines that load in the files, one-by-one.
-
-\textbf{Create a new \textit{script} \textsf{m-file}.} Call it ... anything you like\sidenote{\texttt{bob\_the\_builder.m} counts as 'anything you like', but that looks pretty lame and it certainly won't help you remember what the script does if you came back to it sometime in the future.}. However, as well as appropriately naming your \textit{script} file, add a \textit{comment} on the first line of the file as a reminder to yourself of what it is going to do.
-
-We first need to construct the \textit{loop} framework. We'll call the month number counter variable, \texttt{month}. Create a \texttt{for} \textit{loop} (with nothing in it yet) with \texttt{month} going from \texttt{1} to \texttt{12}.\sidenote{Don't forget to suitably comment what it is that the \textit{loop} does with a line (or even 2, but don't write a whole essay) beginning with a \%.} Refer to the course text (this document!), and/or the \textbf{MATLAB}  documentation, and/or the entirety of the internet, if necessary. The syntax (and examples) is described in full under \texttt{>> help for}. Save the script (\textsf{m-file}) and run it\sidenote{Typing: the \texttt{m-file} filename without the extension.}. What happens? Can you tell?
-
-One way of following what is going on as \textbf{MATLAB} executes the commands within a script is to explicitly request that it tells you how it is getting on. You can use the function \docenv{disp} to help you follow what the program is doing (this is Old School debugging\sidenote{You can also add a \textit{breakpoint} within the \textit{loop} and thus can cycle through the \textit{loops} one-by-one, thereby being able to check the status of the variables within the loop and how they change from iteration to iteration.}). Within the loop, add the following line:
-
+One way of following what is going on as \textbf{MATLAB} executes the commands within a script is to explicitly request that it tells you how it is getting on. You can use the function \docenv{disp} to help you follow what the program is doing (this is Old School debugging\sidenote{You can also add a \textit{breakpoint} within the \textit{loop} and thus can cycle through the \textit{loops} one-by-one, thereby being able to check the status of the variables within the loop and how they change from iteration to iteration.}). Within the loop (anywhere!), add the following line:
 \begin{docspecbold}
 disp(month)
 \end{docspecbold}
@@ -3474,19 +3474,16 @@ disp(month)
 We can construct filenames to load in by:
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
-\vspace{1mm}
 \item Forming a complete filename by \textit{concatenating} sperate strings. For example: 
-
 \begin{docspec}
 >> filename = ['temp' '1' '.tsv']
 \end{docspec}
-
 \noindent will create the filename  out of 3 components parts -- a common elements of all the filenames (\texttt{'temp'}), the number of the month (\texttt{'1'}), and the file extension (\texttt{'.tsv'}). 
 \vspace{1mm}
 \item Converting a number value of a (count) variable to a string (the \docenv{num2str} function), so instead of hard-coding in the string representing a number (\texttt{1} in this example), you convert from the value of a counter, e.g. \texttt{num2str(month)}.
 \end{enumerate}
 
-\marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
+\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
 \docenvdef{num2str}
 \\Converts a number to a \textit{string} (\texttt{s}), e.g.
 \begin{docspecmargin}
@@ -3499,13 +3496,10 @@ where \texttt{N} is any number type variable.
 This is where the role of the loop counter  (stored in the variable \texttt{month}) comes in. Each time around the loop,  the value of  variable \texttt{month} is the number of the month. All you have to do is to convert this value to a  \textit{string} and thereby automatically generate the correct month's filename each time (as per above).
 
 Now add the following within the \textit{loop} in your script;
-
 \begin{docspecbold}
 filename = ['temp' num2str(month) '.tsv'];
 \end{docspecbold}
-
-and after it (still within the \textit{loop}) some debugging\sidenote{Or you can make use of a \textbf{breakpoint}.}:
-
+and after it (still within the \textit{loop}), add some some debugging\sidenote{Or you can make use of a \textbf{breakpoint}.}:
 \begin{docspecbold}
 disp(filename)
 \end{docspecbold}
@@ -3520,12 +3514,11 @@ temp(:,:,month) = ... load(filename,'-ascii');
 \end{docspecmargin}
 If youn run this coding variant and take a look at the \textsf{Workspace window} -- note that you have an array (\texttt{temp}) that has size 94\(\times\)192\(\times\)12.
 }:
-
 \begin{docspecbold}
-temp(:,:) = load(filename,'-ascii');
+temp(:,:) = load(filename);
 \end{docspecbold}
 
-\noindent Note that rather than specifying the filename explicitly in the load command, you are now passing the string contained in the variable \texttt{filename}. (Hopefully on the previous line of code within the loop, you have created the string value of \texttt{filename} ...) 
+\noindent Note that rather than specifying the filename explicitly in the load command, you are now passing the string contained in the variable \texttt{filename}. (Hopefully on the previous line of code within the loop, you have created the string value of \texttt{filename} ...)
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
@@ -3533,14 +3526,13 @@ temp(:,:) = load(filename,'-ascii');
 
 \noindent We'll now add some graphics.
 
-\begin{marginfigure}[-0.0in]
+\begin{marginfigure}[0.5in]
 \includegraphics[width=\linewidth]{ch3-pcolortemp.eps}
 \caption{Extremely unappealing blocky plot of Earth surface temperature (who cares with month? -- the graphics are too poor to matter ...).}
 \label{fig:ch3-pcolortemp}
 \end{marginfigure}
 
 At the end of (but still within) the \textit{loop} (i.e., before the \textit{loop} has completely finished), create a new \textsf{figure window} and then plot (using \texttt{pcolor}) the monthly temperature data. On the subsequent lines, add the essential labelling stuff (lines after that). All within the loop still. These lines should look something like:
-
 \begin{docspecbold}
 figure;
 \\pcolor(temp(:,:));
@@ -3557,18 +3549,24 @@ Actually, there is  no need to create a new \textsf{figure window} each time -- 
 \vspace{2mm}
 
 \noindent Finally ... look up \textbf{MATLAB} \texttt{help} on \docenvdef{getframe}. Then go back to your global temperature loading/plotting script and add the following line to your program\sidenote{Where to put the line? Within the loop and after you have plotted the plot.}:
-
 \begin{docspecbold}
 M(month) = getframe;
 \end{docspecbold}
+This lines goes at the very end of the loop (before \texttt{end}), to give you:
+\begin{docspec}
+for month=1:12\\
+\ \ \ filename = [\textcolor[rgb]{1,0,1}{'temp'} num2str(month) \textcolor[rgb]{1,0,1}{'.tsv'}];\\
+\ \ \ temp(:,:) = load(filename);\\
+\ \ \ pcolor(temp(:,:));\\
+\ \ \ M(month) = getframe;\\
+end
+\end{docspec}
 
 Save and run. When \textbf{MATLAB} is all done, at the command line, type:
-
 \begin{docspecbold}
 >> movie(M,5,2)
 \end{docspecbold}
-
-\noindent and hopefully ... an animation of the progression of monthly surface air temperatures globally, should appear\sidenote{Note that the active Figure window may have disappeared behind some other windows so go rescue it to see what is happening.}.
+and hopefully ... an animation of the progression of monthly surface air temperatures globally, should appear\sidenote{Note that the active Figure window may have disappeared behind some other windows so go rescue it to see what is happening.}.
 
 If you want to play some more, just type \texttt{help movie} -- there are controls for not only the number of times you loop through the complete animation, but also for the numbers of frames per second. But we will revisit this later -- the 2D plotting you have done so far is *very* basic and there is no scale or sane x/y axes. Later we can also add the continental outlines that will help orient you and improve the quality of the graphical output. 
 
@@ -3578,10 +3576,9 @@ If you want to play some more, just type \texttt{help movie} -- there are contro
 \noindent\rule{4cm}{0.5pt}
 \vspace{2mm}
 
-\noindent Creating a portable animation format would be useful (i.e. that you could play on a different computer or upload to the www). There is no longer a convenient \textbf{MATLAB} command to turn the \textbf{MATLAB} format movie (\texttt{M}) into a format you can use elsewhere (there used to be a command called \docenv{movie2avi} (see Box), but it has been ... retired (curse you, Mathworks)). The new/replacement command is \docenvdef{VideoWriter,} which differs mostly in that the animation is now created within the program and the  \textsf{.avi} format animation has its frames added (within the loop) as the graphics are created (rather than converting the frames afterwards as in \docenv{movie2avi}).
+\noindent Creating a portable animation format would be useful (i.e. that you could play on a different computer or upload to the internet). There is no longer a convenient \textbf{MATLAB} command to turn the \textbf{MATLAB} format movie (\texttt{M}) into a format you can use elsewhere (there used to be a command called \docenv{movie2avi}, but it has been 'retired' (curse you, Mathworks)). The new/replacement command is \docenvdef{VideoWriter,} which differs mostly in that the animation is now created within the program and the  \textsf{.avi} format animation has its frames added (within the loop) as the graphics are created.
 
-To use the \textbf{MATLAB} \docenv{VideoWriter} \textit{function}, you will need to adjust your code along the following lines   (and as per the \textbf{MATLAB} \textsf{help} on \docenv{VideoWriter})\footnote{Do not overly worry about the exact usage/syntax of \texttt{VideoWriter}.}:
-
+To use the \textbf{MATLAB} \docenv{VideoWriter} \textit{function} to create the animation, you will need the following code (that you should put into a new \textsf{m-file}):
 \begin{docspecbold}
 \textcolor[rgb]{0,0.501961,0}{\% Prepare the new file.}\\
 vidObj = VideoWriter(\textcolor[rgb]{1,0,1}{'my\_animation.avi'});\\
@@ -3589,7 +3586,7 @@ open(vidObj);\\
 \textcolor[rgb]{0,0.501961,0}{\% Create an animation.}\\
 for month=1:12\\
 \ \ \ filename = [\textcolor[rgb]{1,0,1}{'temp'} num2str(month) \textcolor[rgb]{1,0,1}{'.tsv'}];\\
-\ \ \ temp = load(filename\textcolor[rgb]{1,0,1}{,'-}ascii');\\
+\ \ \ temp = load(filename);\\
 \ \ \ pcolor(temp);\\
 \ \ \ \textcolor[rgb]{0,0.501961,0}{\% Write each frame to the file.}\\
 \ \ \ currFrame = getframe;\\
@@ -3599,16 +3596,33 @@ end\\
 close(vidObj);  
 \end{docspecbold}
 
-Note that the code above does not bother to create a 3D array of all the data loaded in, but rather, over-writes a 2D array (\texttt{temp}) each time around the loop (having first created the animation frame).
-An animation is created at the end, but there is no record of all the 12 monthly datasets that were loaded in (and this may well be correct/the point).
-(See the previous margin comment on how to modify things to create a 3D array of all the data.))\marginnote{\begin{mdframed}[backgroundcolor=gray!5, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!5]
-\textbf{\docenvdef{movie2avi}}
-\\The function \docenv{movie2avi} converts an animation encoded in \textbf{MATLAB}'s \texttt{movie} format to an \textbf{avi} file, which is a common film format that can then be played in \textbf{Windows} (or other operating systems) without having to use \textbf{MATLAB} to display it. It is also a format that could e.g. be embedded in a \textbf{Powerpoint} presentation. A typical basic usage is:
-\begin{docspecmargin}
->> movie2avi(M,'file.avi');
-\end{docspecmargin}
-\noindent where \texttt{file.avi} is the output filename and \texttt{M} the input \textbf{MATLAB} \texttt{movie} name.
-\end{mdframed}}
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{2mm}
+
+\noindent Note that if we wanted to save all the data in a 3D array, we could also have written:
+\begin{docspecbold}
+>> temp(:,:,1) = load('temp1.tsv');
+\end{docspecbold}
+and then for the 2nd month:
+\begin{docspecbold}
+>> temp(:,:,2) = load('temp2.tsv');
+\end{docspecbold}
+
+What you have done here is to load the January 2D (lon-lat) temperature distribution into the 1st 2D layer of the \texttt{temp} array, and then we have gone and created a second 2D layer on top of the first with the February climate data in it. Look at the \textbf{Workspace window} (or type \texttt{size(temp)}) -- you now have a 3D (94\(\times\)192\(\times\)2) array. Fancy! This is your first 3D array -- there is nothing really conceptually different from the 2D arrays that you have already been using, we simply have a 3rd index for the third dimension -- if it helps, \uline{you can think of a 3D array as being indexed by: row, column, layer}. 
+
+You could go on and load in the March, April, etc data in a similar fashion, but you should be able to see a pattern forming here -- each filename differs only in the number at the end of its name and this number corresponds not only to the number of the month, but will also correspond to the layer index of the 3D array that you will create.
+
+A loop for this might look like:
+\begin{docspec}
+for month=1:12\\
+\ \ \ filename = [\textcolor[rgb]{1,0,1}{'temp'} num2str(month) \textcolor[rgb]{1,0,1}{'.tsv'}];\\
+\ \ \ temp(:,:,month) = load(filename);\\
+\ \ \ pcolor(temp(:,:,month));\\
+\ \ \ M(month) = getframe;\\
+end
+\end{docspec}
+and at the end, you will have a 3D array -- \texttt{temp} -- containing all the months data.
 
 %================================================
 
@@ -3685,7 +3699,7 @@ my\_string = input('Loop only 10 times (y or n)','s');
 \\ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% update running sum}
 \\ \ \ \ running\_sum = running\_sum + my\_number;
 \\ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% display running sum}
-\\ \ \ \ disp(['sum so far = ' running\_sum])
+\\ \ \ \ disp(['sum so far = ' num2str(running\_sum)])
 \\ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% ask whether to keep going}
 \\ \ \ \ my\_string = input(my\_question2,'s');
 \\ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% exit loop if answer is no}
@@ -3704,23 +3718,22 @@ my\_string = input('Loop only 10 times (y or n)','s');
 \\Slightly more complicated (but not much) in the case of nested loops -- in this case, \texttt{break} exits only the loop in which it occurs.
 \end{mdframed}}
 
-The key new command here is \docenv{break}. The way the code works (hopefully!) is that towards the end of the \textit{loop}, the 'another input' question is asked -- if no further input is required, the loop exits via the \texttt{break} command. Remember  that now we have \textit{loops} and \textit{conditionals} nested together, it helps even more to \textit{indent} the code\sidenote{\textbf{MATLAB} will do this for you if you click on the Indent icon. It will also indent the code as far as it reasonably can, as you type.}. Also note that here -- the two different questions (demands) outputted to the screen -- 'Another input (y/n)?' and 'Please enter a number' -- are pre-defined before the \textit{loop} starts. These same text could equally  be placed directly within the \textit{loop} within the call to the \texttt{input} \textit{function}.
+The key new command here is \docenv{break}. The way the code works (hopefully!) is that towards the end of the \textit{loop}, the 'another input' question is asked -- if no further input is required, the loop exits via the \texttt{break} command. Remember  that now we have \textit{loops} and \textit{conditionals} nested together, it helps even more to \textit{indent} the code as per illustrated in the given code fragment\sidenote{\textbf{MATLAB} will do this for you if you click on the Indent icon. It will also indent the code as far as it reasonably can, as you type.}. Also note that here -- the two different questions (demands) outputted to the screen -- 'Another input (y/n)?' and 'Please enter a number' -- are pre-defined before the \textit{loop} starts. These same text could equally  be placed directly within the \textit{loop} within the call to the \texttt{input} \textit{function}.
 
 Currently, the program only exits upon entering 'n' to the question. Instead, we could have it exiting for any answer other than 'y':
+
+\newpage 
+
 \begin{docspec}
-my\_question1 = 'Please enter a number: ';
-\\my\_question2 = 'Another input (y/n)? ';
+...
 \\for n = 1:1000000
-\\ \ \ \ my\_number = input(my\_question1);
-\\ \ \ \ my\_string = input(my\_question2,'s');
+\\ \ \ \ ...
 \\ \ \ \ if \(\sim\)strcmp(my\_string, 'y')
 \\ \ \ \ \ \ \ \ break
 \\ \ \ \ end
 \\end
 \end{docspec}
-which compares \texttt{my\_answer} and 'y', if this is not true (that they are the same), \texttt{break} is executed.
-
-\textbf{Enter in the (highlighted) code into a new \textit{script} m-file and modify as per above, such that break is executed if any answer other than 'y' is entered.}
+which compares \texttt{my\_answer} and 'y', if this is not true (that they are the same), \texttt{break} is executed. (Note that many of the lines of code from before have been omitted (\texttt{...}) for brevity.)
 
 %------------------------------------------------
 
@@ -3733,6 +3746,7 @@ which compares \texttt{my\_answer} and 'y', if this is not true (that they are t
 \newthought{A practical example} of testing the value of a \textit{variable} and \texttt{break}-ing out of a \textit{loop} depending on the result of the test, would be when saving a data file. You might test for a filename  that already exists and if so, automatically modify the new file name so as not to over-write the existing file.\sidenote{Note that while in the \texttt{m-file} Editor, \textbf{MATLAB} asks you if you want to over-write an existing file, when saving a file directly from a program, no such dialogue box or warning is given.} The relevant function is \docenv{exist}, and in the case of a test for a file, the function returns either \texttt{0} (the file does not exist in the \textbf{MATLAB} search path, although that does not rule out it existing somewhere else entirely{}), or \texttt{2} (the file exists).
 
 Clearly(?), in the example of saving the movie file, you might well want to test whether the filename that you have chosen already exists (i.e. the value returned by \texttt{exist} is \texttt{2}). If so (i.e. the file exists), you need to modify the filename  by means of a new concatenation, perhaps appending something like '\texttt{\_NEW}' to the end of the string\sidenote[][-0.75in]{Recall that in using the \texttt{movie2avi} command, you pass a filename -- simply modify the filename passed, in a similar way to in which you modified the filename for loading the temperature data.}. If not, and the filename has not already been used, you can proceed as before -- the equivalent of 'doing nothing'.
+
 \marginnote[-0.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
 \docenvdef{exist}
 \\Tests for whether a specified variable, function, file, or directory exists, and in generally, which is these it is.
@@ -3751,49 +3765,59 @@ exist('A','dir')
 returns a value of \texttt{7} is returned is \texttt{A} if a directory.
 \end{mdframed}}
 
-You could start by defining a default filename in the code\sidenote{Either near the very start of the program (neater), or just before you need to use the string (to save a file).} that you will use if there is no clash with any existing file, e.g.
+Make a copy of the avi movie code you were given in the previous Section (you can also find this in Chapter 7.2 under '\textit{Code for creating an avi format animation}'). You are going to modify this so that at the very start, it checks to see if the particular filename has already been used.
+
+In modifying the code, you could start by defining a default filename\sidenote{At the very start of the program and just before the \texttt{\% Prepare the new file} comment line.} that you will use if there is no clash with any existing file, e.g.
 \begin{docspec}
-my\_filename = 'GEO111\_movie.avi'
+my\_filename = 'my\_animation.avi';
 \end{docspec}
-Now test whether this filename already exists:
+Now, on the next line, test whether this filename already exists:
 \begin{docspec}
-filename\_check = exist(my\_filename,'file')
+filename\_check = exist(my\_filename,'file');
 \end{docspec}
-Finally, using an \texttt{if} statement you are going to test whether the value of \texttt{filename\_check} is equal to 2. If so, you are going to need to modify the filename string (\texttt{my\_filename}). If not, you can let the \textit{conditional} just \texttt{end} and proceed to saving. Modifying the filename is just as per for the example of loading global temperature distributions, e.g.
+Finally, on the line after -- using an \texttt{if} statement you are going to test whether the value of \texttt{filename\_check} is equal to 2. If so, you are going to need to modify the filename string (\texttt{my\_filename}). If not, you can let the \textit{conditional} just \texttt{end} and proceed to saving. Modifying the filename is just as per for the example of loading global temperature distributions, e.g.
 \begin{docspec}
 my\_filename = ['NEW\_' my\_filename];
 \end{docspec}
-where here, we take the string contained in \texttt{my\_filename}, we append a 'NEW\_' to the start\sidenote{Note that because the filename already has its \textsf{.avi} extension attached, you'll have to modify the start of the string.}, and assign the new (longer) string back into the variable \texttt{my\_filename}, like this:
-
-\begin{docspec}
-if filename\_check == 2
+where here, we take the string contained in \texttt{my\_filename}, we append a 'NEW\_' to the start\sidenote{Note that because the filename already has its \textsf{.avi} extension attached, you'll have to modify the start of the string.}, and assign the new (longer) string back into the variable \texttt{my\_filename}. The complete code addition will then look like:
+\begin{docspecbold}
+my\_filename = 'my\_animation.avi';
+\\if (filename\_check == 2)
 \\ \ \ \ my\_filename = ['NEW\_' my\_filename];
 \\else
 \\ \ \ \ \% DO NOTHING
 \\end
-\end{docspec}
+\end{docspecbold}
 
-\textbf{See if you can modify the \textsf{.avi} video creating code. An example code for the basic (non filename-checking) program is given at the end of the text. Create a new \textit{script} m-file with this code (or your own),  test whether it creates an animation successfully in the first place, and then try and modify it as per above with the filename check.} Hints: all the new code needs to go before the line:
+\textbf{See if you can modify the \textsf{.avi} video creating code. An example code for the basic (non filename-checking) program is given at the end of the text. Create a new \textit{script} m-file with this code (or your own),  test whether it creates an animation successfully in the first place, and then try and modify it as per above with the filename check.} 
 
+The only change to the existing code you need to make, is this line:
 \begin{docspec}
 vidObj = VideoWriter('my\_animation.avi');
 \end{docspec}
+because you no longer want to use the same default filename each and every time you run the animation, but rather, pass the variable containing the filename:\footnote{Remember, you can pass a string directly, in which case \uline{it must be in inverted commas}, or you can pass the variable name. Do not place a variable name in inverted commas (or else the variable name itself will be interpreted as a string, when it is the contents of the variable you want).}, i.e.
+\begin{docspecbold}
+vidObj = VideoWriter(my\_filename);
+\end{docspecbold}\
+(remembering that you do not put the variable name in inverted commas).
 
-In this line,  the variable \texttt{my\_filename} that you have defined a default name in, will be passed instead of \texttt{'my\_animation.avi'}\footnote{Remember, you can pass a string directly, in which case \uline{it must be in inverted commas}, or you can pass the variable name. Do not place a variable name in inverted commas (or else the variable name itself will be interpreted as a string, when it is the contents of the variable you want).}, and the testing of whether your default filename already exists and whether to create a new(modified) filename, all comes before this. The order of the required lines of new of code is:
+Make sure that the order of the required lines of new of code is:
 
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
 \item Set default filename.
 \item Test whether this filename already exists and assign to the variable \texttt{filename\_check}.
 \item Test whether the value of \texttt{filename\_check} is \texttt{2} and if so, modify the filename.
+\item (Edited \texttt{vidObj =} line.)
 \end{enumerate}
 
 %------------------------------------------------
 
+\newpage 
+
 \subsection{\texttt{while ...}}
 
 We can re-frame the earlier example programs using the \texttt{while} construct rather than the \texttt{for} loop. But now ... you need to specify under what conditions the loop continues as the basic syntax (see earlier margin text on \textit{loops}, or \textbf{help}) is:
-
 \begin{docspec}
 while STATEMENT (IS TRUE)
 \\ \ \ \ CODE
@@ -3801,15 +3825,12 @@ while STATEMENT (IS TRUE)
 \end{docspec}
 
 Here -- \texttt{STATEMENT (IS TRUE)} is the conditional. For instance and rather trivially, \textbf{create the following as a new \textit{script} m-file and run it}\sidenote{You ... are going to need a \textbf{Ctrl-C} on this one ...}:
-
 \begin{docspecbold}
 \textcolor{blue}{while} true
 \\ \ \ \ disp('sucker')
 \\\textcolor{blue}{end}
 \end{docspecbold}
-
 What has happened is that true is always ... true. Hence the condition is always met and the \texttt{while} \textit{loop}, loops forever. Conversely, \texttt{while false} would never \textit{loop}, not even once -- try it:
-
 \begin{docspecbold}
 \textcolor{blue}{while} false
 \\ \ \ \ disp('sucker')
@@ -3819,7 +3840,6 @@ What has happened is that true is always ... true. Hence the condition is always
 More interesting and useful is when the statement might change in value as the loop progresses.
 
 Think about the following code (and \textbf{type up in a new \textit{script} m-file and run it}):
-
 \begin{docspecbold}
 n = 0;
 \\\textcolor{blue}{while} (n < 10)
@@ -3828,7 +3848,6 @@ n = 0;
 \end{docspecbold}
 
 This also will loop for ever as \texttt{n} is initialized to \texttt{0} and hence the statement \texttt{(n < 10)} is always true. But if we increment the value of \texttt{n} each time around the \textit{loop}: 
-
 \begin{docspecbold}
 n = 0;
 \\\textcolor{blue}{while} (n < 10)
@@ -3836,11 +3855,9 @@ n = 0;
 \\ \ \ \ n = n + 1;
 \\\textcolor{blue}{end}
 \end{docspecbold}
-
-\noindent then the \textit{loop} will execute exactly 10 times (just as per \texttt{for n = 1:10}) (\textbf{try this}).
+then the \textit{loop} will execute exactly 10 times (just as per \texttt{for n = 1:10}) (\textbf{try this}).
 
 You could also do the counting in reverse: 
-
 \begin{docspecbold}
 n = 10;
 \\\textcolor{blue}{while} (n > 0)
@@ -3848,7 +3865,6 @@ n = 10;
 \\ \ \ \ n = n - 1;
 \\\textcolor{blue}{end}
 \end{docspecbold}
-
 Now, \texttt{n} counts down from \texttt{10} and when it reaches a value of \texttt{0}, it is no longer greater than zero and the statement (\texttt{n > 0}) is false (and the loop terminates). \textbf{Also thy this modification, where the value of \texttt{n} counts down.}
 
 It is not always completely obvious whether even simple while loops like this execute 9 or 10 (or 11) times particularly when often you might come across \texttt{while (n >= 0)} that allows the loop to continue when when \texttt{n} has reached z value of zero (but not below). \textbf{Spend a little while playing about with different \texttt{while} configurations and \textit{loop} criteria, adding \texttt{disp} lines or \textit{breakpoints} to find out how many times the \textit{loop} executes in total.}
@@ -3878,7 +3894,6 @@ and ends up a slightly shorter and more compact piece of code, omitting the need
 One (partial) solution would have been to, rather than append a pre-defined string ('\textsf{\_NEW}') to the filename,  request that the user provide  a completely new filename.
 
 A complete solution would be to address the situation when asking for an alternative filename ... if that file existed too. We could keep checking for a filename clash and keep asking for a new filename, until a unique (unused) filename was provided by the user. Who knows how many attempts this might take (to find an unused filename), so \texttt{while ...} would be a better choice of loop than \texttt{for ...}. Because \docenv{exist} returns a \texttt{2} if the file already exists, a logical condition for \texttt{while}, would be that a filename determining \textit{loop} continues while \docenv{exist} is returning a value of \texttt{2}. e.g.
-
 \begin{docspec}
 my\_question = 'Enter a filename: ';
 \\while (filename\_check == 2)
@@ -3886,13 +3901,10 @@ my\_question = 'Enter a filename: ';
 \\ \ \ \ filename\_check = exist([my\_filename],'file')
 \\end
 \end{docspec}
-
 Within the \textit{loop}, a (new) filename is requested and then this string is checked against the directory contents. What is missing is the initial value of \texttt{filename\_check}. In a previous example, we simply set a value at the start. If we did that here, the first line of this code would look like: 
-
 \begin{docspec}
 filename\_check = 2
 \end{docspec}
-
 In this case, we do not need a default filename as the user provides a filename on the very first iteration of the loop.
 
 \textbf{Try it out -- add the following code to the start of your basic avi file format saving movie program (e.g. as per at the end of the text), and use the value of the variable \texttt{my\_filename} as the name for saving the avi animation file and test it.}
@@ -3906,7 +3918,11 @@ my\_question = 'Enter a filename: ';
 \\\textcolor{blue}{end}
 \end{docspecbold}
 
-%------------------------------------------------
+%================================================
+
+\newpage
+
+%================================================
 
 \section{Even more (and loopier) loops}
 
@@ -3923,7 +3939,6 @@ my\_question = 'Enter a filename: ';
 \newthought{Looping through arrays.} In plotting e.g. global temperature distributions, it would be nice to add on the continental outline on top. Currently, and particularly with the very  basic 2D plotting you have seen so far (\docenv{pcolor}), you are to some extent left guessing where the land and where the ocean is. We are going to work through using a loop to process data that define series of line segments that make up the outlines of the continents.\footnote{\textcolor{red}{\textbf{Example codes provided}}}
 
 A pair of files are provided (from the website) that comprise a series of pairs of lon-lat values that delineate the outline of the continents and all but the smallest of islands:
-
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
 \item \textsf{continental\_outline\_lat.dat}
@@ -3964,7 +3979,6 @@ By plotting dots (points), the coastal outline at higher latitudes gets increasi
 Well ... interesting. If you think about it, as one continental outline is completed, the next lon-lat pair will be for the next continent or island. What \texttt{plot} does is to join up *all* the adjacent x-y (lon-lat) pairs and hence points, which is why you get the straight lines criss-crossing the map with  the start of each successive continent and island in the dataset joined to the end of the previous one.
 
 The continental outline dataset is not actually that useless. There are  additional files that specify which block of lon-lat pairs belong to a single shape (i.e. continent or island). Load in the 2 additional files:
-
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
 \item \textsf{continental\_outline\_start.dat}
@@ -3983,8 +3997,7 @@ i.e.:
 These vectors hold information regarding the start row and end row, of each shape. Again, view the contents of these vectors to get an idea of what is going on. For example, you'll see that the first entry is that the first shape starts on row \texttt{1} 
 (\texttt{lstart}), and ends on row \texttt{100} (\texttt{lend}). The 2nd shape starts on row \texttt{101}, and ends on row \texttt{200}. etc etc
 
-The simplest way too start dealing with all this, is to just plot the very first shape, defined by rows \texttt{1-100} of the lon and lat vectors. By now, you hopefully will be able to see that to plot rows \texttt{1-100} of  lon and lat data, you are going to do:
- 
+The simplest way too start dealing with all this, is to just plot the very first shape, defined by rows \texttt{1-100} of the lon and lat vectors. By now, you hopefully will be able to see that to plot rows \texttt{1-100} of  lon and lat data, you are going to do: 
 \begin{docspecbold}
 >> plot(lon(1:100),lat(1:100));
 \end{docspecbold}
@@ -3997,13 +4010,10 @@ Well ... this is probably about as unexciting as it gets -- a small piece of the
 \end{mdframed}}
 
 How? First you need to write the \texttt{plot} command in a more general form -- you do not want to have to read the values out of the \texttt{lstart} and \texttt{lend} files manually. Hopefully, it should be apparent that you can re-write the plot statement for the first fragment, as:
-
 \begin{docspec}
 plot(lon(LINE\_START:LINE\_END),lat(LINE\_START:LINE\_END));
 \end{docspec}
-
 where for the first fragment, the values of \texttt{LINE\_START} and \texttt{LINE\_END} are given by \texttt{lstart(1)} and \texttt{lend(1)}, respectively (renaming the original vectors to shorten the variable name)\sidenote{You cannot use the obvious variable name \texttt{end} -- why not?}. Re-writing again:
-
 \begin{docspecbold}
 >> plot(lon(lstart(1):lend(1)),lat(lstart(1):lend(1)));
 \end{docspecbold}
@@ -5044,7 +5054,6 @@ find(3 > [5 3 1])
 first evaluates the relational operation and generates a vector of true and false values, and then \texttt{find} tells you the index (or indices) where the true values occur (here, \texttt{ans = 3}).
 \end{mdframed}}
 
-MATLAB [grey]
 \marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{min}
 \\\noindent\docenvdef{max}
@@ -5232,6 +5241,7 @@ because \texttt{99} is a number (integer) and not a Not A Number.
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
+\vspace{-4mm}
 
 \newthought{Optional ...} \noindent In the CO\(_{2}\) data, there are min and max uncertainty limit values. One could color-code the points in a scatter-plot to represent either the min or the max (perhaps try this first), but one on its own is not necessarily much use. One could color-code by the difference, but this is a function of the absolute value and one would expect large uncertainty bars if the mean (central) estimate was high, and lower if it were low. Perhaps we need the \textit{relative} range in uncertainty? Can you do this? i.e., \texttt{scatter}-plot the mean CO\(_{2}\) estimate (as a function of time), but color-coding for the range in uncertainty as a proportion of the value?
 
@@ -6224,6 +6234,18 @@ If you now set the new \textit{colormap} (\texttt{>> colormap(mapnew);}) and re-
 \caption{Global topography plotted with a user-defined grey-scale.}
 \label{fig:ch3-etopo6}
 \end{marginfigure}
+
+%------------------------------------------------
+
+\newpage
+
+%------------------------------------------------
+
+\section{Stats (it had to happen ...)}
+
+
+
+
 
 %----------------------------------------------------------------------------------------
 
@@ -9181,13 +9203,38 @@ There are various refinements you could make, such as when the program/app start
 
 \subsection*{\textbf{Section 2.4}}
 
-\subsection*{Code for loading, storing, and plotting, monthly global temperatures}
+\subsection*{Basic code for loading, storing, and plotting, monthly global temperatures}
+
+\begin{docspecbold}
+\textcolor[rgb]{0,0.501961,0}{\% ****************************************************************** 
+\\\% Program to load in 12 monthly temperature data-sets
+\\\% plot each monthly global temperature distribution,
+\\\% and generate a MATLAB format animation (M)
+\\\% ****************************************************************** 
+\\\% close all currently open figure windows}
+\\close \textcolor[rgb]{1,0,1}{all};
+\\\textcolor[rgb]{0,0.501961,0}{\% START OF MONTHLY LOOP}
+\\\textcolor{blue}{for} month=1:12
+\\ \ \ \textcolor[rgb]{0,0.501961,0}{\% create filename}
+\\ \ \ filename = [\textcolor[rgb]{1,0,1}{'temp'} num2str(month) \textcolor[rgb]{1,0,1}{'.tsv'}];
+\\ \ \ \textcolor[rgb]{0,0.501961,0}{\% load data and assign to a new array 'slice'}
+\\ \ \ temp = load(filename);
+\\ \ \ \textcolor[rgb]{0,0.501961,0}{\% plot data }
+\\ \ \ pcolor(temp);
+\\ \ \ \textcolor[rgb]{0,0.501961,0}{\% store frame for animation }
+\\ \ \ M(month) = getframe;
+\\\textcolor{blue}{end}
+\textcolor[rgb]{0,0.501961,0}{\\\% END OF MONTHLY LOOP
+\\\% ****************************************************************** }
+\end{docspecbold}
+
 
 \begin{docspecbold}
 \textcolor[rgb]{0,0.501961,0}{\% ****************************************************************** 
 \\\% Program to load in 12 monthly temperature data-sets,
 \\\% store the data in a 3D array,
 \\\% and plot each monthly global temperature distribution
+\\\% in a separate figure window
 \\\% ****************************************************************** 
 \\\% close all currently open figure windows}
 \\close \textcolor[rgb]{1,0,1}{all};
@@ -9201,19 +9248,24 @@ There are various refinements you could make, such as when the program/app start
 \\ \ \ figure;
 \\ \ \ pcolor(temp(:,:,month));
 \\\textcolor{blue}{end}
-\\\textcolor[rgb]{0,0.501961,0}{\% Close the file}
-\\close(vidObj);
 \textcolor[rgb]{0,0.501961,0}{\\\% END OF MONTHLY LOOP
 \\\% ****************************************************************** }
 \end{docspecbold}
 
-\subsection*{Code for creating an animation}
+\newpage 
+
+\subsection*{Code for creating an avi format animation}
 
 \begin{docspecbold}
+\textcolor[rgb]{0,0.501961,0}{\% ****************************************************************** 
+\\\% Program to load in 12 monthly temperature data-sets
+\\\% plot each monthly global temperature distribution,
+\\\% and generate an avi format animation
+\\\% ******************************************************************}
 \textcolor[rgb]{0,0.501961,0}{\% Prepare the new file.}\\
 vidObj = VideoWriter(\textcolor[rgb]{1,0,1}{'my\_animation.avi'});\\
 open(vidObj);\\
-\textcolor[rgb]{0,0.501961,0}{\% Create an animation.}\\
+\textcolor[rgb]{0,0.501961,0}{\% START OF MONTHLY LOOP}\\
 for month=1:12\\
 \ \ \ filename = [\textcolor[rgb]{1,0,1}{'temp'} num2str(month) \textcolor[rgb]{1,0,1}{'.tsv'}];\\
 \ \ \ temp = load(filename);\\
@@ -9222,8 +9274,10 @@ for month=1:12\\
 \ \ \ currFrame = getframe;\\
 \ \ \ writeVideo(vidObj,currFrame);\\
 end\\
+\textcolor[rgb]{0,0.501961,0}{\% END OF MONTHLY LOOP}\\
 \textcolor[rgb]{0,0.501961,0}{\% Close the file.}\\
-close(vidObj);  
+close(vidObj);\\
+\textcolor[rgb]{0,0.501961,0}{\% ****************************************************************** }
 \end{docspecbold}
 
 %------------------------------------------------
