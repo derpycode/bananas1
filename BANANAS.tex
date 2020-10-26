@@ -3936,13 +3936,13 @@ my\_question = 'Enter a filename: ';
 
 %------------------------------------------------
 
-\newthought{Looping through arrays.} In plotting e.g. global temperature distributions, it would be nice to add on the continental outline on top. Currently, and particularly with the very  basic 2D plotting you have seen so far (\docenv{pcolor}), you are to some extent left guessing where the land and where the ocean is. We are going to work through using a loop to process data that define series of line segments that make up the outlines of the continents.\footnote{\textcolor{red}{\textbf{Example codes provided}}}
+\newthought{[\textbf{\textcolor{red}{OPTIONAL}}] Looping through arrays.} In plotting e.g. global temperature distributions, it would be nice to add on the continental outline on top. Currently, and particularly with the very  basic 2D plotting you have seen so far (\docenv{pcolor}), you are to some extent left guessing where the land and where the ocean is. We are going to work through using a loop to process some data that defines a series of line segments that make up the outlines of the continents.\footnote{\textcolor{red}{\textbf{Example codes provided}}}
 
-A pair of files are provided (from the website) that comprise a series of pairs of lon-lat values that delineate the outline of the continents and all but the smallest of islands:
+The first 2 files  (that can be downloaded from the website),  comprise a series of pairs of lon-lat values that delineate the outline of the continents and all but the smallest of islands:
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
-\item \textsf{continental\_outline\_lat.dat}
-\item \textsf{continental\_outline\_lon.dat}
+\item \textsf{continental\_outline\_lat.dat} (labelled '\textsf{lat}')
+\item \textsf{continental\_outline\_lon.dat} (labelled '\textsf{lon}')
 \end{itemize}
 
 Download, and then load these into the \textbf{MATLAB} \textsf{workspace} (in the 'usual way'). You should now have 2 vectors. Maybe view them in the \textsf{Variable Window} to get a better idea of what you are dealing with. Also keep an eye on the entries in the \textsf{Workspace Window} and perhaps the \textsf{Min} and \textsf{Max} values to give you an idea of the range (here: of longitude an latitude values).
@@ -3955,21 +3955,23 @@ Try plotting these lon/lat locations. Use the \texttt{scatter} plotting function
 \label{fig:ch3-continentaloutline}
 \end{marginfigure}
 
-\textbf{You can try this at the command line} (no need at this point to put everything in a \textit{script} \textbf{m-file}):
+Your \textit{script} \textbf{m-file}) for this might look like:
 
 \begin{docspecbold}
->> lon = load('continental\_outline\_lon.dat','-ascii');
-\\>> lat = load('continental\_outline\_lat.dat','-ascii');
-\\>> scatter(lon,lat);
-\\>> axis([-180 +180 -090 +090]);
-\\>> xlabel('longitude','fontsize',15);
-\\>> ylabel('latitude','fontsize',15);
-\\>> title('Continental outline','fontsize',18);
+lon = load('continental\_outline\_lon.dat','-ascii');
+\\lat = load('continental\_outline\_lat.dat','-ascii');
+\\scatter(lon,lat);
+\\axis([-180 +180 -090 +090]);
+\\xlabel('longitude','fontsize',15);
+\\ylabel('latitude','fontsize',15);
+\\title('Continental outline','fontsize',18);
 \end{docspecbold}
 
 \noindent (but with lots of comment lines!).
 
-By plotting dots (points), the coastal outline at higher latitudes gets increasingly pixelated (why?). So, we might instead plot as lines between the lon-lat pairs. For this, you could simply use \texttt{plot}. Do this, and see if you get something like Figure \ref{fig:ch3-continentaloutline2}.. 
+By plotting dots (points), the coastal outline at higher latitudes gets increasingly pixelated. So, we might instead plot as lines between the lon-lat pairs. For this, you could simply use \texttt{plot}. 
+
+Copy your m-file (make sure it was saved first!), rename it, and then edit it to use \texttt{plot} instread of \texttt{scatter}. You should end up with something like Figure \ref{fig:ch3-continentaloutline2}.. 
 \begin{marginfigure}[0.0in]
 \includegraphics[width=\linewidth]{ch3-continentaloutline2.eps}
 \caption{Another continental outline (of sorts).}
@@ -3981,50 +3983,57 @@ Well ... interesting. If you think about it, as one continental outline is compl
 The continental outline dataset is not actually that useless. There are  additional files that specify which block of lon-lat pairs belong to a single shape (i.e. continent or island). Load in the 2 additional files:
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
-\item \textsf{continental\_outline\_start.dat}
-\item \textsf{continental\_outline\_end.dat}
+\item \textsf{continental\_outline\_start.dat} (labelled '\textsf{start}')
+\item \textsf{continental\_outline\_end.dat} (labelled '\textsf{end}')
 \end{itemize}
-
 i.e.:
-
 \begin{docspecbold}
 >> lstart = load('continental\_outline\_start.dat','-ascii');
 \\>> lend = load('continental\_outline\_end.dat','-ascii');
 \end{docspecbold}
+(Note that you \uline{cannot} simply call the second variable \texttt{end}, because \textbf{MATLAB} is already using it as a special word.)
 
-\noindent(Note that you cannot simply call the second variable \texttt{end}.)
-
-These vectors hold information regarding the start row and end row, of each shape. Again, view the contents of these vectors to get an idea of what is going on. For example, you'll see that the first entry is that the first shape starts on row \texttt{1} 
-(\texttt{lstart}), and ends on row \texttt{100} (\texttt{lend}). The 2nd shape starts on row \texttt{101}, and ends on row \texttt{200}. etc etc
+These vectors hold information regarding the start  and end row number, of each of the individual shape segments. Again, view the contents of these vectors to get an idea of what is going on. For example, you'll see that the first entry is that the first shape starts on row \texttt{1} 
+(\texttt{lstart(1)}), and ends on row \texttt{100} (\texttt{lend(1)}). The 2nd shape starts on row \texttt{101} (\texttt{lstart(2)}), and ends on row \texttt{200} (\texttt{lend(2)}). etc etc
 
 The simplest way too start dealing with all this, is to just plot the very first shape, defined by rows \texttt{1-100} of the lon and lat vectors. By now, you hopefully will be able to see that to plot rows \texttt{1-100} of  lon and lat data, you are going to do: 
 \begin{docspecbold}
 >> plot(lon(1:100),lat(1:100));
 \end{docspecbold}
 
-Well ... this is probably about as unexciting as it gets -- a small piece of the Antarctic coastline. If you do a \texttt{hold on} and plot the next block (rows \texttt{101-200}), you'll get the next chunk of coastline. (Try this and see.) You could keep going this -- manually adding additional sections of the global continental outline. This could get tedious ... and it turns out that there are 283 different fragments to plot, all one after another. (This number comes from asking \textbf{MATLAB} the \texttt{length} of \texttt{lstart} or \texttt{lend}.) This is, of course, why we need to get clever with a \textit{loop} and automatically go through all 283 fragments, plotting them on on top of another in the same figure.
-
-\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
+\marginnote[0.875in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
 \docenvdef{length}
 \\This function could almost not be simpler -- just pass the name of a vector, and it returns its length (i.e. the number of rows, or columns, depending on the shape of the vector).
 \end{mdframed}}
 
-How? First you need to write the \texttt{plot} command in a more general form -- you do not want to have to read the values out of the \texttt{lstart} and \texttt{lend} files manually. Hopefully, it should be apparent that you can re-write the plot statement for the first fragment, as:
+Well ... this is probably about as unexciting as it gets -- a small piece of the Antarctic coastline. If you do a \texttt{hold on} and plot the next block (rows \texttt{101-200}), you'll get the next chunk of coastline:
+\begin{docspecbold}
+>> plot(lon(101:200),lat(101:200));
+\end{docspecbold}
+You could keep going this -- manually adding additional sections of the global continental outline. This could get tedious ... and it turns out that there are 283 different fragments to plot, all one after another. (This number comes from asking \textbf{MATLAB} the \texttt{length} of \texttt{lstart} or \texttt{lend}, e.g. \texttt{length(lstart)}) This is, of course, why we need to get clever with a \textit{loop} and automatically go through all 283 fragments, plotting them on on top of another in the same figure.
+
+How? First you need to write the \texttt{plot} command in a more general form -- you do not want to have to read the values out of the \texttt{lstart} and \texttt{lend} vectors manually. Hopefully, it should be apparent that you can re-write the plot statement for the first fragment, as:
 \begin{docspec}
 plot(lon(LINE\_START:LINE\_END),lat(LINE\_START:LINE\_END));
 \end{docspec}
-where for the first fragment, the values of \texttt{LINE\_START} and \texttt{LINE\_END} are given by \texttt{lstart(1)} and \texttt{lend(1)}, respectively (renaming the original vectors to shorten the variable name)\sidenote{You cannot use the obvious variable name \texttt{end} -- why not?}. Re-writing again:
+where for the first fragment, the values of \texttt{LINE\_START} and \texttt{LINE\_END} are given by \texttt{lstart(1)} and \texttt{lend(1)}, respectively (renaming the original vectors to shorten the variable name)\sidenote{You cannot use the obvious variable name \texttt{end} -- why not?}. Re-writing again, for the first fragment, this looks like:
 \begin{docspecbold}
->> plot(lon(lstart(1):lend(1)),lat(lstart(1):lend(1)));
+plot(lon(lstart(1):lend(1)),lat(lstart(1):lend(1)));
 \end{docspecbold}
 
 Try this and check you still get the single piece of the Antarctic coastline.
 
-Really, you should hopefully be making the mental leap to looking at \texttt{(1)} and thinking that it could be: \texttt{(n)}, where \texttt{n} is a loop counter which can go from 1 to 283\sidenote[][-0,0in]{This number comes from a 5th file -- \texttt{continental\_outline\_k.dat}, that numbers the continents/islands from 1 to 283. You don't need it, although downloading it, loading it, and determining the length f the vector gives you the loop limit and you would not have to go trusting me to write down 283 correctly without making a mistake ... } and hence loop through all the line fragments. Yes? For instance, setting \texttt{n=1}, and plot (with \texttt{n} replacing \texttt{1} in the code fragment above) -- you should again get that very  first fragment. Try setting \texttt{n=283} and plot. Do you get the last fragment (what is it of\sidenote[][1.0 in]{An island at about 20N and -150E if you have done it correctly.})?
+You should hopefully be making the mental leap to looking at \texttt{(1)} and thinking that it could be: \texttt{(n)}, where \texttt{n} is a loop counter, which could go from 1 to 283 and hence loop through all the line fragments. Yes? For instance, setting \texttt{n=1}, and plot (with \texttt{n} replacing \texttt{1} in the code fragment above) -- you should again get that very  first fragment. Try setting \texttt{n=283} and plot. Do you get the last fragment (what is it of\sidenote[][1.0 in]{An island at about 20N and -150E if you have done it correctly.})?
 
-So ...\textbf{ create yourself a new m-file}. Load in the lon-lat pairs as vectors (renaming then to something more manageable if you wish). Load in the vectors containing the start and end information. Create a \texttt{do ... end} loop. Maybe print (\texttt{disp}) the loop count and run the program (after saving), just to check first that the loop is functioning correctly. Before the loop, create a \textsf{Figure window}. and set \texttt{hold on}. You now have a basic shall of a program -- loading in the data, initializing a figure, and appropriate looping, but not yet actually doing anything within the loop.
+So ...\textbf{ create yourself a new m-file} (and copy-paste whatever you like from the previous \textit{script} tha saves you time)in terms of loading in the data. At the start -- load in the lon-lat pairs as vectors (renaming then to something more manageable if you wish) and then load in the vectors containing the start and end information. 
 
-In the \textit{loop} all you need is the \texttt{plot} command, but with the start and end rows being a function of \texttt{n} (or whatever you call the loop counter). Set axis dimensions and label nicely (after the loop ends). Run it. Hopefully ... something like Figure \ref{fig:ch3-continentaloutline3} appears(?)
+After that in the code -- create a \texttt{do ... end} loop. Maybe before you try and plot anything, print (\texttt{disp}) the loop count and run the program (after saving), just to check first that the loop is functioning correctly. 
+
+Also before the loop starts, create a \textsf{Figure window}. and set \texttt{hold on}. You now have a basic shall of a program -- loading in the data, initializing a figure, and appropriate looping, but not yet actually doing anything within the loop.
+
+In the \textit{loop} all you need is the \texttt{plot} command, but with the start and end rows being a function of \texttt{n} (or whatever you call the loop counter). Set axis dimensions and label nicely (after the loop ends).
+
+Run it. Hopefully ... something like Figure \ref{fig:ch3-continentaloutline3} appears(?)
 
 \begin{marginfigure}[0.0in]
 \includegraphics[width=\linewidth]{ch3-continentaloutline3.eps}
@@ -4032,7 +4041,7 @@ In the \textit{loop} all you need is the \texttt{plot} command, but with the sta
 \label{fig:ch3-continentaloutline3}
 \end{marginfigure}
 
-An example code is given at the end of the text should you need any guidance as to e.g. in what order or where certain lines should go.
+\uline{An example code is given at the end of the text should you need any guidance as to e.g. in what order or where certain lines should go.}
 
 %----------------------------------------------------------------------------------------
 % CHAPTER 3
@@ -4055,7 +4064,7 @@ This chapter is something of a potpourri of \textbf{MATLAB} data and visualizati
 
 Previously, you imported ASCII data into \textbf{MATLAB} using the \texttt{load} command\sidenote{Or maybe 'cheated' and used the \textbf{MATLAB} GUI ...}. You might not have realized it at the time, but the use of \texttt{load} requires that your data is in a fairly precise format. \textbf{MATLAB} says "\textit{ASCII files must contain a rectangular table of numbers, with an equal number of elements in each row. The file delimiter (the character between elements in each row) can be a blank, comma, semicolon, or tab character. The file can contain MATLAB comments (lines that begin with a percent sign, \%).}" Firstly, your data may not be in a simple format and often may contain both numerical values and string values. Secondly, your data may not even be in a text/ASCII format. For instance, you data maybe be in an \textbf{Excel} spreadsheet, or for spatial scientific data, an increasingly common format is called '\textbf{netCDF}' (Network Common Data Form). In this section, we'll go through the basics and some examples of each.
 
-Please regard this section as a simple overview on some of the different \textbf{MATLAB} file loading/input options (so that you know that they exist). For many one-off data loading problems, it can be easier to use the \textbf{MATLAB} GUI and the \textsf{Import Data} wizard. 
+Please regard this section as a simple overview on some of the different \textbf{MATLAB} file loading/input options. At this stage, it is more important that you are aware of different data formats and the various ways of importing them into \textbf{MATLAB},  then \textit{per se} having to master all the details of using them. For many one-off data loading problems, it can be easier to use the \textbf{MATLAB} GUI and the \textsf{Import Data} wizard. 
 
 %------------------------------------------------
 
@@ -4063,7 +4072,7 @@ Please regard this section as a simple overview on some of the different \textbf
 
 The general procedure that you need to follow to input formatted text data is as follows:
 
-\marginnote[-2.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-3.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \textbf{opening and closing files}
 \\\textbf{MATLAB} has a pair of commands for opening and closing files for read/write:
 \begin{itemize}[noitemsep]
@@ -4073,7 +4082,7 @@ The general procedure that you need to follow to input formatted text data is as
 \end{itemize}
 \end{mdframed}}
 
-\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-0.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{textscan}
 \\According to (actually, paraphrased from) \textbf{MATLAB}:
 \begin{docspecmargin}
@@ -4087,14 +4096,18 @@ C = textscan(ID,format)
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
 
+\vspace{1mm}
 \item First, you need to 'open' the file -- the command (function) for this is called \docenv{fopen} (see Box). You need to assign the results of this \textit{function} to a \textit{variable} for later use.
 
 What is going on and why this all differs so much form using \texttt{load}, where you only had to use a single command, is that you first have to open a connection to the file ... before you even read any of the contents in(!!!)\sidenote{This is very common across all(?) programming languages.}.
 
+\vspace{1mm}
 \item Secondly ... you can read the content in (finally!). The complications here include specifying the format of the data you are going to read in. You also need to tell \textbf{MATLAB} the ID of the file that you have opened (so it knows which one to read from) -- this is the value returned by the \textit{function} \texttt{fopen}. The \textit{function} you are going to use to actually read the data (having opened the file) is called \texttt{textscan}.
 
+\vspace{1mm}
 \item Once the data has been read it -- close the file using \docenv{fclose} (see Box). You are going to have to pass the ID of the  file again when you call this \textit{function} (so \textbf{MATLAB} knows which file to close).
 
+\vspace{1mm}
 \item Lastly, you are going to have to deal with the special data structure that \textbf{MATLAB} has created for you ...
 
 \end{enumerate}
@@ -4113,11 +4126,11 @@ OK -- so having seen the format of the  data in the ASCII file, you are going to
 \setlength{\itemindent}{.2in}
 
 \item First 'open' the file -- you will be using the \textit{function}  \docenvdef{fopen}, and passing it the filename\sidenote[][-0.0in]{For convenience, you could assign the filename (+ its path) to a (string) variable and then simply pass the variable name -- remember, no \texttt{' '} needed for a variable naming containing a string (whereas \texttt{' '} is needed for the string itself).} (including the path to the file if necessary, i.e. if the \textbf{MATLAB} working directory does not also contain the file). So that you can easily refer to the file that you have opened later, assign the output of \docenv{fopen}\sidenote[][-0.0in]{The output is a simple integer index, whose value is specific to the file that you have opened.} to a variable, e.g.
-
 \begin{docspecbold}
 >> openfile\_id = fopen('paleo\_CO2\_data.txt');
 \end{docspecbold}
 
+\vspace{1mm}
 \item Now ... this is where it gets a  trickier -- the \textit{function} you are going to use now is called \docenv{textscan}. Refer to \textsf{help} on \docenv{textscan}, but as a useful minimum, you need to pass 3 pieces of information:
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
@@ -4126,19 +4139,18 @@ OK -- so having seen the format of the  data in the ASCII file, you are going to
 \\In this particular Example, there are 4 items of data (per row) -- each of them is either an integer or a floating point number\sidenote{At least, none of them are clearly strings, right?}, depending on how you want to look at it. Assuming that the data is a floating point number, the \textit{format} for the input of each number item, is \texttt{\%f}.
 \end{enumerate}
 The result of \docenv{textscan} is then assigned to a parameter, e.g.
-
 \begin{docspecbold}
 my\_data = textscan(openfile\_id,'\%f \%f \%f \%f');
 \end{docspecbold}
-
 Here, the \texttt{'\%f \%f \%f \%f'} bit specifies that the data format consists of 4 floating point (real) numbers.
 
+\vspace{1mm}
 \item So far, so good! And you can now close the file:
 \begin{docspecbold}
 >> fclose(openfile\_id);
 \end{docspecbold}
 
-\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-2.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 According to \textbf{MATLAB} \textsf{help}:
 \\"\textit{the \texttt{format} is a string of conversion specifiers enclosed in single quotation marks. The number of specifiers determines the number of cells in the cell array C.}" Take this to mean that you need one format specifier, per column of data. The specifier will differ whether the data element is a number or character (and \textbf{MATLAB} will further enable you to create specific numerical types).
 \\The format specifiers are all listed under \texttt{help textscan}. However, your Dummies Guide to \texttt{textscan} (and good for most common applications) is that the following options exist:
@@ -4150,80 +4162,86 @@ According to \textbf{MATLAB} \textsf{help}:
 \\\textbf{MATLAB} will automatically repeat the format for as many lines as there are of data. Alternatively you can specify precisely how many times you would like the format repeated (and hence data read in).
 \end{mdframed}}
 
+\vspace{1mm}
 \item Actually, it does get darker before the light at end of the tunnel ... what \docenv{textscan} actually returns -- the data that was read in, is placed into an odd structure called a \textit{cell array}. It is not worth our while worrying about just what the heck this is, and if you view it in the \textsf{Variables} window (i.e. double click on the \texttt{cell array} name in the \textsf{Workspace} window), it does not display the simple table of 4 columns of data that maybe you were expecting. For now, we can transform this format into something that we are more familiar with using the \docenv{cell2mat} function, e.g.
-
 \begin{docspecbold}
 my\_data\_array = cell2mat(my\_data);
 \end{docspecbold}
-
 \end{enumerate}
 
 And now ... it is done, i.e. there  exists a simple array, of 4 columns, the first being the age (Ma), the second being the CO\(_{2}\) concentration value (units of ppm), and the 3rd and 4th; minimum ad maximum error estimates in the proxy reconstructed value. :)
 
-\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+To help you -- \uline{a complete code for doing all this is given at the end of the book}.
+
+\marginnote[-1.25in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 MATLAB claims that a \docenvdef{cell array} is "\textit{A cell array is a data type with indexed data containers called cells. Each cell can contain any type of data. Cell arrays commonly contain pieces of text, combinations of text and numbers from spreadsheets or text files, or numeric arrays of different sizes.}" I am sort of prepared to believe this.
 \\Basically, in object-oriented speak, a cell array is an object, or rather, an array of objects. As \textbf{MATLAB} hints -- the cells can contain *anything*. Your limitation previously is that an array had to be all floating point numbers, all integers, or all strings, and if strings, all the strings had to be the same size. For strings in particular, it is obvious that a more flexible format where a vector could contain both 'banana' and 'kiwi' is needed (try creating a 2-element vector with these 2 words and see what happens). You clearly might also want to link a number with a string (e.g. number of bananas) in the same array, rather than have to create 2 sperate arrays.
 \end{mdframed}}
 
-\vspace{-1mm}
+\vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
 
-\newthought{As a further example},  we are going to process a more complicated version of the paleo atmospheric CO\(_{2}\) proxy dataset. The file is called \textsf{paleo\_CO2\_data.dat} (rather than \textsf{.txt}) and is available from the course webpage. An initial problem here is even opening up the file to view it -- if you use standard \textbf{Windows} editors such as \textbf{Notepad} it fails to format it properly when displaying its contents\sidenote{If you use a \textbf{Mac} (or \textbf{linux}) however, all text editors should display the content jus fine.}. The first lesson then in scientific computing then is to have access to a more powerful/flexible editor than default/built-in programs such as \textbf{Notepad}. One good (\textbf{Windows}) alternative is \textbf{Notepad++}\sidenote{Conveniently installed on the Watkins computer lab computers.}. So go open the file with this instead\sidenote{Right-mouse-button-click over the file, then select \textbf{Open with} and then click on \textbf{Notepadd++}.}. Note the format -- there are a bunch of header lines and moreover, some of the columns are not numbers (but rather strings). So even if you were to manually edit out the headers with \docenv{comments} (\texttt{\%})\sidenote{Recall that \textbf{MATLAB} ignore lines starting with a \texttt{\%} and this includes loading in data lines using \texttt{load}.}, you are still left with the problem of mis-matched columns. You could edit the file in \textbf{Excel} to remove the problematic columns as well ... but now this seems like a real waste of time to be editing data formats with one software package just to get it into a second! (Again, you could use the \textbf{MATLAB} GUI import functionality
+\newthought{As a further example},  we are going to process a more complicated version of the paleo atmospheric CO\(_{2}\) proxy dataset. This file is called \textsf{paleo\_CO2\_data.dat} (rather than \textsf{.txt}) and is again available from the course webpage. An initial problem here is even opening up the file to view it -- if you use standard \textbf{Windows} editors such as \textbf{Notepad} it fails to format it properly when displaying its contents\sidenote{If you use a \textbf{Mac} (or \textbf{linux}) however, all text editors should display the content jus fine.}. 
+
+The first lesson then in scientific computing then is to have access to a more powerful/flexible editor than default/built-in programs such as \textbf{Notepad}. One good (\textbf{Windows}) alternative is \textbf{Notepad++}.\sidenote{Right-mouse-button-click over the file, then select \textbf{Open with} and then click on \textbf{Notepadd++}.}
+
+If you can open the file with something like \textbf{Notepad++} (or are in any case using a \textbf{Mac}) -- first note the format -- there are a bunch of header lines and moreover, some of the columns are not numbers (but rather strings). Even if you were to manually edit out the headers by adding \docenv{comments} (\texttt{\%})\sidenote{Recall that \textbf{MATLAB} ignore lines starting with a \texttt{\%} and this includes loading in data lines using \texttt{load}.}, you are still left with the problem of mis-matched columns. You could edit the file in \textbf{Excel} to remove the problematic columns as well ... but now this seems like a real waste of time to be editing data formats with one software package just to get it into a second! (Again, you could use the \textbf{MATLAB} GUI import functionality
 ... but it will be a healthy life experience for you to do it at the command line :o) )
 
-OK -- so having gotten an idea of the format of the ASCII data file, you are going to work again through the 4 steps:
+OK -- so having gotten an idea of the format of the ASCII data file, you are going to tackle this in the same 4 steps as before:
 
+\vspace{-2mm}
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
 
-\item First 'open' the file as you did before (using \docenv{fopen}) and assigned the ID returned by the function to a variable \texttt{openfile\_id2}.
+\vspace{1mm}
+\item First 'open' the file as you did previously (using \docenv{fopen}) and assigned the ID returned by the \texttt{fopen} \textit{function} to the variable: \texttt{file\_id2}.
 
+\vspace{1mm}
 \item Call \texttt{textscan}. However, we now want to pass 3 pieces of information (compared to 2 before):
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
 \item The ID of the open file.
 \item The \textit{format} of the data.
-\item And now -- a parameter, together with an (integer) value, to specify how many rows of the file, assumed to be the header information, to skip.
+\item And now -- a parameter, together with an (integer) value, to specify how many rows of the file are to be assumed to be  header information and hence skipped.
 \end{enumerate}
 
 (Again -- the result of \docenv{textscan} is then assigned to a variable which will represent a \textit{cell array}.)
 
-Lets do the easy bit first -- to tell \textbf{MATLAB} to skip \textit{n} lines of a file, you add the parameter \texttt{'HeaderLines'} to the list of parameters passed to \texttt{textscan}, and then simply tell it how many lines to skip. In this example:
-
+Lets do the easy bit first -- to tell \textbf{MATLAB} to skip \textit{n} lines of a file. For this -- add the parameter \texttt{'HeaderLines'} to the list of parameters passed to \texttt{textscan}, and then simply tell it how many lines to skip. In this example:
 \begin{docspec}
 my\_data = textscan( ...
-\\ \ \ \ \ \ openfile\_id2, ... ,'HeaderLines',3);
+\\ \ \ \ \ \ file\_id2, ... ,'HeaderLines',3);
 \end{docspec}
+will tell \textbf{MATLAB} to skip the first 3 lines of the file.
 
-OK -- now to dive back into the \textbf{MATLAB} syntax mire ... Lets just load in just the first 2 columns of data, and assume that they are both integers (and skipping the first 3 lines of the file as per above). We might guess that we could simply write:
-
+OK -- now to dive back into the \textbf{MATLAB} syntax mire ... Let us just load in just the first 2 columns of data, and assume that they are both integers (and also skipping the first 3 lines of the file as per above). We might guess that we could simply write:
 \begin{docspec}
 my\_data = textscan( ...
-\\ \ \ \ \ \ openfile\_id2,'\%d \%d','HeaderLines',3);
+\\ \ \ \ \ \ file\_id2,'\%d \%d','HeaderLines',3);
 \end{docspec}
 
 Try it (including closing the file, and a call to \texttt{cell2mat}, as before). What has happened?
 
-It seems that \textbf{MATLAB} translates your format (\texttt{'\%d,\%d'}) into: 'read in a pair of integers, and keep automatically repeating this, until something else is encountered'. That something else is sequence of characters at the end of the first data line (line \#4, because we skipped the first 3), that makes \textbf{MATLAB} think that it has finished (or rather, that it cannot reading in 2 pairs of integers any longer). This leaves you with 2 pairs of integers -- i.e. a 2\(\times\)2 matrix (as you'll see if you look at \texttt{my\_data\_array}).
+It seems that \textbf{MATLAB} translates your format (\texttt{'\%d,\%d'}) into: 'read in a pair of integers, and keep automatically repeating this, until something else is encountered'. That something else, is sequence of characters at the end of the first data line (line \#4, because we skipped the first 3), that makes \textbf{MATLAB} think that it has finished (or rather, that it cannot reading in 2 pairs of integers any longer). This leaves you with 2 pairs of integers -- i.e. a 2\(\times\)2 matrix (as you'll see if you look at \texttt{my\_data\_array}).
 
-Here is a solution -- we could omit all the information following the first 2 elements (something for \textbf{Google} to help with).\sidenote{This turns out to be specifying \texttt{'\%*[\(^{\wedge}\)$\backslash$n]'}, which in effects sort of says:\\'skip everything (all the fields) (\texttt{\%*}) up until the end of the line is found (\texttt{[\(^{\wedge}\)$\backslash$n]}).}: 
-\begin{docspec}
+Here is a solution -- we could omit all the information following the first 2 elements (something for \textbf{Google} to help with).\sidenote{This turns out to be specifying \texttt{'\%*[\(^{\wedge}\)$\backslash$n]'}, which in effects sort of says:\\'skip everything (all the fields) (\texttt{\%*}) up until the end of the line is found (\texttt{[\(^{\wedge}\)$\backslash$n]}).}: \begin{docspec}
 my\_data = textscan( ...
-\\ \ \ \ \ \ openfile\_id2,'\%d \%d \%*[\(^{\wedge}\)$\backslash$n]','Headerlines',3)
+\\ \ \ \ \ \ file\_id2,'\%d \%d \%*[\(^{\wedge}\)$\backslash$n]','Headerlines',3)
 \end{docspec}
+The weird bit here translates to ... \texttt{\%*} == ignore field ... until the line end == \texttt{[\(^{\wedge}\)$\backslash$n]}, and then read repeat for the next line.
 
-The weird bit translates to ... \texttt{\%*} == ignore field ... until the line end == \texttt{[\(^{\wedge}\)$\backslash$n]}, and then read repeat for the next line.
+(You are not expected to know or remember this nor be tested on it ... just park all this at the back of your mind and that there are flexible ways of dealing with data input, including not necessarily reading everything in!)
 
-(You are not expected to know or remember this nor be tested on it ... just to park at the back of your mind, that there are flexible ways of dealing with data input, including not reading everything in!)
-
+\vspace{1mm}
 \item Now you can close the file:
 \begin{docspec}
-fclose(openfile\_id);
+fclose(file\_id2);
 \end{docspec}
 
+\vspace{1mm}
 \item ... and convert the results to something  human-readable:
-
 \begin{docspec}
 my\_data\_array = cell2mat(my\_data);
 \end{docspec}
@@ -4242,31 +4260,39 @@ will return the corresponding ('normal') array A.
 \\Now this is only true if all the data in \texttt{C} is of the same tpye (e.g. all floating point numbers). If the data types are mixed or you only wish for a sub-set of the data to be extracted and converted, simply index the required part of the cell array (Examples on this later).
 \end{mdframed}}
 
-The complete code (\textbf{enter into a new \textit{script} m-file and try it out}) looks like:
-
+The complete code (minus all the lovely comments!) looks like:
 \begin{docspecbold}
-openfile\_id2 = fopen('paleo\_CO2\_data.dat');
+file\_id2 = fopen('paleo\_CO2\_data.dat');
 \\my\_data = textscan( ...
-\\ \ \ \ \ \ openfile\_id2,'\%d \%d \%*[\(^{\wedge}\)$\backslash$n]','Headerlines',3);
-\\fclose(openfile\_id);
+\\ \ \ \ \ \ file\_id2,'\%d \%d \%*[\(^{\wedge}\)$\backslash$n]','Headerlines',3);
+\\fclose(file\_id2);
 \\my\_data\_array = cell2mat(my\_data);
 \end{docspecbold}
+(remembering that the \texttt{...} just indicates a break in what is otherwise a continuous single line).
 
-There must be some sort of important life lesson hidden here. Perhaps about only working with well-behaved data files, or using the GUI import functionality? But hopefully it does illustrate that messy files can be dealt with, without the need for laborious editing or processing in \textbf{Excel}.
+Put this into a new \textit{m-file}, comment it, so that you know what all the bits are doing (and what the overall program itself  does), and try it out. NOTE: if you copy-paste from the textbook PDF ... be careful not only to replace the PDF inverted comma character with a 'normal' (\textbf{MATLAB}-friendly one), but the \(^{\wedge}\) symbol can also come out incorrectly
+\sidenote{The symptom being that only the first line of data is read in.} ...
+ 
+(There must be some sort of important life lesson hidden here in all this. Perhaps about only working with well-behaved data files, or using the GUI import functionality?)
 
 %------------------------------------------------
 
 \subsection{Importing ... Excel spreadsheets}
 
-If your data is contained in an Excel spreadsheet, and you want it in \textbf{MATLAB}, your options are:
+If your data is contained in an \textbf{Excel} spreadsheet, which is a common occurrence, and you want it in \textbf{MATLAB}, your options are:
 
+\vspace{-2mm}
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
+\vspace{1mm}
 \item Select some, or all, of the columns and rows in a specific worksheet, and either copy-paste this into a text file (but taking care that the worksheet column widths are formatted such that they are wider than the widest data element), or save in an ASCII format, with comma or tab delineations between columns. In either case, then load in the data using \texttt{load}, or if consisting of mixed numbers/text, go through the Hell that is \texttt{textscan} ....
+\vspace{1mm}
 \item Use \textbf{MATLAB} \textit{function} \docenv{xlsread}.
 \end{enumerate}
 
-\marginnote[-2.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+So ... option \#2 looks ... is looking the easiest ... :)
+
+\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{xlsread}
 \\There are various uses (i.e. alternative allowed syntax) for \docenv{xlsread} for an \textbf{Excel} file with name \texttt{filename}. The 2 relevant and more useful ones look to be:
 \begin{enumerate}[noitemsep]
@@ -4285,8 +4311,6 @@ num = ...
 (and there are further refinements and options listed under \textbf{help}).
 \end{mdframed}}
 
-So ... option \#2 looks ... is looking the easiest ... :)
-
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
@@ -4297,12 +4321,10 @@ So ... option \#2 looks ... is looking the easiest ... :)
 From the help box on \texttt{xlsread}, it should be pretty apparent what you do. And in fact, I am going to leave you to work it out -- try and import the age and CO\(_{2}\) data from \textsf{paleo\_CO2\_data.xlsx}.
 
 Note that the simple usage of the \texttt{xlsread} \textit{function} gives you an \textit{array} containing just the numeric data. If you were to type:
-
 \begin{docspecbold}
 >> [num,txt,raw]=xlsread('paleo\_CO2\_data.xlsx');
 \end{docspecbold}
-
-\noindent then you sill get the numeric data returned in the array \texttt{num}, but you also get 2 cell arrays\footnote{
+then you still get the numeric data returned in the array \texttt{num}, but you also get 2 \textit{cell arrays}\footnote{
 If you need to index a cell array, you do so pretty well much like a normal array, except it has an alternative syntax. For a normal, numeric array \texttt{A}, you might write:
 \begin{docspecmargin}
 >> A(4,3)
@@ -4315,9 +4337,9 @@ but you'd get a cell returned, not the value in the cell. If you want the value 
 \begin{docspecmargin}
 >> C\{4,3\}
 \end{docspecmargin}
-and you'd get a value of \texttt{3000} returned in this example.} -- \texttt{txt} and \texttt{raw}. \texttt{txt} contains just the text data, and \texttt{raw}, 'everything'. View these in the \textsf{Variable window} (by double-clicking on the variable names in the \textbf{MATLAB} \textsf{Workspace window}).
+and you'd get a value of \texttt{3000} returned in this example.} -- \texttt{txt} and \texttt{raw}.  The \textit{cell array} \texttt{txt} contains just the text data, and \texttt{raw}, 'everything'. View these in the \textsf{Variable window} (by double-clicking on the variable names in the \textbf{MATLAB} \textsf{Workspace window}). NOTE that \textbf{MATLAB} takes some time to open and process \textbf{Excel} format files and the command will not complete as quickly as e.g. \texttt{load}.
 
-If you happen to have an \textbf{Excel} file with data (of any sort) in it from another class, practice loading in its contents into \textbf{MATLAB}. Note that if the \textbf{Excel} file contains cells with text in, you'll need to use the more advanced format of \texttt{xlsread} (see Box or \texttt{help}). Also try loading into only a single sheet of an \textbf{Excel} file (assuming the file has multiple sheets). 
+If you happen to have an \textbf{Excel} file with data (of any sort) in it (e.g. from another class), practice loading in its contents into \textbf{MATLAB}. Note that if the \textbf{Excel} file contains cells with text in and you want the text data, then you'll need to use the more advanced format of \texttt{xlsread} (see Box or \texttt{help}). Also try loading into only a single sheet of an \textbf{Excel} file (assuming that the file has multiple sheets). 
 
 %------------------------------------------------
 
@@ -4325,7 +4347,9 @@ If you happen to have an \textbf{Excel} file with data (of any sort) in it from 
 
 Much of spatial, and particularly model-generated, scientific output, is in the form of \textit{netCDF} files. This is a format designed as a common standard to facilitate sharing and transfer of spatial data, but in a way that enables e.g. a 'complete' description of dimensions and various types of meta-data to be incorporated along with the data. The format is platform independent and a variety of graphical viewers exist for viewing and interrogating the data. Most programming languages support the reading and writing of \textit{netCDF} format data. \textbf{MATLAB} is no exception here.
 
-\marginnote[0.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\textbf{MATLAB} actually has a quick and simple (\uline{concentrate on this first one}!), and ... a complicated long-winded formal way (simply note the existence of this one!) of accessing data in a \textit{netCDF} file:
+
+\marginnote[-0.625in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{ncread}
 \\In its simplest incarnation:
 \begin{docspecmargin}
@@ -4339,8 +4363,6 @@ data = ... ncread('climate.nc','rain')
 would read the values in the \textit{netCDF} file variable \texttt{rain} and assign to the variable \texttt{data}.
 \\\textbf{MATLAB} provides a couple of further tricks, allowing you to read sections of the full \textit{netCDF} variable data array, or sample the data array -- see \textbf{help}.
 \end{mdframed}}
-
-\textbf{MATLAB} actually has a quick and simple, and ... a long-winded formal way of accessing data in a \textit{netCDF} file:
 
 \begin{enumerate}
 
@@ -4384,17 +4406,16 @@ Note that you need to pass the ID of the \textit{netCDF} file for each and every
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
 
-\newthought{For a \textit{netCDF} Example}, we'll take the output of a low resolution climate model. To start off, download the '2D marine sediment results' \textit{netCDF} file -- \textsf{fields\_sedgem\_2d.nc}. The data here is relatively simple -- a 2D distribution of bottom-water and surface sediment properties, saved at a single point in time. In other words, there are only 2 (spatial) dimensions to the data\sidenote{Adding time would make it 3 dimensions (2 spatial + 1 of time). Adding height or depth in the ocean would also make it 3 (3 spatial). 3 spatial + time would make for a 4-dimensional dataset ...}.
+\newthought{For a \textit{netCDF} Example}, we'll take the output of a low resolution climate model. To start off, download the 'model netCDF file -- 2D' \textit{netCDF} file -- \textsf{fields\_sedgem\_2d.nc}. The data here is relatively simple -- a 2D distribution of bottom-water and surface sediment properties, saved at a single point in time. In other words, there are only 2 (spatial) dimensions to the data\sidenote[][-1.0in]{Adding time would make it 3 dimensions (2 spatial + 1 of time). Adding height or depth in the ocean would also make it 3 (3 spatial). 3 spatial + time would make for a 4-dimensional dataset ...}.
 
 OK -- we'll start by opening the file. The ID\ of the variable we want to extract and plot  is called \textsf{'grid\_topo'}. To load/extract the 2D field and assign it to a variable \texttt{data}:
-
 \begin{docspecbold}
 >> data2d = ncread('fields\_biogem\_2d.nc','grid\_topo');
 \end{docspecbold}
 
-You should now have an array called \texttt{data}. It should be 36\(\times\)36 in size. \textbf{Plot it}\sidenote{Your choice of 2D plotting function that you have already come across, e.g. \texttt{pcolor} or \texttt{image}, although not all work as well on this particular dataset (e.g. the auto scaling in \texttt{image} causes issues).}. Can you deduce what it might be of? Is it in the correct orientation? (If not -- correct it, by rotating the array, and/or flipping the rows or column.)
+You should now have an array called \texttt{data}. It should be 36\(\times\)36 in size. \textbf{Plot it}\sidenote[][-1.5in]{Your choice of 2D plotting function that you have already come across, e.g. \texttt{pcolor} or \texttt{image}, although not all work as well on this particular dataset (e.g. the auto scaling in \texttt{image} causes issues).}. Can you deduce what it might be of? Is it in the correct orientation? (If not -- correct it, by rotating the array, and/or flipping the rows or column.)
 
-(There are more appropriate ways of plotting this, which we will encounter later.)\footnote{Missing here are the x and y axis values, which you should have correctly deduced are longitude and latitude, respectively, with latitude presumably going from -90 to 90N, and longitude ... well, maybe it is not completely obvious exactly what the value of longitude is at the original.
+(There are more appropriate ways of plotting this, which we will encounter later.)\sidenote[][-1.25in]{Missing here are the x and y axis values, which you should have correctly deduced are longitude and latitude, respectively, with latitude presumably going from -90 to 90N, and longitude ... well, maybe it is not completely obvious exactly what the value of longitude is at the original.
 
 A great strength of \textit{netCDF} its the ability of this file format to also contain the grid (axis) details that the data is on. There are ways of finding out the names of the axis variables (dimensions), but for now, I'll give you them:
 \begin{itemize}[noitemsep]
@@ -4414,7 +4435,7 @@ in which we obtain the ID of the axis variable \texttt{'lat'}, then retrieve the
 
 The final task would then be to take the 2 axis vectors, and create a pair of matrices -- one containing longitude values associated with the 2D data points, and one containing latitude values  associated with the 2D data points. For this, you would need to use the function \texttt{meshgrid}. (We'll re-visit this example once you have seen \texttt{meshgrid} in action.)}
 
-The variable names of other data-sets that you might load and experiment with in terms of plotting function, color scale, and any other refinements that help visualise the data, include:
+The variable names of other data-sets that you might load (in place of passing \texttt{'grid\_topo'})  and experiment with in terms of plotting function, color scale, and any other refinements that help visualise the data, include:
 
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
@@ -4427,19 +4448,18 @@ The variable names of other data-sets that you might load and experiment with in
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
 
-\newthought{In a related \textit{netCDF} Example}, we'll extend the problem to 3D -- 2 spatial dimensions (longitude and latitude) and one of time. The file you will need to download to experience these wonders, is called \textsf{fields\_biogem\_2d.nc}\sidenote{The back-story is that this contains the 2D surface ocean and atmosphere fields form a model experiment in which the climate system was spun-up from rest and uniform values of everything, so as time progresses, the spatial patterns of the climate system start to evolve and stabilize.}.
+\newthought{[\textbf{\textcolor{red}{OPTIONAL}}] In a related \textit{netCDF} Example}, we'll extend the problem to 3D -- 2 spatial dimensions (longitude and latitude) and one of time. The file you will need to download to experience these wonders, is called \textsf{fields\_biogem\_2d.nc}
 
 To load the variable \textsf{'atm\_temp'}:
-
 \begin{docspecbold}
 >> data3d = ncread('fields\_biogem\_2d.nc','atm\_temp');
 \end{docspecbold}
 
-How many dimensions does this array have?\sidenote{e.g. use \texttt{size}, or ensure that the \textsf{Size} column in the\textsf{ Workspace window} is selected.} What are the lengths along each dimension? Can you deduce which of the dimensions, time might be?
+How many dimensions does this array have (e.g. use \texttt{size}, or ensure that the \textsf{Size} column in the\textsf{ Workspace window} is selected)? What are the lengths along each dimension? Can you deduce which of the dimensions, time might be?
 
 \textbf{Plot a lon-lat slice.} Note that you need to select all longitudes and all latitudes in the array, but only one time index.
 
-\textbf{Finally -- to test your understanding to date, create an animation of how the surface air temperature in the model evolves over time.}\sidenote{You have everything you need -- the \textit{vector} of years, and from this you can determine how many different time points (and 2D data slices) there are, and hence the number of iterations of a \textit{loop}.}
+\textbf{Finally -- to test your understanding to date, create an animation of how the surface air temperature in the model evolves over time.}\sidenote[][-0.0in]{You have everything you need -- the \textit{vector} of years, and from this you can determine how many different time points (and 2D data slices) there are, and hence the number of iterations of a \textit{loop}.}
 
 %------------------------------------------------
 
@@ -4449,7 +4469,7 @@ How many dimensions does this array have?\sidenote{e.g. use \texttt{size}, or en
 
 \section{Further (spatial / (x,y,z)) plotting}
 
-As you have seen earlier -- the simplest possible way of taking a matrix of data values and plotting them spatially, as a function of (\textit{x,y}) location, is the function \docenv{image}. In effect, this is treating your data as if it were an image -- the data values being the 'color' of each pixel and the location in the matrix defining where in the image (row, column) the pixel is. The problem with this is that information regrading what is on the \textit{x} and \textit{y} axes is lost, be this distance, lat/lon, or some set of observed/experimental variables, or whatever. Instead, the points are evenly spaced on both axes. Moreover, the raw values are plotted and there is no possibility of interpolation/contouring or smoothing. One could regard scatter plotting as an improvement over this and a sort of \textit{x,y,z} plotting, in as much as a 3rd dimension (\textit{z} data value) can be represented through color and/or symbol shape and at time this can be quite effective. However, again, no interpolation/contouring or smoothing is possible with \texttt{scatter}. 
+As you have seen earlier -- the simplest possible way of taking a matrix of data values and plotting them spatially, as a function of (\textit{x,y}) location, is the function \docenv{image}. In effect, this is treating your data as if it were an image (or photograph) -- the data values being the 'color' of each pixel and the location in the matrix defining where in the image (row, column) the pixel is. The problem with this is that information regrading what is on the \textit{x} and \textit{y} axes is lost, be this distance, lat/lon, or some set of observed/experimental variables, or whatever. Instead, the points are evenly spaced on both axes. Moreover, the raw values are plotted and there is no possibility of interpolation/contouring or smoothing. One could regard scatter plotting as an improvement over this and a sort of \textit{x,y,z} plotting, in as much as a 3rd dimension (\textit{z} data value) can be represented through color and/or symbol shape and at time this can be quite effective. However, again, no interpolation/contouring or smoothing is possible with \texttt{scatter}. 
 
 %------------------------------------------------
 
@@ -4457,7 +4477,7 @@ As you have seen earlier -- the simplest possible way of taking a matrix of data
 
 For plotting true (\textit{x},\textit{y},\textit{z})/'3D' plots (i.e. data values in 2 spatial dimension), \textbf{MATLAB} provides a wide variety of more formal ways of plotting data spatially, including even the possibility of adding a 4th dimension representing the data value (\textit{x,y,z,zz}) (see Box).
 
-\marginnote[-3.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-4.375in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \textbf{x,y,z PLOTTING}
 \\\textbf{MATLAB} calls plots of a (\textit{z}) value as a function of both \textit{x} and \textit{y}, '3D'. Strictly, one could look at some of these functions as 2D, as scatter can plot a 3rd data (\textit{z}) value as different colors/shapes/sizes as a function of both \textit{x} and \textit{y} ... Anyway, the most commonly used/useful and fortunately simple, functions which create a 2D (\textit{x}, \textit{y}) plot but with contours in the value of (\textit{z}), are:
 \begin{enumerate}[noitemsep]
@@ -4469,16 +4489,7 @@ For a genuine 3D plot, with surface height determined by the data in the 3rd dim
 \\\noindent(but are not considered further here).
 \end{mdframed}}
 
-For a feel of what you should be able to learn to achieve using \textbf{MATLAB} -- go to the following \href{http://iridl.ldeo.columbia.edu/SOURCES/.LEVITUS94/.MONTHLY/.temp/#views}{webpage}. In this data repository you can do things like re-plot with different longitude, latitude, and temperature ranges. Overlay the coastlines, and other useful things like that. You can also click through the different months of the year to get a feel for how the surface temperatures on Earth change with the seasons. The graphic produced from this particular website is not particularly great, and you will learn to do at least as good as this.
-
-\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{imagesc}
-\\For a data array (matrix) \texttt{A},
-\begin{docspecmargin}
-imagesc(A)
-\end{docspecmargin}
-displays the data array as if a bitmap, but unlike \texttt{image} (see earlier), \textit{"uses the full range of colors in the colormap}".
-\end{mdframed}}
+For a feel of what you should be able to learn to achieve using \textbf{MATLAB} -- go to the following \href{http://iridl.ldeo.columbia.edu/SOURCES/.LEVITUS94/.MONTHLY/.temp/#views}{webpage}. In this data repository you can do things like re-plot with different longitude, latitude, and temperature ranges. Overlay the coastlines, and other useful things like that. You can also click through the different months of the year to get a feel for how the surface temperatures on Earth change with the seasons. (However, the graphic produced from this particular website is not particularly great, and you will learn to do at least as good as this!)
 
 %------------------------------------------------
 
@@ -4488,15 +4499,28 @@ displays the data array as if a bitmap, but unlike \texttt{image} (see earlier),
 
 %------------------------------------------------
 
-\newthought{As an example}, load in the global topographic data file (\textsf{etopo1deg.dat}) from the course webpage. This is the height of the  (solid) surface of the Earth relative to mean sealevel in meters, with the continents having a positive value and the ocean floor, negative. The data is conveniently on a 1\degree\ (longitude and latitude) grid. You could view the resulting elements of the 2D array in the Variable window if you like ... but at 360\(\times\)180
-in size, there may not be much of use you can glean by visually inspecting the matrix\sidenote{More useful then are the summary details in the \textsf{Workspace window}, such as the apparent absence of \textit{NaNs} and that the \textsf{Min} and \textsf{Max} Earth surface heights seem plausible.}.
+\newthought{As an example}, load in the '\textit{global Earth surface topography}' data file (\textsf{etopo1deg.dat}) from the course webpage. This is the height of the  (solid) surface of the Earth relative to mean sealevel in meters, with the continents having a positive value and the ocean floor, negative. The data is conveniently on a 1\degree\ (longitude and latitude) grid. You could view the resulting elements of the 2D array in the Variable window if you like ... but at 360\(\times\)180
+in size, there may not be much of use you can glean by visually inspecting the matrix\sidenote[][-2.0in]{More useful then are the summary details in the \textsf{Workspace window}, such as the apparent absence of \textit{NaNs} and that the \textsf{Min} and \textsf{Max} Earth surface heights seem plausible.}.
+
+\begin{marginfigure}[-1.25in]
+\includegraphics[width=\linewidth]{ch3-etopo.eps}
+\caption{Very basic imaging (\texttt{image}) of an array (2D) of data -- here, global bathymetry.}
+\label{fig:ch3-etopo}
+\end{marginfigure}
 
 After loading the data file into the \textbf{MATLAB} workspace, try throwing the array into the \texttt{image} function (which you saw previously) see what happens, e.g.
-
 \begin{docspecbold}
 >> image(etopo1deg);
 \end{docspecbold}
-(hopefully something like Figure \ref{fig:ch3-etopo}). If it had happened to come out displayed upsidedown\sidenote{It doesn't in this particular case.}, then you'd need to first (before plotting using imagesc) flip the matrix upsidedown using the command:
+(hopefully something like Figure \ref{fig:ch3-etopo}, but perhaps with a different default color scale). 
+
+\begin{marginfigure}[-0.375in]
+\includegraphics[width=\linewidth]{ch3-etopo2.eps}
+\caption{Slightly improved very basic imaging (\texttt{imagesc}) of bathymetry data.}
+\label{fig:ch3-etopo2}
+\end{marginfigure}
+
+If it had happened to come out displayed upsidedown\sidenote[][-0.0in]{It doesn't in this particular case.}, then you'd need to first (before plotting using imagesc) flip the matrix upsidedown using the command:
 \begin{docspec}
 etopo1deg=flipud(etopo1deg);
 \end{docspec}
@@ -4506,31 +4530,41 @@ etopo1deg=etopo1deg';
 \end{docspec}
 using the \docenv{transpose} function. It is not unusual for a first plotting attempt of spatial data to be incorrectly orientated and a little trial-and-error to get it straight is perfectly acceptable!
 
-\begin{marginfigure}[-1.0in]
-\includegraphics[width=\linewidth]{ch3-etopo.eps}
-\caption{Very basic imaging (\texttt{image}) of an array (2D) of data -- here, global bathymetry.}
-\label{fig:ch3-etopo}
-\end{marginfigure}
-
-This is not exactly the prettiest of images. You can distinguish ocean (blue) from land (mostly brown, but other color pixels in places). Fortunately, \textbf{MALTAB} provides a variant of this plotting function, \docenvdef{imagesc} (see Box and/or \textbf{MATLAB} \textsf{help}), that calculates the color scale to exactly span the min/max values in the data. Try this alternative plotting function (and get something like Figure \ref{fig:ch3-etopo2} hopefully).
-
-\begin{marginfigure}[-0.0in]
-\includegraphics[width=\linewidth]{ch3-etopo2.eps}
-\caption{Slightly improved very basic imaging (\texttt{imagesc}) of bathymetry data.}
-\label{fig:ch3-etopo2}
-\end{marginfigure}
-
-The function \texttt{imagesc} also enables the range of data values the color range corresponds to, to be set. Refer to \texttt{help} on this function and see if you can plot just the above-sealevel, i.e. land surface heights, spanning zero (sealevel) to the maximum height\sidenote{Don't forget the function \texttt{max}.}.
-
-Which sort of in a round-about sort of way also brings us to how to set the color scale, which can be changed using the \docenv{colormap} command (see Box).
-
-At the command line, try out setting a different \textit{colormap}, e.g.
+This is not exactly the prettiest of images. You can distinguish ocean (blue) from land (mostly brown, but other color pixels in places). Fortunately, \textbf{MALTAB} provides a variant of this plotting function, \docenvdef{imagesc} (see Box and/or \textbf{MATLAB} \textsf{help}), that calculates the color scale to exactly span the min/max values in the data. Try this alternative plotting function (and  something like Figure \ref{fig:ch3-etopo2}), e.g.
 \begin{docspecbold}
->> colormap 'pink'
+>> imagesc(etopo1deg);
 \end{docspecbold}
-and re-then re-plot the global topography data. Try out various different color maps/scales. What scales work well and what do not? Which scales help pick out details of e.g. ocean floor depth variation and which help pick out simple land-sea contrasts. Think about what one might want to highlight about global topography and what color scale might be best for this purpose?
 
-\marginnote[-1.75in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-3.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{imagesc}
+\\For a data array (matrix) \texttt{A},
+\begin{docspecmargin}
+imagesc(A)
+\end{docspecmargin}
+displays the data array as if a bitmap, but unlike \texttt{image} (see earlier), \textit{"uses the full range of colors in the colormap}".
+\\To set the limits of the color scale, e.g. from (\textit{z}) value of 0.0 to 10.0, you can pass the limits as a vector:
+\begin{docspecmargin}
+imagesc(A,[0.0 10.0])
+\end{docspecmargin}
+(and very similar to setting the x- or y-axis scales).
+\end{mdframed}}
+
+The function \texttt{imagesc} also enables the range of data values the color range corresponds to, to be set. Refer to \texttt{help} on this function and see if you can plot just the above-sealevel, i.e. land surface heights, spanning zero (sealevel) to the maximum height.
+
+HINT: You can use the function \texttt{max} to determine the maximum value in a vector, and for the entire array:
+\begin{docspec}
+etopo1deg\_mxa=max(max(etopo1deg));
+\end{docspec}
+as we did for sum in the first chapter, or more elegantly:
+\begin{docspec}
+etopo1deg\_max=max(etopo1deg,[],'all');
+\end{docspec}
+(refer to \textbf{MATLAB} \texttt{help} for the syntax and why the \texttt{[]} is needed), and hence finallly to:
+\begin{docspecbold}
+>> imagesc(etopo1deg,[0.0 etopo1deg\_max]);
+\end{docspecbold}
+
+\marginnote[-3.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{colormap}
 \\ \textbf{MATLAB} has a number of 'colormaps' built in -- color scale that determine the colors that correspond to the data. The command to change the \textit{colormap} from the default is:
 \begin{docspecmargin}
@@ -4549,6 +4583,16 @@ To return to the default \textit{colormap}:
 >> colormap default
 \end{docspecmargin}
 \end{mdframed}}
+
+Which sort of in a round-about sort of way also brings us to how to set the color scale, which can be changed using the \docenv{colormap} command (see Box).
+
+\newpage
+
+At the command line, try out setting a different \textit{colormap}, e.g.
+\begin{docspecbold}
+>> colormap 'pink'
+\end{docspecbold}
+and re-then re-plot the global topography data. Try out various different color maps/scales (\texttt{\textgreater\textgreater\ help GRAPH3D} will give a list of \textbf{MATLAB} colormaps). What color and (min,max) scales work well and what do not? Which scales help pick out details of e.g. ocean floor depth variation and which help pick out simple land-sea contrasts. Think about what one might want to highlight about global topography and what color scale might be best for this purpose?
 
 %------------------------------------------------
 
@@ -4573,8 +4617,10 @@ Now you might want to think about flipping the matrix up-down, and/or left-right
 \label{fig:ch5-contour1}
 \end{marginfigure}
 
-Once you have fixed the orientation of the topography map, you might play about with the color scale (\texttt{colormap}) as before. You might also try the companion to \texttt{contour}, called \texttt{contourf}. Also try plotting using \texttt{contourf}, might give you something like Figure \ref{fig:ch5-contour2}.
-
+Once you have fixed the orientation of the topography map, you might play about with the color scale (\texttt{colormap}) as before. You might also try the companion to \texttt{contour}, called \texttt{contourf} which gives you something like Figure \ref{fig:ch5-contour2}, e.g.
+\begin{docspecbold}
+>> contourf(etopo1deg);
+\end{docspecbold}
 
 \begin{marginfigure}[0.0in]
 \includegraphics[width=\linewidth]{ch5-contour2.eps}
@@ -4582,7 +4628,7 @@ Once you have fixed the orientation of the topography map, you might play about 
 \label{fig:ch5-contour2}
 \end{marginfigure}
 
-OK, so a next refinement in plotting esp. maps and contour plots, is firstly to specify the range of the color scale, as we may not want the min-to-max range chosen by default by \textbf{MATLAB}, and the number of contours (e.g. in the topography example, they are pretty far apart and it is difficult to make out much detail). Both of these factors can be addressed simultaneously, by giving \textbf{MATLAB} a vector containing the value at which you want the contours drawn\sidenote{By default: MATLAB determines the minimum and maximum data values, and draws 10 equally spaced contours between these limits.}.
+OK, so a next refinement in plotting esp. maps and contour plots, is firstly, to specify the range of the color scale, as we may not want the min-to-max range chosen by default by \textbf{MATLAB}, and then, to control the number of contours (e.g. in the topography example, they are pretty far apart and it is difficult to make out much detail). Both of these factors can be addressed simultaneously, by giving \textbf{MATLAB} a vector containing the value at which you want the contours drawn\sidenote{By default: MATLAB determines the minimum and maximum data values, and draws 10 equally spaced contours between these limits.}.
 
 Taking the global topography data -- lets say you were interested only in low lying and shallow bathymetry, and wanted 20 contours intervals. Assuming a range in topographic height (relative to sealevel) of -1000 m to +1000 m, you should be able to deduce how to create the vector(?)\sidenote[][-0.0in]{ If not, it is:
 \begin{docspecmargin}
@@ -4600,17 +4646,20 @@ Having created a specific vector of contours to plot, try it out, by:
 \end{docspecbold}
 (see Box for syntax).
 
-OK -- so this is a little weird and maybe not so useful, but you get the point hopefully. Try (still at the command line) plotting the following:
+OK -- so this is a little weird and maybe not so useful, but you get the point hopefully. Try (still at the command line) plotting some or all of the following:
 
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
-\item Just above sealevel topography, up to 10,000 m, in increments of 100 m.
-\item Just the sealevel (coastline) contour ... trickier -- create a vector with a value at zero, and a value either side -- one very high and one very low. Use \texttt{contour} rather than \texttt{contourf}, although the latter produces a lovely land-sea mask!
-\item Convert the data matrix of value in units of m, to ft, and plot the ocean floor (values equal to or below sealevel) in intervals of 1000 ft.
+\item Contours of topography from sealevel, to 10,000 m, in increments of 100 m.
+\vspace{1mm}
+\item Just (on its own!) the sealevel (coastline) contour ... trickier -- create a vector with a value at zero, and a value either side -- one very high and one very low. Use \texttt{contour} rather than \texttt{contourf}, although the latter produces a lovely land-sea mask!
+\vspace{1mm}
+\item Convert the data matrix of value in units of m, to ft, and plot the ocean floor (values equal to or below sealevel) in intervals of 1000 \uline{feet} (e.g. \texttt{v=[-20000:1000:0]}). (HINT: you'll need to re-scale the data array using the conversion: \(1m = 3.28084ft\))
+\vspace{1mm}
 \item Finally -- try some different color scales for the above. Think about which color scales best help illustrate the data, and whether \texttt{contour} or \texttt{contourf} is clearer. Also: how many contour intervals is 'best'? You key is to make features clear, within the plot becoming cluttered or overly detailed.
 \end{enumerate}
 
-\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-3.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{contour}
 There are various uses of contour. The simplest is:
 \begin{docspecmargin}
@@ -4632,55 +4681,9 @@ contour(X,Y,Z,v)
 \end{docspecmargin}
 \end{mdframed}}
 
-The final refinement in contour plotting we'll look at is adding labels to the contours. The command to do this is \docenv{clabel} (for 'contour label') (see Box). Now, before anything, there is a slightly complication. \texttt{clabel} needs to know details of the contours and graphics object with which to do anything with. For the purposes of this course, you don't have to worry about the details of this ... but simply need to note and remember the following:
+The final refinement in contour plotting we'll look at here is adding labels to the contours. The command to do this is \docenv{clabel} (for 'contour label') (see Box). Now, before anything, there is a slightly complication. \texttt{clabel} needs to know details of the contours and graphics object with which to do anything with. For the purposes of this course, you don't have to worry about the details of this ... but simply need to note and remember the following:
 
-\begin{enumerate}[noitemsep]
-\setlength{\itemindent}{.2in}
-\item When you call \texttt{contour} (or \texttt{contourf}), 2 parameters are returned, which so far you have not cared about or even noticed. We now need them. So when you call either potting function, using the syntax:
-\begin{docspec}
-[C,h] = contour( ... )
-\end{docspec}
-which saves a matrix of data to \texttt{C}, and a ID (technically: graphics object 'handle')to \texttt{h}.
-\\You can test what has been returned by typing:
-\begin{docspecbold}
->> [C,h] = contour(etopo1deg,v);
-\end{docspecbold}
-and looking to see what new variables, if any, have appeared in \textbf{MATLAB} \textsf{Workspace}.
-\item When you call \texttt{clabel}, pass these parameters back in, e.g.
-\begin{docspec}
-clabel(C,h)
-\end{docspec}
-(in its most basic usage). So in the example above:
-\begin{docspecbold}
->> clabel(C,h);
-\end{docspecbold}
-\end{enumerate}
-
-\begin{marginfigure}[0.0in]
-\includegraphics[width=\linewidth]{ch5-contour4.eps}
-\caption{Example usage of \texttt{contour}, contouring only the zero height isoline, and providing a label.}
-\label{fig:ch5-contour4}
-\end{marginfigure}
-
-If you do this, in an earlier example of plotting just the zero height contour, and now using the most basic default usage of clabel (as above), you get, for good or for bad, Figure \ref{fig:ch5-contour4}.
-
-In the default usage of \texttt{clabel}, you'll get a label added on every contour that you plot. This ... can get kinda messy if you have lots and lots of contours plotted. You may well not need every single contour labelled, particularly if you also provide a color scale (see below). So you can also pass in a vector to tell \textbf{MATLAB} which contours to label. For example, if you have a contour interval vector:
-\begin{docspec}
-v = [-1000:100:1000];
-\end{docspec}
-(which creates 100 m spaced contours between -1000 and +1000 m) maybe you only want labels on contours every 500m, so you'd create a \uline{different} vector:
-\begin{docspec}
-w = [-1000:500:1000];
-\end{docspec}
-to specify the labelling intervals. The complete set of commands becomes:
-\begin{docspecbold}
->> v = [-1000:100:1000];
-\\ >> w = [-1000:500:1000];
-\\ >> [C,h] = contour(etopo1deg,v);
-\\ >> clabel(C,h,w);
-\end{docspecbold}
-
-\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{clabel}
 \begin{docspecmargin}
 >> clabel(C,h)
@@ -4696,13 +4699,61 @@ labels every contour plotted from
 \end{docspecmargin} 
 \end{mdframed}}
 
+\begin{enumerate}[noitemsep]
+\setlength{\itemindent}{.2in}
+\item When you call \texttt{contour} (or \texttt{contourf}), 2 parameters are returned, which so far you have not cared about or even noticed. We now need them. So when you call either potting function, using the syntax:
+\begin{docspec}
+[C,h] = contour( ... )
+\end{docspec}
+which saves a matrix of data to variable \texttt{C}, and a ID (technically: graphics object 'handle') to variable \texttt{h}.
+\\You can test what has been returned by typing:
+\begin{docspecbold}
+>> [C,h] = contour(etopo1deg,v);
+\end{docspecbold}
+and looking to see what new variables, if any, have appeared in \textbf{MATLAB} \textsf{Workspace}.
+\vspace{1mm}
+\item When you call \texttt{clabel}, pass these parameters back in, e.g.
+\begin{docspec}
+clabel(C,h)
+\end{docspec}
+(in its most basic usage). So in the example above:
+\begin{docspecbold}
+>> clabel(C,h);
+\end{docspecbold}
+\end{enumerate}
+
+\begin{marginfigure}[-0.0in]
+\includegraphics[width=\linewidth]{ch5-contour4.eps}
+\caption{Example usage of \texttt{contour}, contouring only the zero height isoline, and providing a label.}
+\label{fig:ch5-contour4}
+\end{marginfigure}
+
+If you do this, in an earlier example of plotting just the zero height contour, and now using the most basic default usage of \texttt{clabel} (as above), you get, for good or for bad, Figure \ref{fig:ch5-contour4}.
+
+In the default usage of \texttt{clabel}, you'll get a label added on every contour that you plot. This ... can get kinda messy if you have lots and lots of contours plotted. You may well not need every single contour labelled, particularly if you also provide a color scale (see below). So you can also pass in a vector to tell \textbf{MATLAB} which contours to label. For example, if you have a contour interval vector:
+\begin{docspec}
+v = [-1000:100:1000];
+\end{docspec}
+(which creates 100 m spaced contours between -1000 and +1000 m) maybe you only want labels on contours every 500m, so you'd create a \uline{different} vector:
+\begin{docspec}
+w = [-1000:500:1000];
+\end{docspec}
+to specify the labelling intervals. The complete set of commands for this becomes:
+\begin{docspecbold}
+>> v = [-1000:100:1000];
+\\ >> w = [-1000:500:1000];
+\\ >> [C,h] = contour(etopo1deg,v);
+\\ >> clabel(C,h,w);
+\end{docspecbold}
+where \texttt{[C,h] = contour(etopo1deg,v);} specifies to contour from -1000 to 1000 in steps of 100,\texttt{ but clabel(C,h,w);} says to label only every 500 m (from -1000 to 1000).
+
 Finally -- missing from our color-coded plots so far, is a color scale to relate values to colors (although labelling the contours works as an OK substitute). The \textbf{MATLAB} command is as simple as typing:
 \begin{docspecbold}
 >> colorbar
 \end{docspecbold}
 (and see Box for further usage). Try adding a \textit{colorbar}, and in different places in the plot. Refer to the Box to try and add a caption to it ...
 
-\marginnote[-0.25in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-4.75in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{colorbar}
 \\This almost could not be simpler:
 \begin{docspecmargin}
@@ -4724,21 +4775,16 @@ c.Label.String = 'The units of my lovely colorbar';
 (Don't fight this -- use this syntax to set a label for the \textit{colorbar} -- don't worry about  what it means. \textbf{MATLAB} keeps rather annoyingly changing the way it does this anyway :()
 \end{mdframed}}
 
+%------------------------------------------------
+%
 \newpage
+\subsection{Meshgrid}
 
-%------------------------------------------------
-
-\vspace{1mm}
-\noindent\rule{4cm}{0.5pt}
-\vspace{-2mm}
-
-%------------------------------------------------
-
-\newthought{In this next Example}, we'll address the issue with missing/incorrect lon/lat axis labels on the plots.
+We'll now address the issue with missing/incorrect lon/lat axis labels on the plots.
 
 Each data point in the \texttt{etopo1deg} matrix should have one longitude value (\textit{x}-axis) and one latitude (\textit{y}-axis) value associated with it. What we need, is a pair of matrices, of exactly the same size as the \texttt{etopo1deg} data matrix -- one holding longitude values and one latitude values.
 
-There are various ways of creating the required matrices 'by hand' (or involving writing a program including a \textit{loop}). All of them are tedious. There is a \textbf{MATLAB} function to help. But it is not entirely intuitive\sidenote{\textbf{\textcolor{red}{DON'T\ PANIC!}}} ... \docenv{meshgrid}.
+There are various ways of creating the required matrices 'by hand' (or involving writing a program including a \textit{loop}). All of them are tedious. There is a \textbf{MATLAB} function to help. But it is not entirely intuitive\sidenote[][-0.0in]{\textbf{\textcolor{red}{DON'T\ PANIC!}}} ... \docenv{meshgrid}.
 
 \marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{meshgrid}
@@ -4751,7 +4797,7 @@ Pause, and take a deep breath. On the left -- the results of \texttt{meshgrid} a
 \\What \textbf{MATLAB} is going to do, is to take the (row) vector \texttt{xv}, and it is going to replicate it down so that there are as many rows as in the vector \texttt{yv}. This becomes the returned output matrix \texttt{X}. \textbf{MATLAB} then takes the column vector \texttt{yv}, and replicates it across so that there are as many columns as in the vector \texttt{xv}. This becomes the returned output matrix \texttt{Y}.
 \end{mdframed}}
 
-Spend a few minutes reading about it in \texttt{help}. In particular, look at the examples given to help you translate the \textbf{MATLAB}-speak gobbledegook of the function description. You should be able to glean from all this that this function allows us to create two \(a\times b\) arrays; one with the columns all having the same values, and one with the rows all having the same values (exactly what we need for defining the (lon,lat) of all the global data points). If not, and probably not -- see Box. And then lets do a simple example (adapted from \textbf{help}) (at the Command line):
+Spend a few minutes reading about it in \texttt{help}. In particular, look at the examples given to help you translate the \textbf{MATLAB}-speak gobbledegook of the function description. You should be able to glean from all this that this \textit{function} allows us to create two \(a\times b\) arrays; one with the columns all having the same values, and one with the rows all having the same values (exactly what we need for defining the (lon,lat) of all the global data points). If not, and probably not -- see Box. And then lets do a simple example (adapted from \textbf{help}) (at the Command line):
 \begin{docspecbold}
 >> [X,Y] = meshgrid(1:3,10:14)
 \end{docspecbold}
@@ -4769,18 +4815,20 @@ X =
 \\ \ \ \ \ 13    13    13
 \\ \ \ \ \ 14    14    14
 \end{docspec}
-Here, we are taking 2 vectors -- \texttt{[1:3]} and \texttt{[10:14]}, and asking \textbf{MATLAB} (very nicely) to create 2 matrixes, one in which \texttt{[1:3]} is replicated down, until it has the same number of rows as the length of \texttt{[10:14]}, and one in which \texttt{[10:14]} is replicated across until it has the same number of columns as the length of \texttt{[1:3]}. 
+Here, we are taking 2 vectors -- \texttt{[1:3]} and \texttt{[10:14]}, and asking \textbf{MATLAB} (very nicely) to create 2 matrixes, one in which \texttt{[1:3]} is replicated down, until it has the same number of rows as the length of \texttt{[10:14]}, and one in which \texttt{[10:14]} is replicated across until it has the same number of columns as the length of \texttt{[1:3]}.
 
-In our Example -- start by noting that the topography data is on a regular 1 degree grid starting at 0\degree\ longitude. Latitude starts (at the bottom) at -90\degree\ and goes up to +90\degree\ . We need a matrix containing all the longitude values from 0\degree\ to 359\degree\, and latitude from -90\degree\ to 89\degree\ .\sidenote{There is a slight complication with this, which we'll get to shortly, but note that the data array is 360 elements (\textit{x}-direction) by 180 elements (\textit{y}-direction).} These matrices need to be the same size as the data matrix.
+In our example 2D (topography) dataset -- start by noting that the topography data is on a regular 1 degree grid starting at 0\degree\ longitude. Latitude starts (at the bottom) at -90\degree\ and goes up to +90\degree\ . We need a matrix containing all the longitude values from 0\degree\ to 359\degree\, and latitude from -90\degree\ to 89\degree\ .\sidenote{There is a slight complication with this, which we'll get to shortly, but note that the data array is 360 elements (\textit{x}-direction) by 180 elements (\textit{y}-direction).} These matrices need to be the same size as the data matrix.
 
-Maybe just do it and then understand what has happened after. Create the longitude and latitude grids by:
+Maybe just go ahead and do it right now ... and then pause and understand what has happened after. Create the longitude and latitude grids by:
 \begin{docspecbold}
 >> [lon lat] = meshgrid([0:359],[-90:89]);
 \end{docspecbold}
 
 View (in the \textsf{Variables window}) the \texttt{lon} matrix first. Scan through it. Hopefully ... you'll note that it is 360 columns across, and in each column has the same value -- the longitude. The matrix is 180 rows 'high', so that there is a longitude value for each latitude. Similarly, view \texttt{lat}. This also should make a little sense if you pause and think about it, with the one exception that the South Pole latitude is at the 'top' of the matrix -- don't worry about this for now ... 
 
-The only way to fully make sense of things now, is to use it. Remember that use of \texttt{contour} (and \texttt{contourf}) can take matrices of \textit{x} and \textit{y} (here: longitude and latitude) values that correspond to the data entries in the data matrix (\texttt{etopo1deg}). Re-load the topography data in case you have flipped it about in all sorts of odd ways, and then do:
+The only way to fully make sense of things now, is to use it. Remember that use of \texttt{contour} (and \texttt{contourf}) can take matrices of \textit{x} and \textit{y} (here: longitude and latitude) values that correspond to the data entries in the data matrix (\texttt{etopo1deg}). 
+
+Re-load the topography data in case you have flipped it about in all sorts of odd ways, and then do:
 \begin{docspecbold}
 >> [lon lat] = meshgrid([0:359],[-90:89]);
 \\ >> contour(lon,lat,etopo1deg);
@@ -4789,6 +4837,12 @@ Almost! Note that the \textit{x} and \textit{y} axis labelling is 'correct' and 
 \begin{docspecbold}
 >> contour(lon,lat,flipud(etopo1deg));
 \end{docspecbold}
+or if you prefer 2 explicit steps:
+\begin{docspec}
+>> etopo1deg\_corrected = flipud(etopo1deg);\\
+>> contour(lon,lat,etopo1deg\_corrected);
+\end{docspec}
+
 Phew! (Figure Figure \ref{fig:ch5-contour5}.)
 
 \begin{marginfigure}[0.0in]
@@ -4798,15 +4852,15 @@ Phew! (Figure Figure \ref{fig:ch5-contour5}.)
 \end{marginfigure}
 
 The final complication is that the data points in the gridded dataset (matrix \texttt{etopo1deg}), technically correspond to the mid-points of a 1 degree grid, not the corners. So if we were going to try and be formally correct\sidenote{Don't worry about this for now -- grids will be covered more in subsequence chapters surrounding numerical (environmental) models.}, our vectors that we'd pass into \texttt{meshgrid}, would be:
-\begin{docspecbold}
+\begin{docspec}
 >> x = [0.5:359.5];
 \\ >> y = [-89.5:89.5];
-\end{docspecbold}
+\end{docspec}
 and hence:
-\begin{docspecbold}
->> [lon lat] = meshgrid(x,y);
-\end{docspecbold}
-
+\begin{docspec}
+>> [lon lat] = meshgrid(x,y);\\
+>> contour(lon,lat,flipud(etopo1deg));
+\end{docspec}
 
 %------------------------------------------------
 
@@ -4815,11 +4869,8 @@ and hence:
 \vspace{-2mm}
 
 %------------------------------------------------
-%
-\vspace{32mm}
-\pagebreak 
 
-\newthought{OK -- another Example} on this. Previously, you downloaded and plotted monthly global distributions of surface air temperature. You plotted these simply using \texttt{pcolor} (or \texttt{image}) and the results were ... variable. Certainly not publication-quality graphics and missing appropriate longitude and latitude axes for the plots.
+\newthought{[\textbf{\textcolor{red}{OPTIONAL}}] Another Example} on this. Previously, you downloaded and plotted monthly global distributions of surface air temperature. You plotted these simply using \texttt{pcolor} (or \texttt{image}) and the results were ... variable. Certainly not publication-quality graphics and missing appropriate longitude and latitude axes for the plots.
 
 Make a copy of your original \textit{script} (\textsf{m-file}) in which you created the animation, and give it a new name. Edit your program, and in place of \texttt{pcolor}, use \texttt{contour} or \texttt{contourf} (your choice!). To begin with, pass in just the data matrix (of monthly temperature) when calling the \texttt{contour} (or \texttt{contourf}) function and don't yet worry about the lon/lat values. Get this working (i.e. debug it if not). You should end up with a contoured animation (rather than a bit-map animation).
 
@@ -4881,11 +4932,11 @@ This particular choice for the vector \texttt{v} tells \textbf{MATLAB} to do the
 
 \noindent Lastly -- for any (or all) of the Examples above, you could add the continental outline to the plot. Remember, to use \texttt{hold on} in order to overlay the continental outline on top of the contour map without replacing it in the \textsf{Figure window}.
 
-It should be obvious that plotting the continental outline might be something you want to us more than once. Sections of code that might get used multiple times are commonly placed in a file (or special section of the file) of their own and \textit{called} from the main program that needs it. For example, you could place the entire continental outline plotting code, including loading in the data, in an \textsf{m-file} and make it a function -- in this case, taking no parameters as input, and return no output.\sidenote[][-2.0in]{Make sure that you do not open a figure window with the \texttt{figure} command with the function, or you will not get a continental output overlay on your plot, but rather a sperate \textsf{Figure window} with just the continental outline on.} In the example of the looped animation, in the sequence of code (within the loop), you will need to \textit{call} your continental outline plotting function just after you have plotted the contour (or bitmap) plotting function.
+It should be obvious that plotting the continental outline might be something you want to us more than once. Sections of code that might get used multiple times are commonly placed in a file (or special section of the file) of their own and \textit{called} from the main program that needs it. For example, you could place the entire continental outline plotting code, including loading in the data, in an \textsf{m-file} and make it a \textit{function} -- in this case, taking no parameters as input, and return no output.\sidenote[][-2.0in]{Make sure that you do not open a figure window with the \texttt{figure} command with the function, or you will not get a continental output overlay on your plot, but rather a sperate \textsf{Figure window} with just the continental outline on.} In the example of the looped animation, in the sequence of code (within the loop), you will need to \textit{call} your continental outline plotting function just after you have plotted the contour (or bitmap) plotting function.
 
 %------------------------------------------------
 
-\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-1.75in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \textbf{The MATLAB Mapping toolbox}
 \\You can do some nice spatial plotting with this data using the \textbf{MATLAB} \textsf{Mapping Toolbox}. This should be available as part of the \textbf{MATLAB} installation in the Lab (and also if you have downloaded and installed an academic version on a personal laptop). Refer to the on-line documentation for the \textsf{Mapping Toolbox} to get you started. The key function appears to be \docenv{geoshow}. Try plotting the region encompassing the 'quake data, with a coastal outline (of land masses), and the 'quake data overlain. Explore different map projections. Remember to always ensure appropriate labelling of plots.
 \end{mdframed}}
@@ -4908,15 +4959,17 @@ This section contains a selection of further simple techniques for doing useful 
 
 \subsection{Data (row) deletion}
 
-\noindent For some practice in data filtering (row deletion) and a little further data manipulation and graphing: download the historical temperature dataset for Riverside\sidenote[][-0.0in]{\href{https://www.ncdc.noaa.gov/cag/global/time-series/globe/land\_ocean/ytd/12/1880-2017/\#https://climate.nasa.gov/vital-signs/global-temperature/}{NOAA}}:
+\noindent For some practice in some 'real world' data filtering and a little further data manipulation and graphing: download the historical temperature dataset for Riverside\sidenote[][-0.0in]{\href{https://www.ncdc.noaa.gov/cag/global/time-series/globe/land\_ocean/ytd/12/1880-2017/\#https://climate.nasa.gov/vital-signs/global-temperature/}{NOAA}}:
 
 \vspace{1mm} \noindent \textsf{temperature\_riverside.txt} \vspace{1mm}
 
-If you view the data file in a text editor or import into \textbf{Excel}, you can read the column headers and find out what the different columns of data are (I am not telling you!). Note that the (1st) line of the file containing the column header labels starts with a \% symbol (telling \textbf{MATLAB} to ignore this line and not attempt to read in the 'data' on it). Again, you might assign the read-in data to a different variable name, e.g.
+If you view the data file in a text editor or import into \textbf{Excel}, you can read the  header information and find out what the different columns of data are (I am not telling you!). Note that the (1st) line of the file containing the column header labels starts with a \% symbol (I added this to tell \textbf{MATLAB} to ignore this line and not attempt to read in the 'data' on it).  (I also ensured that any missing data was indicated with a '\texttt{NaN}' to make the \texttt{load} go more smoothly.)
 
-\begin{docspec}
->> data2 = load('temperature\_globalanom.txt','-ascii');
-\end{docspec}
+Load in this file (and you might assign the read-in data to a different and shorter variable name):
+\begin{docspecbold}
+>> tdata = load('temperature\_riverside.txt');
+\end{docspecbold}
+and maybe take a look at what you have by opening \texttt{tdata} in the variable window.
 
 \marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{comment symbol}
@@ -4924,25 +4977,22 @@ If you view the data file in a text editor or import into \textbf{Excel}, you ca
 \\Equivalently, when \textbf{MATLAB} loads in a ASCII data file, any line in which the \% symbol appears, \textbf{MATLAB} ignores and does not load in. Hence, column header descriptions (or any other file description information) can be included in the file as long as the line starts with a \%.
 \end{mdframed}}
 
-First create a plot (with appropriate labels) of this data. You want the annual mean temperature -- the last (14th) column, plotted vs. year (the first column), so:
-
+Now, create a plot (with appropriate labels) of this data. You want the annual mean temperature -- the last (14th) column, plotted vs. year (the first column), so:
 \begin{docspec}
->> plot(data2(:,1),data2(:,14));
+>> plot(tdata(:,1),tdata(:,14));
+\end{docspec}
+or, remembering that end is shorthand for the last element or index number, you could also write:
+\begin{docspec}
+>> plot(tdata(:,1),tdata(:,end));
 \end{docspec}
 
-or:
-
-\begin{docspec}
->> plot(data2(:,1),data2(:,end));
-\end{docspec}
-
-It would be 'nice' ... to make some direct comparison between the observed global temperature increase and that occurring in Riverside, e.g. to help answer questions such as 'Are temperatures increasing faster in Riverside than the global mean?', and hence 'Will global warming impacts likely be worse or less severe in the Riverside area as compared globally?'. To do this, we need both data sets -- global and for the Riverside area -- to be on a comparable scale.
+It would be 'nice' ... to make some direct comparison between the observed global temperature increase (you plotted earlier) and that occurring in Riverside, e.g. to help answer questions such as 'Are temperatures increasing faster in Riverside than the global mean?', and hence 'Will global warming impacts likely be worse or less severe in the Riverside area as compared globally?'. To do this, we need both data sets -- global and for the Riverside area -- to be on a comparable scale.
 
 You could certainly simply plot both global mean and Riverside annual mean temperatures alongside each other, using the same units, e.g. \degree F as you have previously converted the global mean temperatures to \degree F, which is the same units as the Riverside temperature data. You could have 2 sperate plots and visually compare them, but this is not very cleaver nor necessarily useful in making any sort of quantitative comparison. For instance -- contrast the global data (re-scaled to absolute degrees F) in Figure \ref{fig:ch1-plot-temperature3}, with the Riverside data, in Figure \ref{fig:ch1-plot-temperature4}.\sidenote{There are also sone odd-looking artifacts ('spikes') in the raw data that we will want to deal with in some way.}
 
 There are two main problems \sidenote{Plus artifacts in the raw data.} in making a useful comparison -- firstly, the two data sets are on different y-axis scales (but luckily on the same x-axis, year scale), with the global data temperature scale going from 56 to 59\degree F, and the local, Riverside temperature data scale going from 50 to 85\degree F.
 
-The limits can be specified and made common between the 2 plots using the \docenv{axis} command that you saw earlier. You could,  for instance, not worry about truncating the spurious spikes in the Riverside temperature data and set the y-axis limits for both plots to e.g. 55 to 70\degree F. (You are still left with comparing across 2 different plots, which we will fix in a subsequent section by means of the command \docenv{hold on}.) However, there is still an inconvenient offset between the global mean temperature and that at Riverside.
+The limits can be specified and made common between the 2 plots using the \docenv{axis} command that you saw earlier. You could,  for instance, not worry about truncating the spurious spikes in the Riverside temperature data and set the y-axis limits for both plots to e.g. 55 to 70\degree F. (You are still left with comparing across 2 different plots, which we will fix in a subsequent section by means of the command \docenv{hold on}.) However, there is still an 'inconvenient' offset between the global mean temperature and that at Riverside.
 
 \begin{marginfigure}[-1.0in]
 \includegraphics[width=\linewidth]{ch1-plot-temperature4.eps}
@@ -4950,22 +5000,44 @@ The limits can be specified and made common between the 2 plots using the \docen
 \label{fig:ch1-plot-temperature4}
 \end{marginfigure}
 
-Recall that the original global temperature data was given as an anomaly compared to the average over some baseline (or reference) period -- in this case, year 1910 to 2000. If we treated both data sets the same, and transformed the Riverside temperature data into a comparable anomaly, direct comparison could be made. To create an anomaly of the Riverside temperature data, relative to the mean of the data for years 1910 to 2000, requires the mean of the years 1910 to 2000 ... this is not difficult to do, but it better left for another time ... For now, take it as having a value of 64.2\degree F. So to create an anomaly for the Riverside temperature data, simply subtract 64.2 from the values in the annual mean data column (the 14th column, which you can also specify with \texttt{end}).
+Recall that the original global temperature data was given as an \uline{anomaly} compared to the average over some baseline (or reference) period -- in this case, year 1910 to 2000. If we treated both data sets the same, and transformed the Riverside temperature data into a comparable \uline{anomaly}, a more direct comparison could be made. 
 
-Finally, go back to the original global mean anomaly values (re-load the data set if necessary) and convert from the anomaly in \degree C to \degree F (i.e. simply multiply by \(1.8\) -- no offset (32\degree F) is required in this particular case). If you additionally, chose and set a sensible common y-axis scale for both plots, you might end up with a pair of graphs looking like Figures \ref{fig:ch1-plot-temperature5} and \ref{fig:ch1-plot-temperature6}.
-\sidenote[][-2.5in]{There are all sorts of likely reasons for the differences. Firstly, the global mean surface temperature rise includes both ocean surface and land surface. Because of the higher heat capacity of the ocean, the ocean surface warms slower than the land, and the ocean accounts for ca. 70\% of the total global surface area. So it is somewhat inevitable that the warming trend will be stronger in Riverside. It may also be that the Riverside data is influenced by the 'urban heat island' effect, in which long0-term measured trends can be affected by increasing urbanization of the area surrounding the weather station. It may also be that the latitude and specific location of Riverside, sees much more warming that the global mean.}
+To create an anomaly of the Riverside temperature data, relative to the mean of the data for years 1910 to 2000, requires that we know what the mean of the data is over the years 1910 to 2000. Using the \textbf{MATLAB} function \texttt{mean}, you should be able to work out that you need:
+\begin{docspec}
+>> tdata\_mean = mean(tdata(:,end));
+\end{docspec}
+and then all you need to is is to subtract that from the annual data, e.g.
+\begin{docspec}
+>> mean(tdata(:,end)) = mean(tdata(:,end))-tdata\_mean;
+\end{docspec}
+(which is talking the last column of the array, subtracting \texttt{tdata\_mean} from all the values, and writing that vector back to the last column. EXCEPT, the answer is apparently ...
+\begin{docspec}
+>> tdata\_mean = mean(tdata(:,end))\\
+tdata\_mean = \\
+NaN
+\end{docspec}
+\texttt{NaN}??? Oh no ...
+
+\vspace{1mm}
+Actually, more recent versions of MATLAB allow you to ignore \texttt{NaN}s in basic stats functions such as \texttt{mean}. For example, referring to \textbf{MATLAB} \texttt{help} and re-trying the example above:
+\begin{docspec}
+>> tdata\_mean = mean(tdata(:,end),'omitnan');
+\end{docspec}
+tells \textbf{MATLAB} to calculate the mean while ignoring any \texttt{NaN}s in the \textit{vector}.
+
+\newpage 
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
 \vspace{2mm}
 
-\begin{marginfigure}[0.0in]
+\noindent It was mentioned earlier that there were potential 'artifacts' in the Riverside mean annual temperature data. If you view the loaded in data array in the \textsf{Variable viewing window} (double-click on the \textsf{temperature\_riverside} variable name in the \textsf{Workspace window}), you can see for a number of years and months, rather than numbers, '\texttt{NaN}'s in the cells. \texttt{NaN} stands for 'Not a Number' and indicates that there is no (valid) numerical value for that array position (cell). The impact of there being a number of months of data missing, is that the annual mean is no longer a true annual mean but rather simply the mean of whatever monthly data exists for any particular year. For example, year 2008 has no data other than during the summer and the annual mean is hence simply equal to the July temperatures!
+
+\begin{marginfigure}[-2.25in]
 \includegraphics[width=\linewidth]{ch1-plot-temperature5.eps}
 \caption{Observed global annual mean surface temperature anomaly, relative to the mean of 1910 through 2000.}
 \label{fig:ch1-plot-temperature5}
 \end{marginfigure}
-
-\noindent Finally to some data filtering (row deletion) -- it was mentioned earlier that there were potential 'artifacts' in the Riverside mean annual temperature data. If you view the loaded in data array in the \textsf{Variable viewing window} (double-click on the \textsf{temperature\_riverside} variable name in the \textsf{Workspace window}), you can see for a number of years and months, rather than numbers, '\texttt{NaN}'s in the cells. \texttt{NaN} stands for 'Not a Number' and indicates that there is no (valid) numerical value for that array position (cell). The impact of there being a number of months of data missing, is that the annual mean is no longer a true annual mean but rather simply the mean of whatever monthly data exists for any particular year. For example, year 2008 has no data other than during the summer and the annual mean is hence simply equal to the July temperatures!
 
 \begin{marginfigure}[0.0in]
 \includegraphics[width=\linewidth]{ch1-plot-temperature6.eps}
@@ -4991,13 +5063,10 @@ Taking first a simple example of a column vector:
 \vspace{2mm}
 
 \noindent from which we wish to remove the 2nd row. In \textbf{MATLAB} we would create the vector by:
-
 \begin{docspec}
 >> A = [1; 2; 3];
 \end{docspec}
-
-\noindent and then remove the 2nd row by setting it to an empty element:
-
+and then remove the 2nd row by setting it to an empty element:
 \begin{docspec}
 >> A(2) = [];
 \end{docspec}
@@ -5011,6 +5080,7 @@ Similarly, to remove the 2nd row of:
 \end{pmatrix}\)
 \vspace{2mm}
 
+\noindent we could type:
 \begin{docspec}
 >> B = [1, 4; 2, 5; 3, 6];\\
 >> B(2,:) = [];
@@ -5018,14 +5088,24 @@ Similarly, to remove the 2nd row of:
 
 \noindent (instead removing e.g. the 1st column would be \texttt{B(:,1) = []})
 
-So back to the temperature data -- to for example remove the row containing the year 2008 data\sidenote[][-0.0in]{You can also delete rows (and columns) if you open up the \textbf{MATLAB} \texttt{Array window} (double-click on the variable name in the \texttt{Workspace window}). And ... edit/replace values ...}, which is row 11, we write:
-
+So back to the temperature data -- to remove the row containing the year 2008 data for example\sidenote[][-0.0in]{You can also delete rows (and columns) if you open up the \textbf{MATLAB} \texttt{Array window} (double-click on the variable name in the \texttt{Workspace window}). And ... edit/replace values ...}, which is row 11, we would write:
 \begin{docspec}
 >> temperature\_riverside(11,:)=[];
 \end{docspec}
 
 Play this 'game' -- deleting as many row as you think result in biased means (because of missing monthly data)\sidenote[][-0.0in]{(being aware that as you delete rows, the numbering of the subsequent rows changes as the array size shrinks ...)}, with the Riverside temperature data, and re-plot the results.
 For example, the result of removing ALL the rows with missing monthly data\sidenote{(There are simple and quick ways of doing this in \textbf{MATLAB} that we will see later.)}, results in Figure \ref{fig:ch1-plot-temperature7}.
+
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{2mm}
+
+Finally, go back to the original global mean anomaly values (re-load the data set if necessary) and convert from the anomaly in \degree C to \degree F (i.e. simply multiply by \(1.8\) -- no offset (32\degree F) is required in this particular case). If you additionally, chose and set a sensible common y-axis scale for both plots, you might end up with a pair of graphs looking like Figures \ref{fig:ch1-plot-temperature5} and \ref{fig:ch1-plot-temperature6}.
+\sidenote[][-0.0in]{There are all sorts of likely reasons for the differences. Firstly, the global mean surface temperature rise includes both ocean surface and land surface. Because of the higher heat capacity of the ocean, the ocean surface warms slower than the land, and the ocean accounts for ca. 70\% of the total global surface area. So it is somewhat inevitable that the warming trend will be stronger in Riverside. It may also be that the Riverside data is influenced by the 'urban heat island' effect, in which long0-term measured trends can be affected by increasing urbanization of the area surrounding the weather station. It may also be that the latitude and specific location of Riverside, sees much more warming that the global mean.}
+
+\newthought{[\textbf{\textcolor{red}{OPTIONAL}}] ...}
+
+
 
 %------------------------------------------------
 %
@@ -5652,23 +5732,48 @@ There are a bunch of simple \textbf{MATLAB} drawing and text placement commands 
 
 %------------------------------------------------
 
-\subsection{Drawing lines and shapes}
+\subsection{Drawing lines (and using handles)}
 
-We'll start with some simply line and shape drawing. At the command line -- open a new \textsf{figure window} (\texttt{>> figure;}). Then before anything else, do a \texttt{>> hold on;}).
+\marginnote[-0.125in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{line}
+\\To draw a simple (single) line on a graphic:
+\begin{docspecmargin}
+>> line ... \\([x1 x2],[y1 y2])
+\end{docspecmargin}
+where \texttt{x1} and \texttt{x2} are the \textit{x}-coordinates of the start and end position of the line, and \texttt{y1} and \texttt{y2} are the corresponding \textit{y}-coordinate values.
+\\You can also specify line colors and styles in a similar way to when using \texttt{plot}, e.g.
+\begin{docspecmargin}
+>> line ... \\([x1 x2],[y1 y2], ... 'Color','red', ... 'LineStyle','--')
+\end{docspecmargin}
+plots a red dashed line.
+\end{mdframed}}
 
-When \textbf{MATLAB} draws lines and shapes and places text, it needs to know the coordinates of where to place things. It is not possible (I think) to draw directly in the \textsf{figure window} -- \textbf{MATLAB} needs a frame to put things in, and the easiest way to do this is to create a set of axes. So having opened a new \textsf{figure window}, set the range of the x- and y-axes
-\sidenote{Here taking the example range of 0-100 on both axes.}:
+We'll start with some simple line  drawing. 
 
+At the command line -- open a new \textsf{figure window} (\texttt{>> figure;}). Then before anything else, do a \texttt{>> hold on;}.
+
+When \textbf{MATLAB} draws lines and shapes and places text, it needs to know the coordinates of where to place things. It is not possible (I think) to draw directly in the \textsf{figure window} -- \textbf{MATLAB} needs what is known as a \textit{frame} to put things in, and the easiest way to do this is to create a set of axes. Having opened a new \textsf{figure window} (even through you have not plotted any data!), set the x- and y-axis range\sidenote{Here taking the example range of 0-100 on both axes.}:
 \begin{docspecbold}
 >> axis([0 100 0 100]);
 \end{docspecbold}
-
-\noindent The resulting figure is really not very exciting ... and should look like Figure \ref{fig:ch3-graphics01}.
+The resulting figure is really not very exciting (Figure \ref{fig:ch3-graphics01}).
 
 \begin{marginfigure}[0.0in]
 \includegraphics[width=\linewidth]{ch3-graphics01.eps}
 \caption{Figure window with axes.}
 \label{fig:ch3-graphics01}
+\end{marginfigure}
+
+\begin{marginfigure}[-0.0in]
+\includegraphics[width=\linewidth]{ch3-graphics02.eps}
+\caption{Figure window with single line segment (via \texttt{plot}).}
+\label{fig:ch3-graphics02}
+\end{marginfigure}
+
+\begin{marginfigure}[-0.0in]
+\includegraphics[width=\linewidth]{ch3-graphics03.eps}
+\caption{Figure window with a second line segment (via \texttt{line}).}
+\label{fig:ch3-graphics03}
 \end{marginfigure}
 
 \vspace{1mm}
@@ -5681,7 +5786,7 @@ When \textbf{MATLAB} draws lines and shapes and places text, it needs to know th
 \begin{enumerate}[noitemsep]
 
 \item \texttt{plot}
-\\Are you recall, \texttt{plot} will plot a sequence of (x,y) points, and by default, join them up with a line. If we wanted a diagonal line, from the original to the mid-point of the plot area, we could invent a pair of vectors to define the two points we need -- at (0,0) and (50,50):
+\\Are you recall, \texttt{plot} will plot a sequence of (x,y) points, and by default, join the points up with a line. If we wanted a diagonal line, from the origin to the mid-point of the plot area, we could invent a pair of vectors to define the two points we need -- at (0,0) and (50,50):
 \begin{docspecbold}
 X1 = [0 50];\\
 Y1 = [0 50];
@@ -5690,19 +5795,11 @@ and then plot the resulting points as a \texttt{plot} plot:
 \begin{docspecbold}
 plot(X1,Y1);
 \end{docspecbold}
-You should now see something like Figure \ref{fig:ch3-graphics02}.\sidenote[][-0.0in]{If you find that the plot area has been re-sized such that the x- and y-axes now both go from 0-50, then you have forgotten to do a \texttt{hold on}.}
+You should now see something like Figure \ref{fig:ch3-graphics02}. (If you find that the plot area has been re-sized such that the x- and y-axes now both go from 0-50, then you have forgotten to do a \texttt{hold on}.)
 
-\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{line}
-\\To draw a simple (single) line on a graphic:
-\begin{docspecmargin}
->> line([x1 x2],[y1 y2])
-\end{docspecmargin}
-where \texttt{x1} and \texttt{x2} are the \textit{x}-coordinates of the start and end position of the line, and \texttt{y1} and \texttt{y2} are the corresponding \textit{y}-coordinate values.
-\end{mdframed}}
-
+\vspace{1mm}
 \item \texttt{line}
-\\ \noindent \textbf{MATLAB} provide a specific command for drawing lines ... \docenv{line}. In its simplest usage, it is a little like \texttt{plot}, except taking only a single pair of x- and y-coordinate values.
+\\ \noindent \textbf{MATLAB} provides a specific command for drawing lines ... \docenv{line}. In its simplest usage, it is a little like \texttt{plot}, except taking only a single pair of x- and y-coordinate values.
 \\To use \texttt{line} to draw a 2nd line segment, starting at (50,50) and terminating at (100,0), we create another pair of vectors to define these points:
 \begin{docspec}
 X2 = [50 100];\\
@@ -5715,19 +5812,7 @@ line(X2,Y2);
 as shown in Figure \ref{fig:ch3-graphics03}.
 \end{enumerate}
 
-\noindent Obviously, both line segments could be drawn using \texttt{plot}, or both with \texttt{line}.
-
-\begin{marginfigure}[0.5in]
-\includegraphics[width=\linewidth]{ch3-graphics02.eps}
-\caption{Figure window with single line segment (via \texttt{plot}).}
-\label{fig:ch3-graphics02}
-\end{marginfigure}
-
-\begin{marginfigure}[0.0in]
-\includegraphics[width=\linewidth]{ch3-graphics03.eps}
-\caption{Figure window with a second line segment (via \texttt{line}).}
-\label{fig:ch3-graphics03}
-\end{marginfigure}
+\noindent Obviously, both line segments could equally well be drawn using \texttt{plot} or \texttt{line}.
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
@@ -5744,7 +5829,6 @@ as shown in Figure \ref{fig:ch3-graphics03}.
 \end{docspecbold}
 
 What this does is to tell \textbf{MATLAB}: take the graphics object with the ID contained in variable \texttt{h} (which we just retried via the \texttt{gca} function), and set (which is why we use the command \texttt{set} ...) the following properties:
-
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
 \item \texttt{'XTick',[]} -- set the number and position of tick marks on the x-axis, to the contents of the empty vector \texttt{[]}.
@@ -5766,7 +5850,7 @@ To see how different combinations of settings pan out, try:
 \begin{docspecbold}
 >> set(h,'XTick',[0 50 100],'XTickLabel',\{'cat', 'dog', 'rabbit'\});
 \end{docspecbold}
-where \texttt{\{'cat', 'dog', 'rabbit'\}} is actually a 3 string \textit{cell array}.
+where \texttt{\{'cat', 'dog', 'rabbit'\}} is actually a 3 string \textit{cell array} (the curly brackets are \uline{important} to the syntax).
 
 All this insanity should be looking like Figure \ref{fig:ch3-graphics04} (if we also remove the y-axis ticks and labels\sidenote[][-1.5in]{It is sufficient just to type: \begin{docspecmargin}>> set(h,'YTick',[]);
 \end{docspecmargin}}).
@@ -5777,18 +5861,23 @@ All this insanity should be looking like Figure \ref{fig:ch3-graphics04} (if we 
 \label{fig:ch3-graphics04}
 \end{marginfigure}
 
-An alternative way to create a figure to draw on, without having to remove the axes ticks and labels etc etc, is to create the axes as invisible. To try this -- first create a new \textsf{figure window}.\sidenote{If you find yourself drowning in \textsf{figure window}s, remember that \texttt{close} closes the current window, and \texttt{close all} closes all of them.}
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{2mm}
 
+\newpage
+
+\noindent An alternative way to create a figure to draw on, without having to remove the axes ticks and labels etc etc, is to create the axes as 'invisible' in the first place. To try this -- first create a new \textsf{figure window}.\sidenote{If you find yourself drowning in \textsf{figure window}s, remember that \texttt{close} closes the current window, and \texttt{close all} closes all of them.}
 \begin{docspecbold}
 >> h = axes('Position',[0 0 1 1],'Visible','off');
 \end{docspecbold}
-Here, \texttt{'Position',[0 0 1 1]} specifies that the axes area should fill the window, and \texttt{'Visible','off'} says to make the axes invisible. (We keep a copy of the \textit{handle}, \texttt{h}, just in case we need it later.) And set the axes to the same 0-100 limits as before:
+Here, \texttt{'Position',[0 0 1 1]} specifies that the axes area should fill the window, and \texttt{'Visible','off'} says to make the axes invisible. (We keep a copy of the \textit{handle} variable, \texttt{h}, just in case we need it later.) And to set the axes to the same 0-100 limits as before:
 \begin{docspecbold}
 >> axis([0 100 0 100]);
 \end{docspecbold}
-Then \texttt{hold on}.\footnote{For some reason ... you need to do \texttt{hold on} only \uline{after} creating axes frame ...}
+Then \texttt{hold on} to start drawing things!\footnote{For some reason ... you need to do \texttt{hold on} only \uline{after} creating axes frame ...}
 
-Now try drawing some lines (remembering the 0-100 axes limits when making up (x,y) co-ordinates).
+Try drawing some lines in this window (remembering the 0-100 axes limits when making up (x,y) co-ordinates).
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
@@ -5799,7 +5888,6 @@ Now try drawing some lines (remembering the 0-100 axes limits when making up (x,
 >> h = line(X2,Y2);
 \end{docspecbold}
 you could store a copy of the \textit{handle} of that line segment -- here it is being assigned to the \textit{variable} \texttt{h}. With this, you can now change the properties of the line (after you have drawn it). such as by:
-
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
 \item \textbf{\texttt{>> set(h,'LineWidth',2.0);}}
@@ -5812,18 +5900,17 @@ you could store a copy of the \textit{handle} of that line segment -- here it is
 \\\noindent will make the line dotted. 
 \end{itemize}
 
-\noindent Note that here, you are setting line properties \uline{after} you have created the graphics, whereas earlier in eg. using \texttt{plot} to graph data, you specified the properties as you draw the lines. Both ways are valid, but being able to change properties later and after plotting, gives you greater flexibility. Note that after plotting a graphic, you can also edit and adjust its properties in the \textsf{Figure window} itself (via its GUI)
+\noindent Note that here, you are setting line properties \uline{after} you have created the graphics, whereas earlier in eg. using \texttt{plot} to graph data, you specified the properties at the same time as you draw the lines. Both ways are valid, but being able to change properties later and after plotting, gives you greater flexibility. Note that after plotting a graphic, you can also edit and adjust its properties in the \textsf{Figure window} itself (via its GUI)
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
 \vspace{2mm}
 
-\noindent Using a handle also now enables you to complete an earlier plot. For the proxy \(CO_{2}\) data where you color-coded the points and added a \texttt{colorbar}, there was not actually any indication of what the color scale actually means in terms of values (and of what). \textbf{MATLAB} will add a colorbar to a plot with the command ... \docenv{colorbar}. Although the color scale gets automatically plotted with labels for the values, looking at the plot, we still don't know what the values are of (e.g. units). We can label the colorbar, but \textbf{MATLAB} needs to know what we are labelling. Each graphic object is assigned a unique ID when you create them and which normally you know nothing about. We can create a variable to store the ID, and then pass this ID to \textbf{MATLAB} to tell it to create a title for the colorbar. To cut a long story short, you would add to your script file (or type at the command line):
+\noindent Using a \textit{handle} also now enables you to complete an earlier plot. For the proxy \(CO_{2}\) data where you color-coded the points and added a \texttt{colorbar}, there was not actually any indication of what the color scale actually means in terms of values (and of what). \textbf{MATLAB} will add a colorbar to a plot with the command ... \docenv{colorbar}. Although the color scale gets automatically plotted with labels for the values, looking at the plot, we still don't know what the values are of (e.g. units). We can label the colorbar, but \textbf{MATLAB} needs to know what we are labelling. Each graphic object is assigned a unique ID when you create them and which normally you know nothing about. We can create a variable to store the ID, and then pass this ID to \textbf{MATLAB} to tell it to create a title for the colorbar. To cut a long story short, you would add to your \textit{script} file:
 \begin{docspec}
 colorbar\_id=colorbar;
 \\title(colorbar\_id,'Relative error (\%)';
 \end{docspec}
-
 The revised plot should then end up looking something like Figure \ref{fig:plot-CO2scatter4} in which you can see the high relative uncertainty (bight colors) prevail at low CO\(_{2}\) values and 'deeper time' (ca. 200-300 Ma). The colorbar title (label) is maybe not ideal, nicer would be one aligned vertically rather than horizontally. We'll worry about that sort of refinement another time.
 
 \begin{marginfigure}[-0.0in]
@@ -5842,37 +5929,105 @@ The revised plot should then end up looking something like Figure \ref{fig:plot-
 
 It would be more handy and in fact common, to include an arrow head to make clear that the line is pointing to something. This can in theory be done by drawing 2 more, shorter lines, but is no fun at all\sidenote{True fact -- I have tried it :(}. \textbf{MATLAB} hence provides the function \docenvdef{quiver}. \texttt{quiver} is commonly used for plotting fields of arrows, but can equally be used to create a single arrow -- much like earlier you used \texttt{plot} to draw just a single pair of joined up points and hence a line. However, rather than take a pair of (x,y) points -- one for the start and one for the end, of the line, \texttt{quiver} takes an (x,y) location for the start of the arrow, and then the \uline{length} in the x and y directions.
 
-Consistent with the previous example, we were starting the line segment at (0,0), and then extending the line to (50,50). The length vector in this case is also [50 50]. So, given the specific syntax and input parameter format required by \textbf{MATLAB} for this function, we would write:
+Consistent with the previous example, we were starting the line segment at (0,0), and then extending the line to (50,50). The length vector in this case is also [50 50]. So, given the specific syntax and input parameter format required by \textbf{MATLAB} for this function\sidenote{Here -- the last, 5th parameter (\texttt{0}), tells \textbf{MATLAB} not to auto-scale the arrow.}\sidenote{If your arrow head is hard to make out -- try creating a new \textsf{figure window}. You can also use \texttt{cls} to clear all the graphics in the window (i.e. and not have to re-generate the \textsf{figure window}.}:
 \begin{docspecbold}
 >> quiver(0,0,50,50,0);
 \end{docspecbold}
-Here -- the last, 5th parameter (\texttt{0}), tells \textbf{MATLAB} not to auto-scale the arrow.\sidenote{If it your arrow hard to make out -- try creating a new \textsf{figure window}. You can also use \texttt{cls} to clear all the graphics in the window (i.e. and not have to re-generate the \textsf{figure window}.}
 
-\vspace{1mm}
-\noindent\rule{4cm}{0.5pt}
-\vspace{2mm}
+To make the syntax clearer and that we are passing 4 vectors (of x and y origin locations, and x- and y-axis lengths), we could also write:
+\begin{docspecbold}
+>> quiver([0],[0],[50],[50],0);
+\end{docspecbold}
 
-\noindent For 2D shapes, you can draw rectangles using \docenvdef{patch}. This takes as parameter input, a vector of x-coordinate positions, then a vector of y-coordinate positions, and as a 3rd parameter, the color for the object.
+%------------------------------------------------
+
+\subsection{Colors}
+
+You are already familiar with setting colors for lines, with the notation: \texttt{'r'}, or \texttt{'b'} (for red, blue, respectively). This is nice and simple and so totally fabulous ... except there are a limited number of colors available in this notation (see Box).
+
+\marginnote[-0.875in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\textbf{MATLAB} quick colors:
+\begin{itemize}[noitemsep]
+\setlength{\itemindent}{.2in}
+\item \texttt{y} -- yellow
+\item \texttt{m} -- magenta
+\item \texttt{c} -- cyan
+\item \texttt{r} -- red
+\item \texttt{g} -- green
+\item \texttt{b} -- blue
+\item \texttt{w} -- white
+\item \texttt{k} -- black
+\end{itemize}
+\end{mdframed}}
+
+Hence there is an alternative that enables a more exact specification of color. In this particular scheme -- red-green-blue, abbreviated to \textit{RGB}, you set the intensity of red, green, and blue, on a scale of 0 to 1. And supply this in a vector format to \textbf{MATLAB}. For example:
+
+\begin{marginfigure}[-0.0in]
+\includegraphics[width=\linewidth]{RGB_color_solid_cube.png}
+\caption{RGB scale. By SharkD - Own work, GFDL, https://commons.wikimedia.org/
+w/index.php?curid=3375025}
+\label{fig:RGB_color_solid_cube}
+\end{marginfigure}
+
+\begin{itemize}[noitemsep]
+\setlength{\itemindent}{.2in}
+\item \texttt{[0 0 0]} -- zero intensity of all of R, G, B => black.
+\item \texttt{[1 1 1]} -- 100\% intensity of all of R, G, B => white.
+\item \texttt{[1 0 0]} -- 100\% intensity R, none for G and B => red.
+\item \texttt{[0.5 0.5 0.5]} -- 50\% intensity of all of R, G, B => grey.
+\item \texttt{[0.5 1.0 0.5]} -- light green.
+\end{itemize}
+
+Play around with some RGB value combinations, plotting shapes, or filled circles, e.g.
+\begin{docspecbold}
+>> scatter(50,50,1000,[0.25 0.75 0.25],'filled');
+\end{docspecbold}
+
+A rendition of the RGB color scale is shown for reference in Figure \ref{fig:RGB_color_solid_cube}. 
+%------------------------------------------------
+
+\subsection{Shapes}
+
+
+\marginnote[-0.125in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{patch}
+\\To plot one (or more) filled polygonal regions, pass 2 vectors of the x and y as the coordinates for each vertex, e.g.
+\begin{docspecmargin}
+>> patch(X,Y,C)
+\end{docspecmargin}
+where \texttt{X} and \texttt{Y} are the \textit{x}- and \textit{y-}coordinates of the vertices. \texttt{C} determines the polygon's color.
+\\For example, a red square would be:
+\begin{docspecmargin}
+x = [0 1 1 0];\\
+y = [0 0 1 1];\\
+patch(x,y,'red')
+\end{docspecmargin}
+\end{mdframed}}
+
+
+\noindent For 2D shapes -- you can draw polygons using the \textit{function} \docenvdef{patch}. This takes as parameter input, a vector of x-coordinate positions, then a vector of y-coordinate positions, and as a 3rd parameter, the color for the object.
 
 So in our previous example, with the x- and y-axes going from 0-100, say we want to draw a square in the middle, 20 units on each side. We could create our vector of x-axis coordinates as such:
 \begin{docspecbold}
 >> X1 = [40 40 60 60];
 \end{docspecbold}
-and for the y-axis ... some care is needed and often it might be helpful to sketch out the coordinate pairs and positions on a piece of paper:
+and for the y-axis ... (some care is needed and often it might be helpful to sketch out the coordinate pairs and positions on a piece of paper):
 \begin{docspecbold}
 >> Y1 = [40 60 60 40];
 \end{docspecbold}
-And then:
+To draw, simply pass the 2 coordinate vectors to \texttt{patch}, along with any line style specification:
 \begin{docspecbold}
 >> patch(X1,Y1,'r');
 \end{docspecbold}
-as shown in Figure \ref{fig:ch3-shape01}. Note that in this \texttt{(X1,Y1)} point notation, we are telling \textbf{MATLAB} to plot a shape with vertices at:
+as shown in Figure \ref{fig:ch3-shape01}. 
+
+Note that in this \texttt{(X1,Y1)} point notation, we are telling \textbf{MATLAB} to plot a shape with vertices at:
 
 \vspace{2mm}
 \((40,40), (40,60), (60,60), (60,40)\)
 \vspace{2mm}
 
-\noindent Also note that the order of the (x,y) pairs, matters, as \textbf{MATLAB} draws the line segments between the vertices in the order that they are given to \textbf{MATLAB}. For the same (x,y) pairs, try creating \texttt{X1} and \texttt{Y1} vectors with the pairs in a different order and see what happens.
+\noindent Also note that \uline{the order of the (x,y) pairs, matters}, as \textbf{MATLAB} draws the line segments between the vertices in the order that they are given to \textbf{MATLAB} (as per for \texttt{plot}). For the same (x,y) pairs, try creating \texttt{X1} and \texttt{Y1} vectors with the pairs in a different order and see what happens.
 
 \begin{marginfigure}[-2.0in]
 \includegraphics[width=\linewidth]{ch3-shape01.eps}
@@ -5929,51 +6084,7 @@ or filled:
 
 %------------------------------------------------
 
-\subsection{Colors}
-
-You are already familiar with setting colors for lines, with the notation: \texttt{'r'}, or \texttt{'b'} (for red, blue, respectively). This is nice and simple and so totally fabulous ... except there are a limited number of colors available in this notation (see Box).
-
-\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\textbf{MATLAB} quick colors:
-\begin{itemize}[noitemsep]
-\setlength{\itemindent}{.2in}
-\item \texttt{y} -- yellow
-\item \texttt{m} -- magenta
-\item \texttt{c} -- cyan
-\item \texttt{r} -- red
-\item \texttt{g} -- green
-\item \texttt{b} -- blue
-\item \texttt{w} -- white
-\item \texttt{k} -- black
-\end{itemize}
-\end{mdframed}}
-
-Hence there is an alternative that enables a more exact specification of color. In this particular scheme -- red-green-blue, abbreviated to \textit{RGB}, you set the intensity of red, green, and blue, on a scale of 0 to 1. And supply this in a vector format to \textbf{MATLAB}. For example:
-
-\begin{marginfigure}[-0.0in]
-\includegraphics[width=\linewidth]{RGB_color_solid_cube.png}
-\caption{RGB scale. By SharkD - Own work, GFDL, https://commons.wikimedia.org/
-w/index.php?curid=3375025}
-\label{fig:RGB_color_solid_cube}
-\end{marginfigure}
-
-\begin{itemize}[noitemsep]
-\setlength{\itemindent}{.2in}
-\item \texttt{[0 0 0]} -- zero intensity of all of R, G, B => black.
-\item \texttt{[1 1 1]} -- 100\% intensity of all of R, G, B => white.
-\item \texttt{[1 0 0]} -- 100\% intensity R, none for G and B => red.
-\item \texttt{[0.5 0.5 0.5]} -- 50\% intensity of all of R, G, B => grey.
-\item \texttt{[0.5 1.0 0.5]} -- light green.
-\end{itemize}
-
-Play around with some RGB value combinations, plotting shapes, or filled circles, e.g.
-\begin{docspecbold}
->> scatter(50,50,1000,[0.25 0.75 0.25],'filled');
-\end{docspecbold}
-
-A rendition of the RGB color scale is shown for reference in Figure \ref{fig:RGB_color_solid_cube}. 
-%------------------------------------------------
-
+\newpage
 \subsection{Placing and making text 'nice'}
 
 There is not much to placing text and specifying its properties. The \textbf{MATLAB} command for writing a string to a \textsf{figure window}, is \docenv{text}. That's it! (see Boxes)
@@ -6013,7 +6124,7 @@ Additional parameters can be added to change font, size, etc (see Box), e.g.:
 >> text(25,25,'bananas','FontSize',24,'Color',[0 1 1]);
 \end{docspecbold}
 
-\noindent for big light blue bananas.
+\noindent for big light blue 'bananas'.
 
 \marginnote{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 When \textbf{MATLAB} displays text, be aware that there are a bunch of special characters that may not come out as the character you want. The more common ones are:
@@ -9290,15 +9401,16 @@ close(vidObj);\\
 
 \begin{docspecbold}
 \textcolor[rgb]{0,0.501961,0}{\%\%\% code to plot the continental outline \%\%\%}
-\\\textcolor[rgb]{0,0.501961,0}{\% load data files}
-\\co\_k = load('continental\_outline\_k.dat','-ascii');
-\\co\_start = load('continental\_outline\_start.dat','-ascii');
-\\co\_end = load('continental\_outline\_end.dat','-ascii');
-\\co\_lat = load('continental\_outline\_lat.dat','-ascii');
-\\co\_lon = load('continental\_outline\_lon.dat','-ascii');
-\\\textcolor[rgb]{0,0.501961,0}{\% determine number of line segments}
-\\n\_lines = length(co\_k);
-\\\textcolor[rgb]{0,0.501961,0}{\% create new figure window and set axes}
+\\\textcolor[rgb]{0,0.501961,0}{\% load data files
+\\\% (and assign the contents to short name variables) }
+\\co\_start = load('continental\_outline\_start.dat');
+\\co\_end = load('continental\_outline\_end.dat');
+\\co\_lat = load('continental\_outline\_lat.dat');
+\\co\_lon = load('continental\_outline\_lon.dat');
+\\\textcolor[rgb]{0,0.501961,0}{\% determine number of line segments 
+\\\% (either the segment start, or end, vector will do)}
+\\n\_lines = length(co\_start);
+\\\textcolor[rgb]{0,0.501961,0}{\% create new figure window and set axes \\\% (for the global domain)}
 \\figure;
 \\axis([-180 +180 -090 +090]);
 \\\textcolor[rgb]{0,0.501961,0}{\% 'hold on' ...}
@@ -9308,7 +9420,7 @@ close(vidObj);\\
 \\ \ \ \ plot(co\_lon(co\_start(k):co\_end(k)), ...
 \\ \ \ \ \ \ \ \ \ co\_lat(co\_start(k):co\_end(k)),'k-','LineWidth',0.25);
 \\\textcolor{blue}{end}
-\\\textcolor[rgb]{0,0.501961,0}{\% adjust the plot aspect ratio}
+\\\textcolor[rgb]{0,0.501961,0}{\% adjust the plot aspect ratio to be more map-like}
 \\set(gca,'PlotBoxAspectRatio',[1.0 0.5 1.0]);
 \\\textcolor[rgb]{0,0.501961,0}{\% draw a nice boundary to the map}
 \\h = plot([-180 +180],[-90 -90],'k-');
@@ -9325,9 +9437,45 @@ close(vidObj);\\
 \\xlabel('longitude','fontsize',15);
 \\ylabel('latitude','fontsize',15);
 \\title('Continental outline','fontsize',18);
-\\\textcolor[rgb]{0,0.501961,0}{\% export graphics (as postscript)}
+\\\textcolor[rgb]{0,0.501961,0}{\% export graphics (as postscript)
+\\\% (or manually save from the figure windows as a jpg)}
 \\print -dpsc2 ch3p2p6.ps;
 \end{docspecbold}
+
+%------------------------------------------------
+
+\newpage
+
+%------------------------------------------------
+
+\section{Chapter 3 codes}
+
+%------------------------------------------------
+
+\subsection*{\textbf{Section 3.1}}
+
+\subsection*{Code for using \texttt{textscan}}
+
+\begin{docspec}
+\textcolor[rgb]{0,0.501961,0}{\% === program to load in data using textscan ===}\\
+\textcolor[rgb]{0,0.501961,0}{\%}\\
+\textcolor[rgb]{0,0.501961,0}{\% first -- open a 'file pipe' (ID: file\_id)\\
+\% (to pen the file for subsequent data reading)}\\
+file\_id = fopen(\textcolor[rgb]{1,0,1}{'paleo\_CO2\_data.txt'});\\
+\textcolor[rgb]{0,0.501961,0}{\% now ... load in the actual contents,\\
+\% with a data format defined by: '\%f \%f \%f \%f'\\
+\% (4 columns of floating point numbers)}\\
+my\_data = textscan(file\_id,\textcolor[rgb]{1,0,1}{'\%f \%f \%f \%f'});\\
+\textcolor[rgb]{0,0.501961,0}{\% now close the file!}\\
+fclose(file\_id);\\
+\textcolor[rgb]{0,0.501961,0}{\% BUT, the contents of my\_data is a 'cell array' :(\\
+\% => convert to a 'normal' array ...}\\
+my\_data\_array = cell2mat(my\_data);\\
+\textcolor[rgb]{0,0.501961,0}{\% ... and now the data array looks like before\\
+\% and you can go 'do' something useful with it.}\\
+\textcolor[rgb]{0,0.501961,0}{\%}\\
+\textcolor[rgb]{0,0.501961,0}{\% === END\ ===}\\
+\end{docspec}
 
 %------------------------------------------------
 %
