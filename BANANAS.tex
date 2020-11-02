@@ -4952,6 +4952,536 @@ It should be obvious that plotting the continental outline might be something yo
 This section contains a selection of further simple techniques for doing useful stuff with data, as well as for better graphing.
 
 %------------------------------------------------
+%
+\newpage
+
+%------------------------------------------------
+
+\subsection{\texttt{find}!}
+
+So -- a single \textbf{MATLAB} function gets its own sub-section, all to itself. Either it's really powerful and useful, or I am running out of ideas for the textbook\sidenote{Answer: it is really powerful and useful.}.
+
+\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{find}
+\\\textbf{MATLAB} defines find, with a basic syntax of:
+\begin{docspecmargin}
+k = find(X)
+\end{docspecmargin}
+as '\textit{return[ing] a vector containing the linear indices of each nonzero element in array X}'.
+\\That means ... nothing to me. This is going to have to be a job for some Examples ... (in order to see what \docenv{find} is all about).
+\\ Actually, \texttt{find} returns the indices of the non-zero elements in the array and if the array is a vector, what is does is simple. For a matrix, \textbf{MATLAB} counts the elements sequentially, starting at the 1st row and 1st column, and working down the first column, rather than provide the (row,column) for indexing format you are used to. Hence where the '\textit{linear indices}' bit comes in.
+\\ Furthermore, 'non-zero' indices is really just code-word for 'true'. So you are asking where the true values occur in \texttt{X}. If \texttt{X} is the answer to a \textit{logical} or \textit{relational} operation, then find tells you the indices of the elements that are true.
+\\ For example, \texttt{3 > [5 3 1]} equates to \texttt{[0 0 1]}, i.e. only the first element in the vector \texttt{[5 3 1]} is less than \texttt{3}. Hence:
+\begin{docspecmargin}
+find(3 > [5 3 1])
+\end{docspecmargin}
+first evaluates the relational operation and generates a vector of true and false values, and then \texttt{find} tells you the index (or indices) where the true values occur (here, \texttt{ans = 3}).
+\end{mdframed}}
+
+\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{min}
+\\\noindent\docenvdef{max}
+\\Return the minimum and maximum, respectively, values in an array. e.g.
+\begin{docspecmargin}
+min([4 8 3 1])
+\end{docspecmargin}
+will return a value of \texttt{1}.
+\end{mdframed}}
+
+\docenv{find} ... finds where-ever in an \textit{array}, a specific condition is met. If the specific condition occurs once, a single \textit{array} location is returned. The specific condition could occur multiple times, in which case \texttt{find} will report back multiple positions in the \textit{array}.
+
+What do I mean by a 'specific condition'? Basically -- exactly as per in the \texttt{if ...} construction -- a \textit{conditional} statement being evaluated to \textit{true}.
+
+OK -- some  Examples.
+
+Say that you have a \textit{vector} of numbers, e.g.:
+\begin{docspec}
+A = [3 7 5 1 9 7 4 2];
+\end{docspec}
+and you want to find the maximum value in the vector -- easy\sidenote{I hope so ... check back earlier (or slightly later) in the course on \texttt{max}.}.
+
+But ... perhaps you want to find *where* in the vector the maximum value occurs. Why might you want to do this? Rarely do you have a single vector of data on its own -- generally it is always linked to at least one other vector (often time or length in scientific examples). Trivially, our second vector might be:
+\begin{docspec}
+B = [0:7];
+\end{docspec}
+and represent, for instance, time. The question then becomes: at what time did the maximum value occur? Obviously, this is easy by eye with just 8 numbers, but if you had 1000s ...
+
+We can start by determining the maximum value (in the  array, \texttt{A}).
+\begin{docspec}
+c = max(A);
+\end{docspec}
+
+Now, we use \docenv{find} to evaluate \uline{where} (what index) in  array \texttt{A} the element with a value of \texttt{max(A)} (equal to \texttt{c}) occurs. The following should accomplish this:
+\begin{docspec}
+find(A(:)==c);
+\end{docspec}
+
+Here, what we are saying is: take all of the elements in \texttt{A} and \uline{find} where an element occurs that is equal to \texttt{c} (the maximum value, which we already determined). Try it, and \textbf{MATLAB} should return \texttt{5} -- the 5th element in the vector.
+
+Finally, if we assign the result of \texttt{find} to \texttt{d}, remembering that \texttt{find} return an array index (or indices), we can then use \texttt{d} to determine the time at which the value of \texttt{9} occurred, i.e. \texttt{B(d)} which evaluates to \texttt{4} (whatever units of time):
+\begin{docspec}
+d = find(A(:)==c);\\
+B(d)
+\end{docspec}
+
+In this example, \docenv{find} returned just a single element, but if we instead had:
+\begin{docspec}
+A = [3 9 5 1 9 7 4 2];
+\end{docspec}
+The maximum value is still the same (\texttt{9}) but now you get ...
+\begin{docspec}
+>> find(A(:)==c)\\
+ans =
+\\ \ \ \ \ 2
+\\ \ \ \ \ 5
+\end{docspec}
+
+What has happened is that \docenv{find} has determined that there are 2 elements in vector \texttt{A} that satisfy the condition of being equal to \texttt{c} (\texttt{9}) and that these lie at positions (index) \texttt{2} and \texttt{5}. The resulting \textit{vector}, if you assigned it to the variable \texttt{d} again, can be used just as before to access the corresponding times in vector \texttt{B};
+\begin{docspec}
+>> d = find(A(:)==c);\\
+>> B(d)
+\\ans =
+\\ \ \ \ \     1     4
+\end{docspec}
+i.e. that the times at which the values of \texttt{9} occur are \texttt{1} and \texttt{4} (whatever units).
+
+Any of the \textit{relational operators} (that evaluate to \textit{true} or \textit{false}) can be used. In fact -- looking at it this way leads us to maybe understand the \textbf{MATLAB} \textbf{help} text, because \textit{true} and \textit{false} are equivalent to \texttt{1} and \texttt{0}, and \texttt{find} is defined as a function that returns the indices of the non-zero elements in a \textit{vector}. By writing \texttt{A(:)==c} we are in effect creating a vector of \texttt{1}s and \texttt{0}s depending on whether the equality is \textit{true} or not for each element. You can pick apart what is going on and see that this is the case, by typing:
+\begin{docspecbold}
+>> A(:)==c
+\\ans =
+\\ \ \ \ \ 0
+\\ \ \ \ \ 1
+\\ \ \ \ \ 0
+\\ \ \ \ \ 0
+\\ \ \ \ \ 1
+\\ \ \ \ \ 0
+\\ \ \ \ \ 0
+\\ \ \ \ \ 0
+\end{docspecbold}
+(the statement being \textit{true} at positions (index) \texttt{2} and \texttt{5}, which is exactly what \texttt{find} told you).
+
+As another example, we could ask \texttt{find} to tell us which elements of A have a value greater than 5:
+\begin{docspecbold}
+>> find(A(:)>5)
+\\ ans =
+\\ \ \ \ \ 2
+\\ \ \ \ \ 5
+\\ \ \ \ \ 6
+\end{docspecbold}
+(Inspect the contents of vector \texttt{A} and satisfy yourself that this is the case.)
+
+We can also use \texttt{find} to filter data. Perhaps you do not want values over 5 to remain in the dataset. Perhaps this is above the maximum reliable range of the instrument that generated them or whatever reason. Having obtained a vector of locations of these values, e.g.
+\begin{docspec}
+d = find(A(:)>5);
+\end{docspec}
+we can plug this vector back into \texttt{A} and assign arrays of zero size to these locations -- effectively, deleting the locations in the array, i.e.
+\begin{docspec}
+A(d) = [];
+\end{docspec}
+Note that the size\sidenote{Use the command \texttt{length} or view in the \textsf{Workspace Window}.} of \texttt{A} has now shrunk to \texttt{5} -- all the other elements remain, and in order, but the elements with a value greater than 5 have gone. You could apply an identical deletion (filtering) to the time array (\texttt{B(d) = []}).
+
+Play about with some other relational operators and criteria, and make up some vectors of your own until you are comfortable with using \texttt{find}. 
+%------------------------------------------------
+
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{-2mm}
+
+%------------------------------------------------
+
+\newthought{For an Example of data-filtering} -- dig out the paleo-proxy (\texttt{paleo\_CO2\_data.txt}) atmospheric CO\(_{2}\) data you downloaded earlier. One further way of plotting with \texttt{scatter} is to scale the point size by a data value. We could do with by:
+\begin{docspecbold}
+>> SCATTER(data(:,1),data(:,2),data(:,2))
+\end{docspecbold}
+... except ... it turns out that there are atmospheric CO\(_{2}\) estimates of zero or less   and \texttt{scatter} will refuse to scale the point size by such values ...
+
+\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{NaN}
+\\... is \textbf{Not-a-Number} and is a representation for something that cannot be represented as a number, although if you try and divide something by zero \textbf{MATLAB} reports \texttt{Inf} rather than a \texttt{NaN}.
+\\ \texttt{NaN} can also be used as a function to generate arrays of \texttt{NaN}s. The most common/usage in this context is:
+\begin{docspecmargin}
+N = NaN(sz1,...,szN)
+\end{docspecmargin}
+which will (according to \textbf{help}) "generate a a sz1-by-...-by-szN array of NaN values where sz1,...,szN indicates the size of each dimension. For example, \texttt{NaN(3,4)} returns a 3-by-4 array of NaN values."
+\end{mdframed}}
+
+This leads us to a new use for \docenv{find} and some basic data filtering. We'll start by tackling the zeros.
+
+ The simplest thing you could do to ensure that no zero value appear anywhere, would be to add a very small number to all the values. This would defeat the 'no zero' parameter restriction, but would not help if there were negative values and you have now slightly modified and distorted the data which is not very scientific. Substituting a \docenv{NaN} for problem values is a useful trick, as \textbf{MATLAB} will simply ignore and not attempt to plot such values.
+
+So first, lets replace any zero in the CO\(_{2}\) column of the data with a \texttt{NaN}. The compact version of the command you need is:
+\begin{docspec}
+data(find(data(:,2)==0),2)=NaN;
+\end{docspec}
+But as ever -- perhaps break this down into separate steps and use additional arrays to store the results of intermediate steps, if it makes it easier to understand, e.g.
+\begin{docspecbold}
+>> list\_of\_zero\_locations = find(data(:,2)==0);
+\\>> data(list\_of\_zero\_locations,2) = NaN;
+\end{docspecbold}
+What this is saying is: first find all the locations (row indices) in the 2nd column of \texttt{data} for which the value is equivalent (\texttt{==}) to zero. Then, replace the CO\(_{2}\) value in all these rows of the 2nd column (which is originally zero) with a \texttt{NaN} (technically speaking: assign a value of \texttt{NaN} to these locations). 
+
+You have now filtered out zeros, and replaced the offending values with a \texttt{NaN} and when \textbf{MATLAB} encounters \textit{NaNs} in plotting -- it ignores them and omits that row of data from the plot.
+ 
+Alternatively, we could have simply deleted the entire row containing each offending zero.\footnote{\uline{First}: Re-load  the paleo-proxy atmospheric CO\(_{2}\) data so that you can have another go at filtering it.} Breaking it down, this is similar to before in that you start by identifying the row numbers of were zeros appear in the 2nd column, but now we set the entire row to be 'empty', represented by \texttt{[]}:
+\begin{docspecbold}
+>> list\_of\_zero\_locations = find(data(:,2)==0);
+\\ >> data(list\_of\_zero\_locations,:) = [];
+\end{docspecbold}
+If you check the \textsf{Workspace window}\sidenote{Or: \\\texttt{>> size(data)}}, you should notice that the size of the array data has been reduced (by 4 rows, which was the number of times a zero appeared in the 2nd column).
+
+We are almost there with this example except it turns out that there is a CO\(_{2}\) proxy data value less than zero(!!!) We can filter this out, just as for zeros. I'll leave this as an exercise for you -- remember the operator 'less than' (\texttt{<}).\sidenote{Actually, you could have done the filtering of both zeros, and values less than zero, all in one, using: \(\leq\)}
+
+The plot should end up looking like Figure \ref{fig:plot-CO2scatter3}. As another lesson-ette, given that the circles are insanely large ... you might try plotting this with proportionally smaller circles, which you could achieve by e.g.
+\begin{docspecbold}
+>> SCATTER(data(:,1),data(:,2),0.5*data(:,2))
+\end{docspecbold}
+which simply make the 2nd column values passed to \texttt{scatter} to set the marker size, to half their original value.
+
+\begin{marginfigure}[0.0in]
+\includegraphics[width=\linewidth]{plot-CO2scatter3.eps}
+\caption{Proxy reconstructed past variability in atmospheric CO2 (scatter plot).}
+\label{fig:plot-CO2scatter3}
+\end{marginfigure} 
+
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{2mm}
+
+\noindent Having inserted \texttt{NaN}s into an array, or having ended up with \texttt{NaN}s in an array for other reasons, you can also search for (\texttt{find}) the \texttt{NaN}s.
+The first thing to note in looking for \texttt{NaN}s, is you cannot test for a \texttt{NaN} with a simple equality operator:
+\begin{docspecbold}
+>> a=NaN;\\
+>> a==NaN\\
+ans =\\
+\ \ \ 0
+\end{docspecbold}
+which ... is odd. Having assigned a \texttt{NaN} to variable \texttt{a} (first line), \textbf{MATLAB} is apparently telling you that the value of \texttt{a} is not equivalent to \texttt{NaN}.
+Really unhelpful.
+In fairness, \texttt{a} does not have a value and is Not A Number and hence \textbf{MATLAB} cannot determine whether or not it is equal to another Not A Number.
+ Better would have been for \textbf{MATLAB} to give you an error ... still, it is what it is.
+
+To try and make amends, \textbf{MATLAB} provides a \textit{function} to determine whether or not something is Not A Number -- \docenv{isnana}. This returns \textit{true} (\texttt{1}) if the passed variable is Not A Number, and \textit{false} (\texttt{0}) if not, e.g.
+
+\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{isnan}
+\\'\textit{\texttt{isnan(A)} returns an array the same size as \texttt{A} containing logical \texttt{1} (true) where the elements of \texttt{A} are \texttt{NaN}s and logical \texttt{0} (false) where they are not.}'
+\\Meaning that you can pass any dimension of array (e.g. vector or matrix or 3D), not just a scalar (a single value or \(1\times1\) matrix). 
+\end{mdframed}}
+\begin{docspecbold}
+>> isnan(a)\\
+ans =\\
+\ \ \ 1
+\end{docspecbold}
+(because we set \texttt{a} to \texttt{NaN} earlier), whereas:
+\begin{docspecbold}
+>> isnan(99)\\
+ans =\\
+\ \ \ 0
+\end{docspecbold}
+because \texttt{99} is a number (integer) and not a Not A Number.
+
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{-4mm}
+
+\subsection{Other data filtering}
+
+\noindent In the example of the observational Riverside temperature data (the data file: \texttt{temperature\_riverside.txt}), if would be nice to also be able to use \docenv{find} ... which can  determine all the locations at which a \texttt{NaN} occurs\sidenote{Using \docenv{isnan}.}, by e.g.:
+\begin{docspec}
+>> find(isnan(temperature\_riverside))
+\end{docspec}
+
+\noindent ... but it is not obvious what to 'do' with the resulting list of \textit{linear indices} for each cell containing a missing value (\texttt{NaN}). For instance, you cannot remove a single cell from a \(a\times b\) array because an array must contain the same number of elements in each row and the same number of elements in each column.
+
+What you need, is a way of automatically removing each and every row in which one (or more) \texttt{NaN}s appear. There are two obvious approaches:
+
+\vspace{2mm}
+\textbf{1. use a loop}
+\vspace{2mm}
+
+\noindent We could go through the array, row by row, and for every row in which a \texttt{NaN} occurs, remove that row. The code (in a new \textit{script} file) could look something like the following and which works ... but maybe is a little complicated and/or contorted:
+
+\begin{docspec}
+\textcolor[rgb]{0,0.501961,0}{\%\%\% script to load data, remove NaN-containing rows}\\
+\textcolor[rgb]{0,0.501961,0}{\% load dataset}\\
+data=load(\textcolor[rgb]{1,0,1}{'temperature\_riverside.txt'});\\
+\textcolor[rgb]{0,0.501961,0}{\% determine number of rows of data}\\
+n\_max = length(data);\\
+\textcolor[rgb]{0,0.501961,0}{\% initialize row count to the first row}\\
+n = 1;\\
+\textcolor[rgb]{0,0.501961,0}{\% loop through all rows}\\
+\textcolor{blue}{while} (n <= n\_max),\\
+\ \ \ \textcolor[rgb]{0,0.501961,0}{\% find all (any) NaNs in current row}\\
+\ \ \    found\_nans = find(isnan(data(n,:)));\\
+\ \ \ \textcolor[rgb]{0,0.501961,0}{\% did you find any NaNs?}\\
+\ \ \ \textcolor[rgb]{0,0.501961,0}{\% the vector found\_nans is not empty if you did!}\\
+\ \ \    \textcolor{blue}{if} (\(\sim\)isempty(found\_nans));\\
+\ \ \ \ \ \        \textcolor[rgb]{0,0.501961,0}{\% then remove entire row}\\
+\ \ \ \ \ \        data(n,:) = [];\\
+\ \ \ \ \ \        \textcolor[rgb]{0,0.501961,0}{\% remember to update total number of rows!!!}\\
+\ \ \ \ \ \        \textcolor[rgb]{0,0.501961,0}{\% (there is one less now)}\\
+\ \ \ \ \ \        n\_max = n\_max - 1;\\
+\ \ \ \ \ \        \textcolor[rgb]{0,0.501961,0}{\% NOTE: don't update row count}\\
+\ \ \    \textcolor{blue}{else}\\
+\ \ \ \ \ \        \textcolor[rgb]{0,0.501961,0}{\% move on to next row}\\
+\ \ \ \ \ \        n = n+1;\\
+\ \ \    \textcolor{blue}{end}\\
+\textcolor{blue}{end}\\
+\end{docspec}
+
+\vspace{2mm}
+\textbf{2. cheat!}
+\vspace{2mm}
+
+(not really)
+
+\noindent There is a relatively new \textbf{MATLAB} \textit{function} that achieves just this: \docenv{rmmissing} (see Box). Much simpler  code that does exactly the same job as above, would then look like:
+\begin{docspec}
+\textcolor[rgb]{0,0.501961,0}{\%\%\% script to load data, remove NaN-containing rows}\\
+\textcolor[rgb]{0,0.501961,0}{\% load dataset}\\
+data=load(\textcolor[rgb]{1,0,1}{'temperature\_riverside.txt'});\\
+\textcolor[rgb]{0,0.501961,0}{\% remove problem rows!!!}\\
+data = rmmissing(data);
+\end{docspec}
+
+\marginnote[-1.625in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{rmmissing} -- 'Remove rows or columns with missing entries'.
+\\In the simplest usage:
+\begin{docspecmargin}
+B = rmmissing(A);
+\end{docspecmargin}
+Removes rows containing missing data elements from array \texttt{A}, assigning the results to array \texttt{B}.
+\\\textbf{MATLAB} defines missing data as:
+\begin{itemize}[noitemsep]
+\item \texttt{NaN} - for number arrays
+\item \texttt{<missing>} - for string arrays
+\item blank character \texttt{[' ']} - for character arrays
+\item empty character \texttt{{''}} - for cell arrays
+\end{itemize}
+(see \textbf{help} for further information and examples)
+\end{mdframed}}
+Now, for any row of data in which a \texttt{NaN} occurs, \textbf{MATLAB} automatically removes the \uline{entire} row from the array.
+
+If you prefer to break things up -- we need not assign the row-removed array back into the same variable and could create a distinct new one, e.g.
+\begin{docspec}
+\textcolor[rgb]{0,0.501961,0}{\% remove problem rows (and assign to a new variable)}\\
+data\_new = rmmissing(data);
+\end{docspec}
+
+%------------------------------------------------
+
+\newpage 
+
+\subsection{Some miscellaneous and useful data manipulations techniques}
+
+Sometimes you will find you need data as a \textit{vector}, but you only have it in the form of an \textit{array}. \textbf{MATLAB} provides the function \docenvdef{reshape}\sidenote{See \texttt{help} and Box} for the express purpose of re-configuring the shape of an \textit{array}, such as turning a \textit{matrix} into a \textit{vector}, or \textit{vice versa}. 
+
+For instance, given a \(3x3\) matrix \texttt{D}:
+
+\vspace{2mm}
+\(\begin{pmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 9 \\
+\end{pmatrix}\)
+\vspace{2mm}
+
+how do we turn this into a \(9x1\) column vector, i.e.
+
+\vspace{2mm}
+\(\begin{pmatrix}
+1 \\
+4 \\
+7 \\
+2 \\
+5 \\
+8 \\
+3 \\
+6 \\
+9 \\
+\end{pmatrix}\)
+\vspace{4mm}
+
+\marginnote[-2.875in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{reshape}
+\\Use \docenv{reshape} to transform data in an array of one shape (i.e. configurations of rows and columns), into another. \textbf{MATLAB} \texttt{help} is OK on this and for the main usage of the \textit{function}, says:
+\\\textit{'B = reshape(A,sz) reshapes A using the size vector, sz, to define size(B). For example, reshape(A,[2,3]) reshapes A into a 2-by-3 matrix.}'
+\\In this usage you need to specify the rows and columns of the resulting array.
+\\NOTE that the array you turn it into to, can have a single row, or a single column (and hence be a vector), but you need to specify this with a \texttt{1}.
+\\Also note that the total number of elements in the array must be conserved, so if you turn an \(n\times m\) array into a \(p\times p\) array, then it must be true that:
+\\\(n\times m = o\times p\)
+There is also a convenient second usage, that will attempt to automatically determine the row or columns needed to make \(n\times m = o\times p\) true, given either \(o\) or \(p\). For example:
+\begin{docspecmargin}
+B = reshape(A,2,[])
+\end{docspecmargin}
+in the previous example will automatically determine that 3 columns are needed. Conversely,
+\begin{docspecmargin}
+B = reshape(A,[],3)
+\end{docspecmargin}
+will determine that 2 rows are required to meet the \(n\times m = o\times p\) criteria.
+\\This usage is particularly convenient for making vectors, e.g.:
+\begin{docspecmargin}
+B = reshape(A,[],1)
+\end{docspecmargin}
+\end{mdframed}}
+
+You can use \docenv{reshape} in 2 different ways:
+
+\begin{enumerate}[noitemsep]
+\setlength{\itemindent}{.2in}
+\item Firstly, you can explicitly specify the new array shape you want.\sidenote{Obviously, the total number of elements in the array \uline{must} be conserved.} e.g.
+\begin{docspec}
+Dvector = reshape(D,[9,1]);
+\end{docspec}
+\item Alternatively, if you know you want a single column vector and cannot be bothered to work out how many rows you need, \textbf{MATLAB} will kindly pick up the slack via a slightly different usage of \texttt{reshape}:
+\begin{docspec}
+Dvector = reshape(D,[],1);
+\end{docspec}
+Here you are specifying one column, but 'whatever' (\texttt{[]}) rows.
+\end{enumerate}
+
+\noindent(Having created a vector containing all the numbers, you can now find the standard deviation: \texttt{std(Dvector)}.)
+
+Obviously, if you want a row, rather than a column vector -- either transpose the column vector to row vector shape, or specify the format of a row vector in the first place when using \texttt{reshape}:
+\begin{docspec}
+Dvector = reshape(D,[1,9]);
+\end{docspec}
+
+%------------------------------------------------
+
+\newpage 
+
+\subsection{Data interpolation}
+
+Interpolation? What is it and why would you do it? We'll answer this via an example. 
+
+First download the ice-core dataset of atmospheric CO2 over the past ~800,000 years, recovered from the Dome C site on Antarctica -- filename: \textsf{icecore\_co2.txt} on the course webpage. Load it in and assign the the variable \texttt{co2}. Start by plotting it (your choice of \textbf{MATLAB} plotting function) to see what you are dealing with.\sidenote{First column / x-axis values are age, in years, and 2nd column / y-axis values are CO2 concentration, in units of ppm.}
+
+So what if we wanted to know the average (mean) value of atmospheric \(CO_{2}\) over the last full glacial cycle, i.e. between now (age zero) and the end of the previous interglacial period, about 115,000 years ago.
+
+So firstly, you might use your most excellent \textbf{MATLAB} skills to extract all the data corresponding to this specific interval -- i.e. all the ages (and corresponding \(CO_{2}\) values, between zero and 115,000 years, or rather, \uline{less than or equal to} 115,000 years. You should know this requires the find function, and that the range of indices if given by (assuming the data array you loaded in is called \texttt{co2}):
+\begin{docspecbold}
+>> a=find(co2(:,1)<=115000)
+\end{docspecbold}
+which simply says: take all the elements in the 1st column of the array \texttt{co2} (\texttt{co2(:,1)}), and find the indices of all the elements with a value equal or less than 115,000. To select just the first 115000 years of data in \texttt{co2} is then just a matter of: 
+\begin{docspecbold}
+>> co22=co2(a,:)
+\end{docspecbold}
+and check that this does indeed give you the correct portion of data and has assigned it to the array \texttt{co22}.
+(Maybe plot to confirm.)
+
+It is worth pausing at this point -- this is a common, and powerful, usage of \texttt{find}, and of \textit{indexing}, and you should be sure you understand it before moving on. What this line is saying is: take both columns of the array \texttt{co2} -- select all the elements (rows) defined by the vector \texttt{a}, and assign the result to \texttt{co22}.
+
+OK, so we are progressing well towards answering the question -- the mean \(CO_{2}\) value over the last glacial cycle (last 115,000 years). In fact -- try answering that now (using \texttt{mean}). You should end up with a value of \(245 ppm\).\sidenote{Note that \textbf{MATLAB} will report the value in a scientific notation with a power (here \(10^{2}\)).} The question is -- do you 'believe' it? Look at the plot -- do you think that value is representative of the average?
+
+To make the problem more obvious -- repeat the above exercise, but now consider only the past 40,000 years. From the plot, high, interglacial \(CO_{2}\) values characterise only the last 10,000 years or so, with a transition over 5,000 years or so before that. From 15,000 years and back to 40,000, \(CO_{2}\) is clearly bumping along its lowest values. What would you guess the mean \(CO_{2}\) value is? Now try it. I get \(249 ppm\) \(CO_{2}\). Does that look correct to you, across the past 40,000 years?
+
+If you were previously using \texttt{plot} to plot the data, now try \texttt{scatter}. It should be much more obvious what is going on now -- you have very uneven data sampling in time -- the bulk of the data is from the last 10,000 years or so, and there are very few data points older than about 22,000 years. When \textbf{MATLAB} calculates a mean, it is of the data points, and an uneven data sampling will give a biased, unrepresentative value.
+
+We need to \uline{interpolate} the data -- place it on an evenly sampled-in-time basis. The \textbf{MATLAB} function to interpolate vector (1D) data is \docenv{interp1} (see \texttt{help}/Box).
+
+\marginnote[-0.25in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\docenvdef{interp1}
+\begin{docspecmargin}
+yi = interp1(x,y,xi)
+\end{docspecmargin}
+will interpolate the y-axis values located at x-axis points given by the vector \texttt{x}, onto the x-axis points given by vector \texttt{xi}. The resulting interpolated y-values are assigned back to \texttt{yi}.
+\\By default the interpolation methods used is linear. For a different interpolation method, use the varient of the function:
+\begin{docspecmargin}
+yi = interp1(x,y,xi,method)
+\end{docspecmargin}
+where method is one of: \texttt{'nearest'}, \texttt{'linear'}, \texttt{'spline'}, \texttt{'cubic'} ... (for a fuller list, see \texttt{help}).
+\\To extrapolate outside of the domain spanned by the (original) x-axis vector \texttt{x}, specify:
+\begin{docspecmargin}
+yi = interp1(x,y,xi,method,'extrap')
+\end{docspecmargin}
+\end{mdframed}}
+
+The first thing we need, to use \docenv{interp1}, is a vector of points in time, that we are going to interpolate our data on to. As a rule, the vector should ideally not extend in value beyond the minimum and maximum values of the original axis, but we'll ignore this for now. We might pick ... 1,000 years as a simple sampling interval, and so to create this new axis vector, we would write:
+\begin{docspecbold}
+>> xi=[0:1000:40000];
+\end{docspecbold}
+assuming we stick with the 0-40,000 year interval. The \docenv{interp1} function requires that you pass this vector, along with the original time (x-axis) vector, and the original data (y-axis) vector, and will give you a new data vector, with values corresponding to the time points defined by \texttt{xi}. Like this:
+\begin{docspecbold}
+>> yi=interp1(co22(:,1),co22(:,2),xi);
+\end{docspecbold}
+
+If you prefer to break things down\sidenote{And then you might also make the variable names REALLY explicit, and have \texttt{xold}, \texttt{yold}, \texttt{xnew}, \texttt{ynew} or something.} so that the process is a little clearer, maybe first extract from the original data array, an x-axis (time) \textit{vector}:
+\begin{docspec}
+xold=co22(:,1);
+\end{docspec}
+and then extract a y-axis (data) \textit{vector}:
+\begin{docspec}
+yold=co22(:,2);
+\end{docspec}
+and then do the interpolation:
+\begin{docspec}
+yi=interp1(xold,yold,xi);
+\end{docspec}
+
+Either way, now scatter-plotting the interpolated data:
+\begin{docspecbold}
+>> scatter(xi,yi);
+\end{docspecbold}
+
+\noindent should result in an obviously evenly-spaced data plot.
+
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{-2mm}
+
+\newpage 
+
+\newthought{[\textbf{\textcolor{red}{OPTIONAL}}]} We could now use the \textit{function} \texttt{mean}, except ... if you were paying attention,  we extrapolated outside of the range of the extracted data into the array \texttt{yi}. But you know how to handle this situation, i.e. \texttt{find}-ing and removing the offending \texttt{NaN} rows, or use \texttt{nanmean} if you have access to the required \textbf{MATLAB} toolbox.
+
+Or, you could re-do the interpolation, but interpolate from the full, original data array, which you know extends way past 40,000 years. And ... specify the very first time point as 1,000 years rather than zero. e.g.
+\begin{docspec}
+x1=[1000:1000:40000];\\
+y1=interp1(co2(:,1),co2(:,2),x1); 
+\end{docspec}
+
+Well ... it doesn't work, which is sort of pretty 'real world' problem-esk. The issue is that there is a duplicate year -- i.e. 2 \(CO_{2}\) values with the same year.\sidenote{The \textbf{MATLAB} interpolation function requires a strictly monotonically increasing (with no duplicates) old and new x-axis vector.} How to find them? Well, you saw earlier the function \texttt{mode}, which return the most popular value in an array. If we do:
+\begin{docspecbold}
+>> mode(co2(:,1))\\
+ans =\\
+\ \ \ 409383
+\end{docspecbold}
+
+Ha ha, so the year 409,383 is duplicated.\sidenote{The absence of duplicated year values, or rather, there only being one of each individual number, would result in \textbf{MATLAB} returning the very first value in the vector. The only confusion here would be if the very first value was itself duplicated ...} How to find this ...
+\begin{docspecbold}
+>> find(co2(:,1)==409383);
+\end{docspecbold}
+
+\noindent or if you prefer (and neater):
+\begin{docspecbold}
+>> >> rows=find(co2(:,1)==mode(co2(:,1)))\\
+ans =\\
+\ \ \ 531\\
+\ \ \ 532\\
+\end{docspecbold}
+
+\noindent giving us the row numbers. We could be cleaver, and create a single entry for this year, with the \(CO_{2}\) value formed of the mean of the duplicate entries:
+\begin{docspecbold}
+>> co2mean=mean(co2(rows,2));
+\end{docspecbold}
+\noindent ... replacing the first \(CO_{2}\) value ...
+\begin{docspecbold}
+>> co2(rows(1),2)=co2mean;
+\end{docspecbold}
+\noindent ... and then delete the second.
+\begin{docspecbold}
+>> co2(rows(2),:)=[];
+\end{docspecbold}
+
+Phew! Now try the interpolation again. Plot (\texttt{scatter} and/or \texttt{plot}). Find the mean \(CO_{2}\) value over 0-40,000 (technically, now we have restricted the data to 1,000-40,000). Does this seem more reasonable? Repeat for 0-115,000 years (or 1,000-115,000 years). Also try out carrying out an interpolation with closer spacing, say 500 or 100 years.
+
+Finally, if you read the (Box or \texttt{help}) details about the function \texttt{interp1}, the more recent \textbf{MATLAB} version releases enable you to extrapolate outside of the data domain. So instead of having to restrict the \texttt{xi} vector to starting at year 1,000, you can start at year zero:
+\begin{docspecbold}
+>> x1=[0:1000:40000];\\
+>> y1=interp1(co2(:,1),co2(:,2),x,'linear','extrap'); 
+\end{docspecbold}
+
+%------------------------------------------------
 
 \newpage
 
@@ -5100,621 +5630,8 @@ For example, the result of removing ALL the rows with missing monthly data\siden
 \noindent\rule{4cm}{0.5pt}
 \vspace{2mm}
 
-Finally, go back to the original global mean anomaly values (re-load the data set if necessary) and convert from the anomaly in \degree C to \degree F (i.e. simply multiply by \(1.8\) -- no offset (32\degree F) is required in this particular case). If you additionally, chose and set a sensible common y-axis scale for both plots, you might end up with a pair of graphs looking like Figures \ref{fig:ch1-plot-temperature5} and \ref{fig:ch1-plot-temperature6}.
+\noindent Finally, go back to the original global mean anomaly values (re-load the data set if necessary) and convert from the anomaly in \degree C to \degree F (i.e. simply multiply by \(1.8\) -- no offset (32\degree F) is required in this particular case). If you additionally, chose and set a sensible common y-axis scale for both plots, you might end up with a pair of graphs looking like Figures \ref{fig:ch1-plot-temperature5} and \ref{fig:ch1-plot-temperature6}.
 \sidenote[][-0.0in]{There are all sorts of likely reasons for the differences. Firstly, the global mean surface temperature rise includes both ocean surface and land surface. Because of the higher heat capacity of the ocean, the ocean surface warms slower than the land, and the ocean accounts for ca. 70\% of the total global surface area. So it is somewhat inevitable that the warming trend will be stronger in Riverside. It may also be that the Riverside data is influenced by the 'urban heat island' effect, in which long0-term measured trends can be affected by increasing urbanization of the area surrounding the weather station. It may also be that the latitude and specific location of Riverside, sees much more warming that the global mean.}
-
-\newthought{[\textbf{\textcolor{red}{OPTIONAL}}] ...}
-
-
-
-%------------------------------------------------
-%
-\newpage
-
-%------------------------------------------------
-
-\subsection{\texttt{find}!}
-
-So -- a single \textbf{MATLAB} function gets its own sub-section, all to itself. Either it's really powerful and useful, or I am running out of ideas for the text\sidenote{It is really powerful and useful.}.
-
-\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{find}
-\\\textbf{MATLAB} defines find, with a basic syntax of:
-\begin{docspecmargin}
-k = find(X)
-\end{docspecmargin}
-as '\textit{return[ing] a vector containing the linear indices of each nonzero element in array X}'.
-\\That means ... nothing to me. This is going to have to be a job for some Examples ... (in order to see what \docenv{find} is all about).
-\\ Actually, \texttt{find} returns the indices of the non-zero elements in the array and if the array is a vector, what is does is simple. For a matrix, \textbf{MATLAB} counts the elements sequentially, starting at the 1st row and 1st column, and working down the first column, rather than provide the (row,column) for indexing format you are used to. Hence where the '\textit{linear indices}' bit comes in.
-\\ Furthermore, 'non-zero' indices is really just code-word for 'true'. So you are asking where the true values occur in \texttt{X}. If \texttt{X} is the answer to a \textit{logical} or \textit{relational} operation, then find tells you the indices of the elements that are true.
-\\ For example, \texttt{3 > [5 3 1]} equates to \texttt{[0 0 1]}, i.e. only the first element in the vector \texttt{[5 3 1]} is less than \texttt{3}. Hence:
-\begin{docspecmargin}
-find(3 > [5 3 1])
-\end{docspecmargin}
-first evaluates the relational operation and generates a vector of true and false values, and then \texttt{find} tells you the index (or indices) where the true values occur (here, \texttt{ans = 3}).
-\end{mdframed}}
-
-\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{min}
-\\\noindent\docenvdef{max}
-\\Return the minimum and maximum, respectively, values in an array. e.g.
-\begin{docspecmargin}
-min([4 8 3 1])
-\end{docspecmargin}
-will return a value of \texttt{1}.
-\end{mdframed}}
-
-\docenv{find} ... finds where-ever in an \textit{array}, a specific condition is met. If the specific condition occurs once, a single \textit{array} location is returned. The specific condition could occur multiple times, in which case \texttt{find} will report back multiple positions in the \textit{array}.
-
-What do I mean by a 'specific condition'? Basically -- exactly as per in the \texttt{if ...} construction -- a \textit{conditional} statement being evaluated to \textit{true}.
-
-OK -- some initial Examples.
-
-Say that you have a vector of numbers, e.g.:
-\begin{docspec}
-A = [3 7 5 1 9 7 4 2];
-\end{docspec}
-and you want to find the maximum value in the vector -- easy.\sidenote{I hope so ... check back earlier (or slightly later) in the course on \texttt{max}.}
-
-But ... you want to find *where* in the vector the maximum value occurs. Why might you want to do this? Rarely do you have a single vector of data on its own -- generally it is always linked to at least one other vector (often time or length in scientific examples). Trivially, our second vector might be:
-\begin{docspec}
-B = [0:7];
-\end{docspec}
-The question then becomes: at what time did the maximum value occur? Obviously, this is easy by eye with just 8 numbers, but if you had 1000s ...
-
-We can start by determining the maximum value (in the data array, \texttt{A}).
-\begin{docspec}
-c = max(A);
-\end{docspec}
-
-Now, we use \docenv{find} to evaluate where in  array \texttt{A} (here: a vector) the element with a value of \texttt{max(A)} (equal to \texttt{c}) occurs. The following should accomplish this:
-
-\begin{docspec}
-find(A(:)==c);
-\end{docspec}
-
-Here, what we are saying is: take all of the elements in \texttt{A} and \uline{find} where an element occurs that is equal to \texttt{c} (the maximum value, which we already determined). Try it, and \textbf{MATLAB} should return \texttt{5} -- the 5th element in the vector.
-
-Finally, if we assign the result of \texttt{find} to \texttt{d}, remembering that \texttt{find} return an array index (or indices), we can then use \texttt{d} to determine the time at which the value of \texttt{9} occurred, i.e. \texttt{B(d)} which evaluates to \texttt{4} (ms):
-
-In this example, \docenv{find} returned just a single element, but if we instead had:
-\begin{docspec}
-A = [3 9 5 1 9 7 4 2];
-\end{docspec}
-The maximum value is still the same (\texttt{9}) but now ...
-\begin{docspec}
->> find(A(:)==c)\\
-ans =
-\\ \ \ \ \ 2
-\\ \ \ \ \ 5
-\end{docspec}
-
-What has happened is that \docenv{find} has determined that there are 2 elements in vector \texttt{A} that satisfy the condition of being equal to \texttt{c} (\texttt{9}) and that these lie at positions (index) \texttt{2} and \texttt{5}. The result \textit{vector}, if you assigned it to the variable \texttt{d} again, can be used just as before to access the corresponding times in vector \texttt{B};
-\begin{docspec}
->> d = find(A(:)==c);\\
->> B(d)
-\\ans =
-\\ \ \ \ \     1     4
-\end{docspec}
-i.e. that the times at which the values of \texttt{9} occur are \texttt{1} and \texttt{4} (\(ms\)).
-
-Any of the \textit{relational operators} (that evaluate to \textit{true} or \textit{false}) can be used. In fact -- looking at it this way leads us to maybe understand the \textbf{MATLAB} \textbf{help} text, because \textit{true} and \textit{false} are equivalent to \texttt{1} and \texttt{0}, and \texttt{find} is defined as a function that returns the indices of the non-zero elements in a \textit{vector}. By writing \texttt{A(:)==c} we are in effect creating a vector of \texttt{1}s and \texttt{0}s depending on whether the equality is \textit{true} or not for each element. You can pick apart what is going on and see that this is the case, by typing:
-\begin{docspecbold}
->> A(:)==c
-\\ans =
-\\ \ \ \ \ 0
-\\ \ \ \ \ 1
-\\ \ \ \ \ 0
-\\ \ \ \ \ 0
-\\ \ \ \ \ 1
-\\ \ \ \ \ 0
-\\ \ \ \ \ 0
-\\ \ \ \ \ 0
-\end{docspecbold}
-(the statement being \textit{true} at positions (index) \texttt{2} and \texttt{5}, which is exactly what \texttt{find} told you).
-
-For instance, we could ask \texttt{find} to tell us which elements of A have a value greater than 5:
-\begin{docspecbold}
->> find(A(:)>5)
-\\ ans =
-\\ \ \ \ \ 2
-\\ \ \ \ \ 5
-\\ \ \ \ \ 6
-\end{docspecbold}
-(Inspect the contents of vector \texttt{A} and satisfy yourself that this is the case.)
-
-We can also use \texttt{find} to filter data. Perhaps you do not want values over 5 in the dataset. Perhaps this is above the maximum reliable range of the instrument that generated them. Having obtained a vector of locations of these values, e.g.
-\begin{docspec}
-d = find(A(:)>5);
-\end{docspec}
-we can plug this vector back into \texttt{A} and assign arrays of zero size to these locations -- effectively, deleting the locations in the array, i.e.
-\begin{docspec}
-A(d) = [];
-\end{docspec}
-They it, and note that the size\sidenote{Use the command \texttt{length} or view in the \textsf{Workspace Window}.} of \texttt{A} has shrunk to \texttt{5} -- all the other elements remain, and in order, but the elements with a value greater than 5 have gone. You could apply an identical deletion (filtering) to the time array (\texttt{B(d) = []}).
-
-Play about with some other relational operators and criteria, and make up some vectors of your own until you are comfortable with using \texttt{find}. 
-%------------------------------------------------
-
-\vspace{1mm}
-\noindent\rule{4cm}{0.5pt}
-\vspace{-2mm}
-
-%------------------------------------------------
-
-\newthought{For an Example of data-filtering} -- dig out the paleo-proxy (\texttt{paleo\_CO2\_data.txt}) atmospheric CO\(_{2}\) data you downloaded earlier. One further way of plotting with \texttt{scatter} is to scale the point size by a data value. We could do with by:
-\begin{docspecbold}
->> SCATTER(data(:,1),data(:,2),data(:,2))
-\end{docspecbold}
-... except ... it turns out that there are atmospheric CO\(_{2}\) values of zero or less and you cannot have an area (size) value of zero or less ...
-
-\marginnote{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{NaN}
-\\... is \textbf{Not-a-Number} and is a representation for something that cannot be represented as a number, although if you try and divide something by zero \textbf{MATLAB} reports \texttt{Inf} rather than a \texttt{NaN}.
-\\ \texttt{NaN} can also be used as a function to generate arrays of \texttt{NaN}s. The most common/usage in this context is:
-\begin{docspecmargin}
-N = NaN(sz1,...,szN)
-\end{docspecmargin}
-which will (according to \textbf{help}) "generate a a sz1-by-...-by-szN array of NaN values where sz1,...,szN indicates the size of each dimension. For example, \texttt{NaN(3,4)} returns a 3-by-4 array of NaN values."
-\end{mdframed}}
-
-This leads us to a new use for \docenv{find} and some basic data filtering. The simplest thing you could do to ensure that no zero value appear anywhere, would be to add a very small number to all the values. This would defeat the 'no zero' parameter restriction, but would not help if there were negative values and you have now slightly modified and distorted the data which is not very scientific. Substituting a \docenv{NaN} for problem values is a useful trick, as \textbf{MATLAB} will simply ignore and not attempt to plot such values.
-
-So first, lets replace any zero in the CO\(_{2}\) column of the data with a \texttt{NaN}. The compact version of the command you need is:
-\begin{docspec}
-data(find(data(:,2)==0),2)=NaN;
-\end{docspec}
-But as ever -- perhaps break this down into separate steps and use additional arrays to store the results of intermediate steps, if it makes it easier to understand, e.g.
-\begin{docspecbold}
->> list\_of\_zero\_locations = find(data(:,2)==0);
-\\>> data(list\_of\_zero\_locations,2) = NaN;
-\end{docspecbold}
-What this is saying is: first find all the locations (row indices) in the 2nd column of \texttt{data} for which the value is equivalent (\texttt{==}) to zero. Replace the CO\(_{2}\) value in all these rows (which is originally zero) to a \texttt{NaN} (technically speaking: assign a value of \texttt{NaN} to these locations). You have now filtered out zeros, and replaced the offending values with a \texttt{NaN} and when \textbf{MATLAB} encounters \textit{NaNs} in plotting -- it ignores them and omits that row of data from the plot.
- 
-Alternatively, we could have simply deleted the entire row containing each offending zero.\footnote{\uline{First}: Re-load  the paleo-proxy atmospheric CO\(_{2}\) data so that you can have another go at filtering it.} Breaking it down, this is similar to before in that you start by identifying the row numbers of were zeros appear in the 2nd column, but now we set the entire row to be 'empty', represented by \texttt{[]}:
-\begin{docspecbold}
->> list\_of\_zero\_locations = find(data(:,2)==0);
-\\ >> data(list\_of\_zero\_locations,:) = [];
-\end{docspecbold}
-If you check the \textsf{Workspace window}\sidenote{Or: \\\texttt{>> size(data)}}, you should notice that the size of the array data has been reduced (by 4 rows, which was the number of times a zero appeared in the 2nd column).
-
-We are almost there with this example except it turns out that there is a CO\(_{2}\) proxy data value less than zero(!!!) We can filter this out, just as for zeros. I'll leave this as an exercise for you\sidenote{But you might e.g. use \texttt{<=}.} ... The plot should end up looking like Figure \ref{fig:plot-CO2scatter3}. As another lesson-ette, given that the circles are insanely large ... try plotting this with proportionally smaller circles\sidenote{HINT: you are going to want to apply a scaling factor to the vector you passed as the point size data.}.
-
-\begin{marginfigure}[0.0in]
-\includegraphics[width=\linewidth]{plot-CO2scatter3.eps}
-\caption{Proxy reconstructed past variability in atmospheric CO2 (scatter plot).}
-\label{fig:plot-CO2scatter3}
-\end{marginfigure} 
-
-Conversely, having inserted \texttt{NaN}s into an array, or having ended up with \texttt{NaN}s in an array for other reasons, you can also search for (\texttt{find}) the \texttt{NaN}s.
-The first thing to note in looking for \texttt{NaN}s, is you cannot test for a \texttt{NaN} with a simple equality operator:
-\begin{docspecbold}
->> a=NaN;\\
->> a==NaN\\
-ans =\\
-\ \ \ 0
-\end{docspecbold}
-which ... is odd. Having assigned a \texttt{NaN} to variable \texttt{a}, \textbf{MATLAB}  is apparently telling you that the value of \texttt{a} is not equivalent to \texttt{NaN}.
-Really unhelpful.
-In fairness, \texttt{a} does not have a value and is Not A Number and hence \textbf{MATLAB} cannot determine whether or not it is equal to another Not A Number.
- Better would have been for \textbf{MATLAB} to give you an error ... still, it is what it is.
-
-To try and make amends, \textbf{MATLAB} provides a \textit{function} to determine whether or not something is Not A Number -- \docenv{isnana}. This returns \textit{true} (\texttt{1}) is the passed variable is Not A Number, and \textit{false} (\texttt{0}) if not, e.g.
-
-\marginnote[-0.75in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{isnan}
-\\'\textit{\texttt{isnan(A)} returns an array the same size as \texttt{A} containing logical \texttt{1} (true) where the elements of \texttt{A} are \texttt{NaN}s and logical \texttt{0} (false) where they are not.}'
-\\Meaning that you can pass any dimension of array (e.g. vector or matrix or 3D), not just a scalar (a single value or \(1\times1\) matrix). 
-\end{mdframed}}
-\begin{docspecbold}
->> isnan(a)\\
-ans =\\
-\ \ \ 1
-\end{docspecbold}
-\noindent whereas:
-\begin{docspecbold}
->> isnan(99)\\
-ans =\\
-\ \ \ 0
-\end{docspecbold}
-because \texttt{99} is a number (integer) and not a Not A Number.
-
-\vspace{1mm}
-\noindent\rule{4cm}{0.5pt}
-\vspace{-4mm}
-
-\newthought{Optional ...} \noindent In the CO\(_{2}\) data, there are min and max uncertainty limit values. One could color-code the points in a scatter-plot to represent either the min or the max (perhaps try this first), but one on its own is not necessarily much use. One could color-code by the difference, but this is a function of the absolute value and one would expect large uncertainty bars if the mean (central) estimate was high, and lower if it were low. Perhaps we need the \textit{relative} range in uncertainty? Can you do this? i.e., \texttt{scatter}-plot the mean CO\(_{2}\) estimate (as a function of time), but color-coding for the range in uncertainty as a proportion of the value?
-
-It turns out this is not entirely trivial because as you have seen, the data is not as well behaved as you might have hoped. In fact, it is just like real data you might encounter all the time! Before you do anything -- break down into small steps what you need to do with the data, as this will inform what (if any) additional processing you might have to carry out on the data. It should be obvious, that to create a CO\(_{2}\) difference, \textit{relative} to the mean, you are going to have to divide by the mean value (the values in column \#2 of the array).  So first off -- if any of the mean values are zero, it is all going to go pear-shaped (dividing by zero ...). Actually, equally unhelpful, or at least, lacking in any meaning, may be negative values. If you inspect the data (in the \textsf{Variable window}), there are both zeros and negative values for mean CO\(_{2}\) proxy estimates. We need to get rid of these. Follow the steps as before (i.e. identifying zero of negative values and either removing the corresponding rows in the array, or setting the values to a \texttt{NaN}). You may also have to process the min and max values should they turn out to be the same. Likely, you are going to have to delete all the rows in which: (1) column \#2 values are zero or below, and (2) column \#3 and \#4 values are equal (you could also try the \texttt{NaN} substitution and see if it works out).
-(If you need a slight hint ... one possible answer is here\sidenote[][-0.25in]{
-In this possible solution -- all rows in the array \texttt{data}, with mean CO2 values less than or equal to zero, are deleted. Also, all rows for which the max and min values are the same, are also deleted.
-\texttt{\scriptsize{
-\\>> data=load('paleo\_CO2\_data.txt',\\...'-ascii');
-\\>> data(find(data(:,2)<=0),:)=[];
-\\>> data(find(data(:,3)==data(:,4)),:)\\...=[];
-\\>> scatter(data(:,1),data(:,2),40, \\...100*(data(:,4)-data(:,3))./data(:,2), \\...'filled');
-\\>> xlabel('Time (Ma)')
-\\>> ylabel('Atmospheric CO\_2 (ppm)')
-\\>> title('Proxy atmospheric CO\_2')
-}}}
-, but try and work it out for yourself.)
-
-\subsection{Other data filtering}
-
-\noindent In the example of the observational Riverside temperature data (data file: \texttt{temperature\_riverside.txt}), if would be nice to also be able to use \docenv{find} ... which can indeed determine all the locations at which a \texttt{NaN} occurs\sidenote{Using \docenv{isnan}.}, by e.g.:
-
-\begin{docspec}
->> find(isnan(temperature\_riverside))
-\end{docspec}
-
-\noindent ... but it is not obvious what to 'do' with the resulting list of linear indices for each cell containing a missing value (\texttt{NaN}). For instance, you cannot remove a single cell from a \(a\times b\) array for which both \(a\) and \(b\) are \(>1\) (because an array must contain the same number of elements in each row (and the same number of elements in each column)).
-
-What you need, is a way of automatically removing each and every row in which one (or more) \texttt{NaN}s appear. There are two obvious approaches:
-
-\vspace{2mm}
-\textbf{1. use a loop}
-\vspace{2mm}
-
-We could go through the array, row by row, and for every row in which a \texttt{NaN} occurs, remove that row. The code (in a new \textit{script} file) would look something like:
-
-\begin{docspec}
-\textcolor[rgb]{0,0.501961,0}{\%\%\% script to load data, remove NaN-containing rows}\\
-\textcolor[rgb]{0,0.501961,0}{\% load dataset}\\
-data=load(\textcolor[rgb]{1,0,1}{'temperature\_riverside.txt'},\textcolor[rgb]{1,0,1}{'ascii'});\\
-\textcolor[rgb]{0,0.501961,0}{\% determine number of rows of data}\\
-n\_max = length(data);\\
-\textcolor[rgb]{0,0.501961,0}{\% initialize row count to the first row}\\
-n = 1;\\
-\textcolor[rgb]{0,0.501961,0}{\% loop through all rows}\\
-\textcolor{blue}{while} (n <= n\_max),\\
-\ \ \    found\_nans = find(isnan(data(n,:)));\\
-\ \ \    \textcolor{blue}{if} (\(\sim\)isempty(found\_nans));\\
-\ \ \ \ \ \        \textcolor[rgb]{0,0.501961,0}{\% remove row}\\
-\ \ \ \ \ \        data(n,:) = [];\\
-\ \ \ \ \ \        \textcolor[rgb]{0,0.501961,0}{\% remember to update total number of rows!!!}\\
-\ \ \ \ \ \        n\_max = n\_max - 1;\\
-\ \ \ \ \ \        \textcolor[rgb]{0,0.501961,0}{\% NOTE: don't update row count}\\
-\ \ \    \textcolor{blue}{else}\\
-\ \ \ \ \ \        \textcolor[rgb]{0,0.501961,0}{\% move on to next row}\\
-\ \ \ \ \ \        n = n+1;\\
-\ \ \    \textcolor{blue}{end}\\
-\textcolor{blue}{end}\\
-\end{docspec}
-
-\vspace{2mm}
-\textbf{2. cheat!}
-\vspace{2mm}
-
-(not really)
-
-There is a relatively new \textbf{MATLAB} \textit{function} that achieves just this: \docenv{rmmissing}. Slightly simpler  code that does the same job would then look like:
-
-\begin{docspec}
-\textcolor[rgb]{0,0.501961,0}{\%\%\% script to load data, remove NaN-containing rows}\\
-\textcolor[rgb]{0,0.501961,0}{\% load dataset}\\
-data=load(\textcolor[rgb]{1,0,1}{'temperature\_riverside.txt'},\textcolor[rgb]{1,0,1}{'ascii'});\\
-\textcolor[rgb]{0,0.501961,0}{\% remove problem rows!!!}\\
-data = rmmissing(data);
-\end{docspec}
-
-\marginnote[-2.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{rmmissing} -- 'Remove rows or columns with missing entries'.
-\\In the simplest usage:
-\begin{docspecmargin}
-B = rmmissing(A);
-\end{docspecmargin}
-Removes rows containing missing data elements from array \texttt{A}, assigning the results to array \texttt{B}.
-\\MATLAB defines missing data as:
-\begin{itemize}[noitemsep]
-\item \texttt{NaN} - for number arrays
-\item \texttt{<missing>} - for string arrays
-\item blank character \texttt{[' ']} - for character arrays
-\item empty character \texttt{{''}} - for cell arrays
-\end{itemize}
-(see \textbf{help} for further information and examples)
-\end{mdframed}}
-
-%------------------------------------------------
-
-\subsection{Basic (pretend) 'stats'}
-
-We are not going to delve into complex stats here. A variety of stats related functions are included in the \textbf{MATLAB Statistics Toolbox}. We'll stick to some simple functions included as standard in the basic package. 
-Useful basic stats-related functions include:
-
-\begin{itemize}[noitemsep]
-\setlength{\itemindent}{.2in}
-\item \texttt{min} -- the minimum value of ...
-\item \texttt{max} -- the maximum value of ...
-\item \texttt{sum} -- the sum of a vector of numbers.
-\item \texttt{mean} -- the mean of a vector of numbers.
-\item \texttt{std} -- the standard deviations of a vector of numbers.
-\item \texttt{var} -- the variance of a vector of numbers.
-\item \texttt{median} -- the median value of ...
-\item \texttt{mode} -- the mode value of ...
-\end{itemize}
-
-For instance, consider vector \texttt{A} (integers from 1 to 9, inclusive):
-\begin{docspecbold}
->> A = [1:9];
-\end{docspecbold}
-
-Try out all of the above functions on the vector. Most of the values you can pretty much guess. The \texttt{mode} of the vector is perhaps the only one where it comes up oddly, because the mode of a set of values is defined as the most popular value, yet you have created only one of each value in the vector. So all values are in theory equally the most frequent and \textbf{MATLAB} simply returns the first.
-
-So try adjusting the vector, adding an additional '7' at the end:
-\begin{docspecbold}
->> B = [A 7];
-\end{docspecbold}
-Now what is the mode value of the vector \texttt{B}?
-
-Sometimes you have have the situation where you have one or more \texttt{NaN}s in the data. For example:
-\begin{docspecbold}
->> C = [A NaN];
-\end{docspecbold}
-Now try out some of the same functions on vector \texttt{C}. What happens? Why \textbf{MATLAB} does this and does not simply ignore \texttt{NaN}s, is anypony's guess. I mean, what application could you possibly have where when you ask for the mean of a vector, you are hoping to be told '\texttt{NaN}'? There are solutions.
-
-\begin{enumerate}[noitemsep]
-\setlength{\itemindent}{.2in}
-\item Firstly -- you could use find, to find and remove \texttt{NaN}s from data. So if you have data that includes \texttt{NaN}s, you could simply filter them out prior to processing the data. The function for determining whether or not an array element is a \texttt{NaN}, is \docenv{isnan} )see earlier Box).
-\item Or you could create a loop and test each element in turn as to whether or not it is a \texttt{NaN} (again, using the \docenv{isnan} function).
-\item The \textbf{MATLAB} functions listed above, all (most?) have an additional optional parameter (see Box) that allows you to direct \textbf{MATLAB} to ignore \texttt{NaN}s in the data.
-\item Lastly, in the \textbf{Statistics Toolbox}, there are variants of all (most?) of these functions that automatically ignore \texttt{NaN}s, such as \texttt{nanmean} (the \texttt{NaN}-ignoring variant of \texttt{mean})
-\end{enumerate}
-
-Try out each of these solutions, applying them to the vector \texttt{C} (or a \texttt{NaN}-containing vector of your choice).
-
-All of these functions can also be used on 2D arrays (matrices) ... with care. Consider the matrix:
-\begin{docspecbold}
->> D = [1 2 3; 4 5 6; 7 8 9];
-\end{docspecbold}
-(which has the same elements as \texttt{A}, just in a different configuration). What happens when you ask for \texttt{mean(D)}? As per help (and the Box): '\textit{If A is a matrix, then mean(A) returns a row vector containing the mean of each column.}' So \texttt{mean(D)} is returning the mean of \texttt{[1 4 7]}, \texttt{[2 5 8]}, and \texttt{[3 6 9]}. Try \textit{transposing} the matrix and then using the \texttt{mean} \textit{function}. You should see that you now get the mean of the individual rows (rather than columns) of matrix \texttt{D}:
-\begin{docspecbold}
->> mean(D')\\
-ans =\\
-\ \ \ 2     5     8
-\end{docspecbold}
-
-This goes for \texttt{sum} and all (most?) the rest of the functions.
-
-If you need the total sum of all the elements in a matrix, or mean of all the elements in a matrix, you can simply \textit{nest} the \textit{functions}:
-\begin{docspecbold}
->> sum(sum(D))
-\end{docspecbold}
-or if you prefer breaking things down into sperate steps:
-\begin{docspecbold}
->> E = sum(D);
->> sum(E)
-\end{docspecbold}
-
-However, note that \texttt{std(std(D))} is not the standard deviation of all elements in the matrix \texttt{D}. Why?
-
-%------------------------------------------------
-
-\subsection{Some useful data manipulations techniques}
-
-This (failure to directly obtain the standard deviation of all the elements in a matrix) brings us to array manipulation, which will prove useful in other contexts, such as graphing and particularly scatter plots. In the previous example, \texttt{std(std(D))} fails to give us what we want. Ideally, we would like to have all the elements of D reconfigured so that they were in a single vector format, and we could just write e.g. \texttt{std(D)} and get a single, complete answer.
-
-\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{reshape}
-\\Use \docenv{reshape} to transform data in an array of one shape (i.e. configurations of rows and columns), into another. \textbf{MATLAB} \texttt{help} is OK on this and for the main usage of the \textit{function}, says:
-\\\textit{'B = reshape(A,sz) reshapes A using the size vector, sz, to define size(B). For example, reshape(A,[2,3]) reshapes A into a 2-by-3 matrix.}'
-\\In this usage you need to specify the rows and columns of the resulting array.
-\\NOTE that the array you turn it into to, can have a single row, or a single column (and hence be a vector), but you need to specify this with a \texttt{1}.
-\\Also note that the total number of elements in the array must be conserved, so if you turn an \(n\times m\) array into a \(p\times p\) array, then it must be true that:
-\\\(n\times m = o\times p\)
-There is also a convenient second usage, that will attempt to automatically determine the row or columns needed to make \(n\times m = o\times p\) true, given either \(o\) or \(p\). For example:
-\begin{docspecmargin}
-B = reshape(A,2,[])
-\end{docspecmargin}
-in the previous example will automatically determine that 3 columns are needed. Conversely,
-\begin{docspecmargin}
-B = reshape(A,[],3)
-\end{docspecmargin}
-will determine that 2 rows are required to meet the \(n\times m = o\times p\) criteria.
-\\This usage is particularly convenient for making vectors, e.g.:
-\begin{docspecmargin}
-B = reshape(A,[],1)
-\end{docspecmargin}
-\end{mdframed}}
-
-\textbf{MATLAB} provides the function \docenvdef{reshape}\sidenote{See \texttt{help} and Box} for the express purpose of re-configuring the shape of an \textit{array}, such as turning a \textit{matrix} into a \textit{vector}, or \textit{vice versa}. For instance, given the \(3x3\) matrix \texttt{D} in the previous example:
-
-\vspace{2mm}
-\(\begin{pmatrix}
-1 & 2 & 3 \\
-4 & 5 & 6 \\
-7 & 8 & 9 \\
-\end{pmatrix}\)
-\vspace{2mm}
-
-how do we turn this into a \(9x1\) column vector?
-
-\vspace{2mm}
-\(\begin{pmatrix}
-1 \\
-4 \\
-7 \\
-2 \\
-5 \\
-8 \\
-3 \\
-6 \\
-9 \\
-\end{pmatrix}\)
-\vspace{4mm}
-
-You can use \docenv{reshape} in 2 different ways:
-
-\begin{enumerate}[noitemsep]
-\setlength{\itemindent}{.2in}
-\item Firstly, you can explicitly specify the new array shape you want.\sidenote{Obviously, the total number of elements in the array \uline{must} be conserved.} e.g.
-\begin{docspec}
-Dvector = reshape(D,[9,1]);
-\end{docspec}
-\item Alternatively, if you know you want a single column vector and cannot be bothered to work out how many rows you need, \textbf{MATLAB} will kindly pick up the slack via a slightly different usage of \texttt{reshape}:
-\begin{docspec}
-Dvector = reshape(D,[],1);
-\end{docspec}
-Here you are specifying one column, but 'whatever' (\texttt{[]}) rows.
-\end{enumerate}
-
-\noindent(Having created a vector containing all the numbers, you can now find the standard deviation: \texttt{std(Dvector)}.)
-
-Obviously, if you want a row, rather than a column vector -- either transpose the column vector to row vector shape, or specify the format of a row vector in the first place when using \texttt{reshape}:
-\begin{docspec}
-Dvector = reshape(D,[1,9]);
-\end{docspec}
-
-Lastly, you might notice how \textbf{MATLAB} reads the elements from \texttt{D} before creating the new array shape -- elements are read from the top of the first column downwards, before moving to column \#2. Hence why the order of numbers is 1  4  7  2  5  8 ... 
-
-What, instead, if you wanted a vector with the ordering:
-
-\vspace{2mm}
-\(\begin{pmatrix}
-1 \\
-2 \\
-3 \\
-4 \\
-5 \\
-6 \\
-7 \\
-8 \\
-9 \\
-\end{pmatrix}\)
-\vspace{4mm}
-
-?
-
-ANS: simply \textit{transpose} the matrix before you reshape:
-\begin{docspec}
-Dvector = reshape(D',[1,9])
-\end{docspec}
-(or \texttt{Dvector = reshape(transpose(D),[1,9])}).
-
-%------------------------------------------------
-
-\subsection{Data interpolation}
-
-Interpolation? What is it and why would you do it? We'll answer this via an example. 
-
-First download the ice-core dataset of atmospheric CO2 over the past ~800,000 years, recovered from the Dome C site on Antarctica -- filename \textsf{icecore\_co2.txt} on the course webpage. Start by plotting it (your choice of \textbf{MATLAB} plotting function) to see what you are dealing with.\sidenote{First column / x-axis values are age, in years, and 2nd column / y-axis values are CO2 concentration, in units of ppm.}
-
-So what if we wanted to know the average (mean) value of atmospheric \(CO_{2}\) over the last full glacial cycle, i.e. between now (age zero) and the end of the previous interglacial period, about 115,000 years ago.
-
-So firstly, you might use your most excellent \textbf{MATLAB} skills to extract all the data corresponding to this specific interval -- i.e. all the ages (and corresponding \(CO_{2}\) values, between zero and 115,000 years, or rather, \uline{less than or equal to} 115,000 years. You should know this requires the find function, and that the range of indices if given by (assuming the data array you loaded in is called \texttt{co2}):
-\begin{docspecbold}
->> a=find(co2(:,1)<=115000)
-\end{docspecbold}
-which simply says: take all the elements in the 1st column of the array \texttt{co2} (\texttt{co2(:,1)}), and find the indices of all the elements with a value equal or less than 115,000. To select just the first 115000 years of data in \texttt{co2} is then just a matter of: 
-\begin{docspecbold}
->> co2new=co2(a,:)
-\end{docspecbold}
-and check that this does indeed give you the correct portion of data and has assigned it to the array \texttt{co2new}.
-(Maybe plot to confirm.)
-
-It is worth pausing at this point -- this is a common, and powerful, usage of \texttt{find}, and of \textit{indexing}, and you should be sure you understand it before moving on. What this line is saying is: take both columns of the array \texttt{co2} -- select all the elements (rows) defined by the vector \texttt{a}, and assign the result to \texttt{co2new}.
-
-OK, so we are progressing well towards answering the question -- the mean \(CO_{2}\) value over the last glacial cycle (last 115,000 years). In fact -- try answering that now (using \texttt{mean}). You should end up with a value of \(245 ppm\).\sidenote{Note that \textbf{MATLAB} will report the value in a scientific notation with a power (here \(10^{2}\)).} The question is -- do you 'believe' it? Look at the plot -- do you think that value is representative of the average?
-
-To make the problem more obvious -- repeat the above exercise, but now consider only the past 40,000 years. From the plot, high, interglacial \(CO_{2}\) values characterise only the last 10,000 years or so, with a transition over 5,000 years or so before that. From 15,000 years and back to 40,000, \(CO_{2}\) is clearly bumping along its lowest values. What would you guess the mean \(CO_{2}\) value is? Now try it. I get \(249 ppm\) \(CO_{2}\). Does that look correct to you, across the past 40,000 years?
-
-If you were previously using \texttt{plot} to plot the data, now try \texttt{scatter}. It should be much more obvious what is going on now -- you have very uneven data sampling in time -- the bulk of the data is from the last 10,000 years or so, and there are very few data points older than about 22,000 years. When \textbf{MATLAB} calculates a mean, it is of the data points, and an uneven data sampling will give a biased, unrepresentative value.
-
-We need to \uline{interpolate} the data -- place it on an evenly sampled-in-time basis. The \textbf{MATLAB} function to interpolate vector (1D) data is \docenv{interp1} (see \texttt{help}/Box).
-
-\marginnote[-2.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\docenvdef{interp1}
-\begin{docspecmargin}
-yi = interp1(x,y,xi)
-\end{docspecmargin}
-will interpolate the y-axis values located at x-axis points given by the vector \texttt{x}, onto the x-axis points given by vector \texttt{xi}. The resulting interpolated y-values are assigned back to \texttt{yi}.
-\\By default the interpolation methods used is linear. For a different interpolation method, use the varient of the function:
-\begin{docspecmargin}
-yi = interp1(x,y,xi,method)
-\end{docspecmargin}
-where method is one of: \texttt{'nearest'}, \texttt{'linear'}, \texttt{'spline'}, \texttt{'cubic'} ... (for a fuller list, see \texttt{help}).
-\\To extrapolate outside of the domain spanned by the (original) x-axis vector \texttt{x}, specify:
-\begin{docspecmargin}
-yi = interp1(x,y,xi,method,'extrap')
-\end{docspecmargin}
-\end{mdframed}}
-
-The first thing we need, to use \docenv{interp1}, is a vector of points in time, that we are going to interpolate our data on to. As a rule, the vector should ideally not extend in value beyond the minimum and maximum values of the original axis, but we'll ignore this for now. We might pick ... 1,000 years as a simple sampling interval, and so to create this new axis vector, we would write:
-\begin{docspecbold}
->> xi=[0:1000:40000];
-\end{docspecbold}
-assuming we stick with the 0-40,000 year interval. The \docenv{interp1} function requires that you pass this vector, along with the original time (x-axis) vector, and the original data (y-axis) vector, and will give you a new data vector, with values corresponding to the time points defined by \texttt{xi}. Like this:
-\begin{docspecbold}
->> yi=interp1(co22(:,1),co22(:,2),xi);
-\end{docspecbold}
-
-If you prefer to break things down\sidenote{And then you might also make the variable names REALLY explicit, and have \texttt{xold}, \texttt{yold}, \texttt{xnew}, \texttt{ynew} or something.} so as the process is clearer, maybe first extract and create the original data, x-axis (time) vector:
-\begin{docspec}
-xold=co22(:,1);
-\end{docspec}
-and then the y-axis (data) vector:
-\begin{docspec}
-yold=co22(:,2);
-\end{docspec}
-and then do the interpolation:
-\begin{docspec}
-y1=interp1(xold,yold,x1);
-\end{docspec}
-
-Either way, now scatter-plotting the interpolated data:
-\begin{docspecbold}
->> scatter(x1,y1);
-\end{docspecbold}
-
-\noindent should result in an obviously evenly-spaced data plot.
-
-We could now use \texttt{mean}, except if you were paying attention, because we extrapolated outside of the range of the extracted data into the array \texttt{co2new}. But you know how to handle this situation, i.e. removing the offending \texttt{NaN} rows, or use \texttt{nanmean} if you have access to the required \textbf{MATLAB} toolbox.
-
-Or, you could re-do the interpolation, but interpolate from the full, original data array, which you know extends way past 40,000 years. And ... specify the very first time point as 1,000 years rather than zero. e.g.
-\begin{docspec}
-x1=[1000:1000:40000];\\
-y1=interp1(co2(:,1),co2(:,2),x1); 
-\end{docspec}
-
-Well ... it doesn't work, which is sort of pretty 'real world' problem-esk. The issue is that there is a duplicate year -- i.e. 2 \(CO_{2}\) values with the same year.\sidenote{The \textbf{MATLAB} interpolation function requires a strictly monotonically increasing (with no duplicates) old and new x-axis vector.} How to find them? Well, you saw earlier the function \texttt{mode}, which return the most popular value in an array. If we do:
-\begin{docspecbold}
->> mode(co2(:,1))\\
-ans =\\
-\ \ \ 409383
-\end{docspecbold}
-
-Ha ha, so the year 409,383 is duplicated.\sidenote{The absence of duplicated year values, or rather, there only being one of each individual number, would result in \textbf{MATLAB} returning the very first value in the vector. The only confusion here would be if the very first value was itself duplicated ...} How to find this ...
-\begin{docspecbold}
->> find(co2(:,1)==409383);
-\end{docspecbold}
-
-\noindent or if you prefer (and neater):
-\begin{docspecbold}
->> >> rows=find(co2(:,1)==mode(co2(:,1)))\\
-ans =\\
-\ \ \ 531\\
-\ \ \ 532\\
-\end{docspecbold}
-
-\noindent giving us the row numbers. We could be cleaver, and create a single entry for this year, with the \(CO_{2}\) value formed of the mean of the duplicate entries:
-\begin{docspecbold}
->> co2mean=mean(co2(rows,2));
-\end{docspecbold}
-\noindent ... replacing the first \(CO_{2}\) value ...
-\begin{docspecbold}
->> co2(rows(1),2)=co2mean;
-\end{docspecbold}
-\noindent ... and then delete the second.
-\begin{docspecbold}
->> co2(rows(2),:)=[];
-\end{docspecbold}
-
-Phew! Now try the interpolation again. Plot (\texttt{scatter} and/or \texttt{plot}). Find the mean \(CO_{2}\) value over 0-40,000 (technically, now we have restricted the data to 1,000-40,000). Does this seem more reasonable? Repeat for 0-115,000 years (or 1,000-115,000 years). Also try out carrying out an interpolation with closer spacing, say 500 or 100 years.
-
-Finally, if you read the (Box or \texttt{help}) details about the function \texttt{interp1}, the more recent \textbf{MATLAB} version releases enable you to extrapolate outside of the data domain. So instead of having to restrict the \texttt{xi} vector to starting at year 1,000, you can start at year zero:
-\begin{docspecbold}
->> x1=[0:1000:40000];\\
->> y1=interp1(co2(:,1),co2(:,2),x,'linear','extrap'); 
-\end{docspecbold}
 
 %------------------------------------------------
 
@@ -6354,6 +6271,83 @@ If you now set the new \textit{colormap} (\texttt{>> colormap(mapnew);}) and re-
 
 \section{Stats (it had to happen ...)}
 
+%------------------------------------------------
+
+\subsection{Basic (pretend) 'stats'}
+
+We are not going to delve into complex stats here. A variety of stats related functions are included in the \textbf{MATLAB Statistics Toolbox}. We'll stick to some simple functions included as standard in the basic package. 
+Useful basic stats-related functions include:
+
+\begin{itemize}[noitemsep]
+\setlength{\itemindent}{.2in}
+\item \texttt{min} -- the minimum value of ...
+\item \texttt{max} -- the maximum value of ...
+\item \texttt{sum} -- the sum of a vector of numbers.
+\item \texttt{mean} -- the mean of a vector of numbers.
+\item \texttt{std} -- the standard deviations of a vector of numbers.
+\item \texttt{var} -- the variance of a vector of numbers.
+\item \texttt{median} -- the median value of ...
+\item \texttt{mode} -- the mode value of ...
+\end{itemize}
+
+For instance, consider vector \texttt{A} (integers from 1 to 9, inclusive):
+\begin{docspecbold}
+>> A = [1:9];
+\end{docspecbold}
+
+Try out all of the above functions on the vector. Most of the values you can pretty much guess. The \texttt{mode} of the vector is perhaps the only one where it comes up oddly, because the mode of a set of values is defined as the most popular value, yet you have created only one of each value in the vector. So all values are in theory equally the most frequent and \textbf{MATLAB} simply returns the first.
+
+So try adjusting the vector, adding an additional '7' at the end:
+\begin{docspecbold}
+>> B = [A 7];
+\end{docspecbold}
+Now what is the mode value of the vector \texttt{B}?
+
+Sometimes you have have the situation where you have one or more \texttt{NaN}s in the data. For example:
+\begin{docspecbold}
+>> C = [A NaN];
+\end{docspecbold}
+Now try out some of the same functions on vector \texttt{C}. What happens? Why \textbf{MATLAB} does this and does not simply ignore \texttt{NaN}s, is anypony's guess. I mean, what application could you possibly have where when you ask for the mean of a vector, you are hoping to be told '\texttt{NaN}'? There are solutions.
+
+\begin{enumerate}[noitemsep]
+\setlength{\itemindent}{.2in}
+\item Firstly -- you could use find, to find and remove \texttt{NaN}s from data. So if you have data that includes \texttt{NaN}s, you could simply filter them out prior to processing the data. The function for determining whether or not an array element is a \texttt{NaN}, is \docenv{isnan} )see earlier Box).
+\item Or you could create a loop and test each element in turn as to whether or not it is a \texttt{NaN} (again, using the \docenv{isnan} function).
+\item The \textbf{MATLAB} functions listed above, all (most?) have an additional optional parameter (see Box) that allows you to direct \textbf{MATLAB} to ignore \texttt{NaN}s in the data.
+\item Lastly, in the \textbf{Statistics Toolbox}, there are variants of all (most?) of these functions that automatically ignore \texttt{NaN}s, such as \texttt{nanmean} (the \texttt{NaN}-ignoring variant of \texttt{mean})
+\end{enumerate}
+
+Try out each of these solutions, applying them to the vector \texttt{C} (or a \texttt{NaN}-containing vector of your choice).
+
+All of these functions can also be used on 2D arrays (matrices) ... with care. Consider the matrix:
+\begin{docspecbold}
+>> D = [1 2 3; 4 5 6; 7 8 9];
+\end{docspecbold}
+(which has the same elements as \texttt{A}, just in a different configuration). What happens when you ask for \texttt{mean(D)}? As per help (and the Box): '\textit{If A is a matrix, then mean(A) returns a row vector containing the mean of each column.}' So \texttt{mean(D)} is returning the mean of \texttt{[1 4 7]}, \texttt{[2 5 8]}, and \texttt{[3 6 9]}. Try \textit{transposing} the matrix and then using the \texttt{mean} \textit{function}. You should see that you now get the mean of the individual rows (rather than columns) of matrix \texttt{D}:
+\begin{docspecbold}
+>> mean(D')\\
+ans =\\
+\ \ \ 2     5     8
+\end{docspecbold}
+
+This goes for \texttt{sum} and all (most?) the rest of the functions.
+
+If you need the total sum of all the elements in a matrix, or mean of all the elements in a matrix, you can simply \textit{nest} the \textit{functions}:
+\begin{docspecbold}
+>> sum(sum(D))
+\end{docspecbold}
+or if you prefer breaking things down into sperate steps:
+\begin{docspecbold}
+>> E = sum(D);
+>> sum(E)
+\end{docspecbold}
+
+However, note that \texttt{std(std(D))} is not the standard deviation of all elements in the matrix \texttt{D}. Why?
+
+
+%------------------------------------------------
+
+\subsection{'Real' stats}
 
 
 
@@ -6410,9 +6404,9 @@ A helpful device, particularly when dealing with arrays of data in \textbf{MATLA
 \ \ \ \textcolor{blue}{end}\\
 \textcolor{blue}{end}
 \end{docspecbold}
-Here, the value of \texttt{n} cycles (loops) from \(1\) to \(10\) (i.e. the loop goes around 10 times). Then ... for each value of \texttt{n}, the value of \texttt{m} also cycles from \(1\) to \(10\). The code in the middle of the innermost loop is then executed a total of \(10\times 10=100\) times.
+Here, the value of \texttt{n} cycles ('loops') from \(1\) to \(10\) (i.e. the loop goes around 10 times). Then ... for each value of \texttt{n}, the value of \texttt{m} also cycles from \(1\) to \(10\). The code in the middle of the innermost loop is then executed a total of \(10\times 10=100\) times.
 
-Try this (in a new script file) and confirm that the outer loop cycles around 10 times, and the inner loop ten times for each cycle of the outer loop. (e.g. you might add a \texttt{disp} line both within the inner loop, and outside of the inner loop but within the outer loop.)
+Try this (in a new \textit{script} file) and confirm that the outer loop cycles around 10 times, and the inner loop ten times for each cycle of the outer loop. (e.g. you might add a \texttt{disp} line both within the inner loop, as well as outside of the inner loop (but still within the outer loop), and/or you might add \textit{break points}).
 
 Why would you do this (what use could it be)?
 
@@ -6431,7 +6425,7 @@ In terms of \textbf{MATLAB} and computer programming, we might create a represen
 \label{fig:ch6-grid2}
 \end{marginfigure}
 
-To store this information, we could create an \textit{array} in which each location would have a value of \texttt{0}, \texttt{1}, or \texttt{2}, e.g.
+To store this information, we could create an \textit{array} in which each location would have a value of \texttt{0} (unassigned square, \texttt{1} (player \#1), or \texttt{2} (\#player2)), e.g.
 
 \vspace{2mm}
 \(\begin{pmatrix}1 & 2 & 0 \\
@@ -6448,7 +6442,10 @@ To store this information, we could create an \textit{array} in which each locat
 \label{fig:ch6-grid3}
 \end{marginfigure}
 
-OK -- ignore the existence of the \textbf{MATLAB} \textit{function} \texttt{find}, and lets say that you want find the locations of the crosses -- '\texttt{1}'s in the array code notation. You need to test each an every location in the array (lets call it \texttt{tokens}) in turn for whether its contents is a '\texttt{1}' or not. We could do this long-hand ...
+OK -- ignore the existence of the \textbf{MATLAB} \textit{function} \texttt{find}, and lets say that you want find the locations of the crosses -- '\texttt{1}'s in the array code notation. You need to test each and every location in the array (lets call it \texttt{tokens}) in turn for whether its contents is a '\texttt{1}' or not. We could do this long-hand ...
+
+\newpage 
+
 \begin{docspec}
 \textcolor{blue}{if} ( (tokens(1,1) == 1) || (tokens(2,1) == 1) ||\\
 \ \ \ (tokens(3,1) == 1) || (tokens(1,2) == 1) || ...
@@ -6466,6 +6463,8 @@ The idea then is to \textit{loop} through all the locations in the array in turn
 \ \ \ \textcolor{blue}{end}\\
 \textcolor{blue}{end}
 \end{docspec}
+(where \texttt{\textcolor[rgb]{0,0.501961,0}{\%\%\% CODE}} is simply a place-holder for some code we might need here to act on having found a player \#1 square.
+
 This nested loop ensures that you  visit each and every array location in turn -- working across every column, for each and every row, as per Figure \ref{fig:ch6-grid4} and test for the occurrence of a value of \texttt{1}.
 
 \begin{marginfigure}[0.0in]
@@ -6485,9 +6484,9 @@ We could also carry out the search of (\textit{rows, columns}) in the opposite o
 \ \ \ \textcolor{blue}{end}\\
 \textcolor{blue}{end}
 \end{docspec}
-and now loop through each row (inner loop) for each column (outer loop) as illustrated in Figure \ref{fig:ch6-grid5}. The result is exactly the same. To some extent, which axis direction you choose as the outer loop is a matter of personal preference\sidenote{When arrays are small, the the overall computational expense small.}.
+and now loop through each row (inner loop) for each column (outer loop) as illustrated in Figure \ref{fig:ch6-grid5}. The result is exactly the same. To some extent, which axis direction you choose as the outer loop is a matter of personal preference.
 
-\begin{marginfigure}[0.0in]
+\begin{marginfigure}[0.5in]
 \includegraphics[width=\linewidth]{ch6-grid5.eps}
 \caption{Tic-tac-toe game grid -- search order: rows then columns.}
 \label{fig:ch6-grid5}
@@ -6558,20 +6557,21 @@ if (month==1 || month==3 || month==5 ...)
 \end{pmatrix}\)
 \vspace{4mm}
 
-\noindent determine ... NOT using \texttt{find} (or similar), but rather a nested loop, how many occurrences there are of values
+\noindent determine ... NOT using \texttt{find} (or similar), but rather via a nested loop, how many occurrences there are of values
 \sidenote{Hint: Before the next loop starts, you'll need to define a parameter to keep count of the number of values you find that meet the criteria, and set it to zero. Then in the (nested) loop, increment the counter variable by \texttt{1} each time you find a value matching the criteria.}
 \sidenote{Also hint: At the start of the script (after your initial descriptive comments!), define \texttt{A}.}:
-
-\vspace{-2mm}
+\vspace{-0mm}
 \begin{enumerate}[noitemsep]
 \item greater than \texttt{9}
 \item greater than \texttt{9} but less than \texttt{20}
 \end{enumerate}
-\vspace{-2mm}
+\vspace{-0mm}
 
 Make  a new \textit{script} \textbf{m-file} for this. You'll need to create a nested loop to test each and every location in the \textit{array} in turn. Display (\texttt{disp}) the result at the end (after the (nested) loop has ended). You an either set fixed loop limits, e.g. 
-\vspace{-1mm}
+\vspace{-0mm}
 \begin{docspec}
+\textcolor[rgb]{0,0.501961,0}{\% define A}\\
+A = ...\\
 \textcolor[rgb]{0,0.501961,0}{\% row loop start\\}
 \textcolor{blue}{for} row=1:6\\
 \ \ \ \textcolor[rgb]{0,0.501961,0}{\% column loop start\\}
@@ -6580,11 +6580,16 @@ Make  a new \textit{script} \textbf{m-file} for this. You'll need to create a ne
 \ \ \ \textcolor{blue}{end}\\
 \textcolor{blue}{end}
 \end{docspec}
-\vspace{-1mm}
-or you can be more clever/flexible and use the \texttt{size} function to determine the number of rows and column, e.g.
+\vspace{-0mm}
+remembering that within the inner loop, you access that particular element of \texttt{A} by: \texttt{A(row,column)}. 
+
+Or you can be more clever/flexible and use the \texttt{size} function to determine the number of rows and columns on the basis that \texttt{A} might be any different matrix, e.g.
 \vspace{-1mm}
 \begin{docspec}
-[nrows,ncolumns] = size(A);\\
+\textcolor[rgb]{0,0.501961,0}{\% define A}\\
+A = ...\\
+\textcolor[rgb]{0,0.501961,0}{\% find size of A}\\
+{[nrows,ncolumns]} = size(A);\\
 \textcolor[rgb]{0,0.501961,0}{\% row loop start\\}
 \textcolor{blue}{for} row=1:nrows\\
 \ \ \ \textcolor[rgb]{0,0.501961,0}{\% column loop start\\}
@@ -6603,7 +6608,11 @@ For e.g. the number of occurrences of values great than 9, you will need a count
 \textcolor{blue}{end}
 \end{docspec}
 (This conditional test of whether the value of the current array element is greater than 9 or not, will go \uline{within} the innermost loop.)
+
+After the outer loop has ended, \texttt{disp}lay the answer (value of \texttt{count}).
+
 \noindent\rule{4cm}{0.5pt}
+\vspace{-2mm}
 
 %\vspace{1mm}
 %\noindent\rule{4cm}{0.5pt}
@@ -6611,7 +6620,7 @@ For e.g. the number of occurrences of values great than 9, you will need a count
 
 \newthought{Next}: for the simple tic-tac-toe (\(3\times3\)) grid, at each (\textit{column,row}) location, you are going to draw a colored square.
 
-Firstly, at the start of a new \textit{script} \textbf{m-file}, add:
+Firstly, at the start of a \uline{new} \textit{script} \textbf{m-file}, add the lines:
 
 \begin{docspecbold}
 \textcolor[rgb]{0,0.501961,0}{\% **************************\\
@@ -6645,51 +6654,49 @@ You can then add the nested loop code framework\footnote{To your \textbf{m-file}
 \ \ \ \textcolor{blue}{end}\\
 \textcolor{blue}{end}
 \end{docspecbold}
+Note that for convenience and to relate things to a more familiar (\textit{x,y}) coordinate system, we are now going to assume that \texttt{column=1} corresponds to \textit{x=1} in the plot, and \texttt{row=1} corresponds to \textit{y=1} in the plot. i.e. we are working from the bottom left hand corner, first across the columns, and then up the rows. (It does not matter what array location in terms of (\textit{rows,columns}) you assume any (\textit{x,y}) location corresponds to, as long as you remember what correspondence between (column,rows) in the matrix and (x,y) in the plot, you are assuming.)
 
-Note that for convenience and to relate things to a more familiar (\textit{x,y}) coordinate system, we are now going to assume that \texttt{column=1} corresponds to \textit{x=1} in the plot, and \texttt{row=1} corresponds to \textit{y=1} in the plot. i.e. we are working from the bottom left hand corner, first across the columns, and then up the rows. (It does not matter what array location in terms of (\textit{rows,columns}) you assume any (\textit{x,y}) location corresponds to, as long as you remember what correspondence you are assuming.)
-
-To draw a square, the easiest function to use is \texttt{patch} (see earlier). For the coordinate parameters to be passed to \texttt{patch}, if your current location in the loop is \texttt{column=1}, \texttt{row=1} -- now taking the notation and orientation where we start counting from the \uline{bottom left-hand corner} --  the coordinates for the square are:
+To draw a square, the easiest function to use is \texttt{patch} (see earlier). For the coordinate parameters to be passed to \texttt{patch}, if your current location in the loop was \texttt{column=1}, \texttt{row=1} -- assuming the notation and orientation where we start counting from the \uline{bottom left-hand corner} --  the coordinates for the bottom left hand square are:
 \vspace{1mm}
 \\\((0,0), (1,0), (1,1), (0,1)\)
 \vspace{1mm}
 \\\noindent and for which \texttt{patch} will then take input:
-
 \begin{docspec}
 patch([0 1 1 0], [0 0 1 1],'black');
 \end{docspec}
+(remembering that patch takes a vector of all the \textit{x}-coordinates as a 1st parameter, and then a vector of all the \textit{y}-coordinates as the second parameter).
 
-\noindent (remembering that patch takes a vector of all the \textit{x}-coordinates as a 1st parameter, and then a vector of all the \textit{y}-coordinates as the second parameter).
-
-If you do no more than this (and use the \texttt{patch} line exactly as written above in your code), you end up looping through the (\(3\times3\)) grid, but only even (re-)plotting the same square in the bottom left-hand corner ...
+If you do no more than this (and use the \texttt{patch} line exactly as written above in your code and within the inner loop), you end up looping through the (\(3\times3\)) grid, but only even (re-)plotting the same square in the bottom left-hand corner ... this is 'OK' -- exactly what you have told the computer to do so far.
 
 The mental leap is to \uline{generalize} the problem and  to notice that if your column (\textit{x}) and row (\textit{y}) values correspond to the loop variables \texttt{column} and \texttt{row}, respectively, you could write:
-
 \begin{docspecbold}
 patch([column-1 column column column-1], ...\\
 \ \ \ [row-1 row-1 row row],'black');
 \end{docspecbold}
+Take a while to think about this -- work through in your head what would happen for \texttt{column=1} and \texttt{row=1} (this is the same as above). Then ... what would happen for the next step in the loop -- when \texttt{column} remains \texttt{1}, but \texttt{row=2}. Where is this square plotted? (Draw on a piece of paper or test in the code.) And then for \texttt{column=1} and \texttt{row=3}? Once we hit the end of the inner loop (\texttt{row=3}), the value of \texttt{column} is incremented by \texttt{1} and the \texttt{row} count is reset to \texttt{1} -- where then would the \texttt{patch} square for \texttt{column=2} and \texttt{row=1} be drawn?
 
-Try this (adding this \texttt{patch} command to your code). You should end up with 9 black squares in a (\(3\times3\)) grid ... which will simply look like a huge black square filling the figure window, as per Figure \ref{fig:ch4-grid1} ... :o)
+Play this mental (or on paper) game until the end \texttt{column=3} and \texttt{row=3} or until you are happy how the code works and how each of the squares in the (\(3\times3\)) grid are going to be drawn in turn.
 
-\begin{marginfigure}[-4.0in]
+\begin{marginfigure}[-0.0in]
 \includegraphics[width=\linewidth]{ch4-grid1.eps}
 \caption{3x3 grid of black squares ...}
 \label{fig:ch4-grid1}
 \end{marginfigure}
 
+Try this (adding this \texttt{patch} command to your code). You should end up with 9 black squares in a (\(3\times3\)) grid ... which will simply look like a huge black square filling the figure window, as per Figure \ref{fig:ch4-grid1} ... :o)
+
 You could make it a little more interesting by creating a color value derived from the values of the \texttt{column} and \texttt{row} counters, e.g.
 \begin{docspecbold}
 color = (column + row);
 \end{docspecbold}
-and then modify the patch command:
+(on the line immediately before \texttt{patch}) and then modify the patch command:
 \begin{docspecbold}
 patch([column-1 column column column-1], ...\\
 \ \ \ [row-1 row-1 row row],color);
 \end{docspecbold}
-
 Re-running the script, you now get Figure \ref{fig:ch4-grid2}.
 
-\begin{marginfigure}[-3.5in]
+\begin{marginfigure}[-2.5in]
 \includegraphics[width=\linewidth]{ch4-grid2.eps}
 \caption{3x3 grid of colored squares.}
 \label{fig:ch4-grid2}
@@ -6702,13 +6709,13 @@ color = (column\(^{\wedge}\)2 + row);
 
 \noindent (Figure \ref{fig:ch4-grid3})
 
-\begin{marginfigure}[-2.5in]
+\begin{marginfigure}[-1.5in]
 \includegraphics[width=\linewidth]{ch4-grid3.eps}
 \caption{(yawn)}
 \label{fig:ch4-grid3}
 \end{marginfigure}
 
-You could also create distinct colors by using the \texttt{rand} function. e.g.
+You could also create distinct colors by using the \texttt{rand} function (see \texttt{help} and Box). e.g.
 \begin{docspec}
 color=[rand rand rand];
 \end{docspec} 
@@ -6716,7 +6723,7 @@ where we are now specifying random values (in the range 0-1) for each of the thr
 
 Maybe play about a little creating different patterns of colors.
 
-\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-1.25in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{rand}
 \\\texttt{rand} (with no passed parameters), returns a quasi random real number, in the range \(0.0-1.0\).
 \\This can be scaled, so e.g. \texttt{10.0*rand} returns a number in the range \(0.0-10.0\).
@@ -6729,9 +6736,25 @@ Maybe play about a little creating different patterns of colors.
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
 
-\pagebreak
+\newthought{As a final example, consider the chess board.} A chess board consists of squares in a \(8\times8\) grid. The squares alternate black and white. To define 8 squares (points) along the \textit{x}-axis on the bottom row, you'd write something of the form:
+\begin{docspec}
+\textcolor{blue}{for} m=1:8
+\\ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% SOME CODE GOES HERE}
+\\\textcolor{blue}{end}
+\end{docspec}
+(taking \texttt{m} as the counter along the \textit{x-axis}).
 
-\marginnote[0.25in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
+Now, if you wanted to define 8 squares up each column (the \textit{y}-axis), at each and every \textit{x}-axis value, you'd need to loop through all the rows. So you need a loop in e.g. \texttt{n}, inside the loop for \texttt{m}:
+\begin{docspec}
+\textcolor{blue}{for} m=1:8
+\\ \ \ \ \textcolor{blue}{for} n=1:8
+\\ \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% SOME CODE GOES HERE}
+\\ \ \ \ \textcolor{blue}{end}
+\\\textcolor{blue}{end}
+\end{docspec}
+Follow this through to satisfy yourself that for each and every value of \texttt{m} from \texttt{1} to \texttt{8}, \texttt{n} loops from \texttt{1} to \texttt{8}, and hence visits every point in turn of a  \(8\times8\) (\texttt{n,m}) grid. 
+
+\marginnote[-0.625in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
 \docenvdef{zeros}
 \\\texttt{zeros} creates an array of dimension 2 or higher, consisting entirely of zeros! Actually, this is not as useless as it sounds, and represents a simple way to create a large array of a particular shape that can have then have (non zero) values set subsequently.
 To generate an \(n\times m\) matrix of zeros, you use:
@@ -6745,32 +6768,14 @@ A = zeros(n);
 Simply list additional comma-separated integers (or variables containing values), to extend to 3 (or more) dimensions.
 \end{mdframed}}
 
-\newthought{As a final example, consider the chess board.} A chess board consists of squares in a \(8\times8\) grid. The squares alternate black and white. To define 8 squares (points) along the \textit{x}-axis on the bottom row, you'd write something of the form:
-\begin{docspec}
-\textcolor{blue}{for} m=1:8
-\\ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% SOME CODE GOES HERE}
-\\\textcolor{blue}{end}
-\end{docspec}
-(taking \texttt{m} as the counter along the \textit{x-axis}).
-
-Now, if you wanted to define 8 squares up each column (the \textit{y}-axis), at each and every \textit{x}-axis value, you'd need to loop through all the rows. So you need a loop in e.g. \texttt{n}, inside the loop for \texttt{m}:
-\begin{docspecbold}
-\textcolor{blue}{for} m=1:8
-\\ \ \ \ \textcolor{blue}{for} n=1:8
-\\ \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% SOME CODE GOES HERE}
-\\ \ \ \ \textcolor{blue}{end}
-\\\textcolor{blue}{end}
-\end{docspecbold}
-Follow this through to satisfy yourself that for each and every value of \texttt{m} from \texttt{1} to \texttt{8}, \texttt{n} loops from \texttt{1} to \texttt{8}, and hence visits every point in turn of a  \(8\times8\) (\texttt{n,m}) grid. Create a new \textit{script} \textbf{m-file} and add this code to it.
-
 Actually, now we have got this far, it is good practice to consider how we'd define the black and white squares. We'll assume that black is represented by '\texttt{1}' (\textit{true}) and white by \texttt{'0'} (\textit{false}) and create a board (array) of all white squares to start with, i.e.
 \begin{docspec}
 board = zeros(8);
 \end{docspec}
-\noindent(Refer to \textbf{help} or earlier for the syntax for help on the function \texttt{zeros}.\sidenote[][-1.5in]{You could alternatively write this:
+\noindent(Refer to \textbf{help} or earlier for the syntax for help on the function \texttt{zeros}.\sidenote[][-0.0in]{You could alternatively write this:
 \begin{docspecmargin}board = zeros(8,8);\end{docspecmargin}}) This array will be defined at the start of your program -- after any comment lines and before the first loop starts.
 
-\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{mod}
 \\Not ... the opposite of \docenvdef{rocker} (which doesn't exist in \textbf{MATLAB} anyway) but short for \textit{modulo}. Wikipedia helpfully tells us:
 \\"\textit{In computing, the modulo operation finds the remainder after division of one number by another (sometimes called modulus).}"
@@ -6786,15 +6791,13 @@ b = mod(a,2)
 When the returned value \texttt{b} is \texttt{0}, \texttt{a} is \textit{even}, and when \texttt{b} is \texttt{1}, \texttt{a} is \textit{odd}.
 \end{mdframed}}
 
-If we start with a black square ('\texttt{1}') at the bottom left, we could define an \textit{algorithm} for creating the grid as: odd column number squares are black, as long as the row number is odd, otherwise they are white.\sidenote{Look up a picture of a chess board to convince yourself that this works.}
+If we start with a black square ('\texttt{1}') at the bottom left, we could define an \textit{algorithm} for creating the grid as: odd column number squares are black, as long as  row number is odd, otherwise white.\sidenote{Look up a picture of a chess board to convince yourself that this works.}
 
 To implement this in code -- as we loop through both column (\texttt{m}) and row (\texttt{n}) on the board, we will test for  the column number being odd and row number odd, OR, the column number being even and row number being even. If \textit{true}, the square is defined as black. The only tricky bit is to determine whether the row or column number is even or odd. We do this by testing whether there is any remainder after dividing by 2, using the function \docenv{mod}. i.e. if the number is divisible by 2 with no remainder, the number is even; if the remainder is 1, the number is odd.
 
-\vspace{4mm}
-\pagebreak
-
-The complete code looks like:
-\begin{docspecbold}
+A complete (but lacking comments!) code might look like:
+\vspace{-1mm}
+\begin{docspec}
 board = zeros(8);
 \\\textcolor{blue}{for} m=1:8
 \\ \ \ \ \ \textcolor{blue}{for} n=1:8
@@ -6804,9 +6807,10 @@ board = zeros(8);
 \\ \ \ \ \ \ \ \ \ \textcolor{blue}{end}
 \\ \ \ \ \ \textcolor{blue}{end}
 \\\textcolor{blue}{end}
-\end{docspecbold}
-
-Given that the mod 2 of an integer can only be \texttt{0} or \texttt{1}, we could also write this:
+\end{docspec}
+\vspace{-1mm}
+Given that  mod 2 of an integer can only be \texttt{0} or \texttt{1}, we could  write:
+\vspace{-1mm}
 \begin{docspec}
 board = zeros(8);
 \\\textcolor{blue}{for} m=1:8
@@ -6818,27 +6822,38 @@ board = zeros(8);
 \\ \ \ \ \ \textcolor{blue}{end}
 \\\textcolor{blue}{end}
 \end{docspec}
+\vspace{-1mm}
+(\uline{don't type these in yet} ...)
 
-Spend a little time working through how this all works.
-
-If it is easier to see, you could also expand the \texttt{if ...} into its individual parts, e.g.
-\begin{docspec}
+\noindent Easier to use and see,is to expand the \texttt{if ...} into its individual parts and \uline{add comments}, e.g.
+\begin{docspecbold}
 board = zeros(8);
 \\\textcolor{blue}{for} m=1:8
 \\ \ \ \ \ \textcolor{blue}{for} n=1:8
+\\ \ \ \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% Here we are asking if both m and n are odd}
+\\ \ \ \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% => set value 1}
 \\ \ \ \ \ \ \ \ \ \textcolor{blue}{if} ((mod(m,2)==1 \&\& mod(n,2)==1))
 \\ \ \ \ \ \ \ \ \ \ \ \ \ board(n,m) = 1;
+\\ \ \ \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% Here we are asking if both m and n are even}
+\\ \ \ \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% => set value 1}
 \\ \ \ \ \ \ \ \ \ \textcolor{blue}{elseif} (mod(m,2)==0 \&\& mod(n,2)==0))
 \\ \ \ \ \ \ \ \ \ \ \ \ \ board(n,m) = 1;
+\\ \ \ \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% Otherwise, one must be odd and one even,}
+\\ \ \ \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% and we do not care which is which!}
+\\ \ \ \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\% (set value to zero)}
 \\ \ \ \ \ \ \ \ \ \textcolor{blue}{else}
 \\ \ \ \ \ \ \ \ \ \ \ \ \ board(n,m) = 0;
 \\ \ \ \ \ \ \ \ \ \textcolor{blue}{end}
 \\ \ \ \ \ \textcolor{blue}{end}
 \\\textcolor{blue}{end}
-\end{docspec}
+\end{docspecbold}
 Here, the final \texttt{else} bit is not strictly necessary as the \texttt{board} array has been initialized as being all zeros. (But it does not hurt to reassign a zero value if it helps you better read and understand the code.)
 
-To visualize the result (array contents), after the nested loop has ended, you could using the e.g. \texttt{imagesc} function (cf. Figure \ref{fig:ch8-chess}). Beautiful.
+Spend a little time working through the code in your head and making sure you are happy how it works.
+
+Create a \uline{new} \textit{script} \textbf{m-file} and add this code to it (plus comments!).
+
+To crudely visualize the result (array contents), after the nested loop has ended (after the very last \texttt{end}), you could using the e.g. \texttt{imagesc} function (cf. Figure \ref{fig:ch8-chess} and refer back to the syntax of how to visualize array contents using this \textit{function}). Beautiful!
 
 \begin{marginfigure}[0.0in]
 \includegraphics[width=\linewidth]{ch8-chess.png}
@@ -6846,6 +6861,15 @@ To visualize the result (array contents), after the nested loop has ended, you c
 \label{fig:ch8-chess}
 \end{marginfigure}
 
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{-2mm}
+
+\newthought{You could also create a Figure} -- Copy and rename your working (\(8\times8\)) grid code \textbf{m-file}. Comment out the \texttt{imagesc} line at the end. Then add to the top of your file, the code given to you from the  start of the tic-tac-toe (\(3\times3\)) grid section.
+
+To draw the different color squares, you will need to use the \texttt{patch} \textit{function} again. You can use the same algorithm as you used before ... replacing \texttt{column} and \texttt{m}, and \texttt{row} with \texttt{n}.
+
+The only complication is that you want to draw a square with one color if the value of \texttt{board(n,m)} is zero, and another if \texttt{board(n,m)} is one, although you could also 'cheat' and simply not draw any square if \texttt{board(n,m)} is zero and that would become the white squares in the board (so then you only have to test for \texttt{board(n,m)==1} and draw a black square using \texttt{patch} if \texttt{true}. Whichever you choose -- your \texttt{if ... end} structure will come still within the inner loop, but after the \texttt{if ... end} structure that sets the value of \texttt{board(n,m)}. 
 
 %------------------------------------------------
 
@@ -6863,25 +6887,24 @@ This (algorithms\footnote{\textit{algorithm} -- "a process or set of rules to be
 
 So yes, this is a built-in \textit{function} \texttt{max} in \textbf{MATLAB}, but suspend disbelief for a moment ... and pretend that there is not one. What if we wanted to create one, i.e. a \textit{function} that is passed a vector of numbers, and returns the maximum value on that vector? \footnote{\textcolor{red}{\textbf{Example codes provided}}}
 
-So already, from the definition of the problem, you know how to create a new \textbf{m-file} a define a \textit{function} -- one that takes as input a variable (a vector), and returns the largest value in that vector.\sidenote{Note that you do not need to specify that the input variable is a vector, just that there is a variable input.}\sidenote{Here, my personal naming convention has:\\
+So already, from the definition of the problem, you know how to create a \uline{new} \textbf{m-file} a define a \textit{function} -- one that takes as input a variable (a vector), and returns the largest value in that vector.\sidenote{Note that you do not need to specify that the input variable is a vector, just that there is a variable input.}\sidenote{Here, my personal naming convention has:\\
 \texttt{s\_out} -- the output variable, and \texttt{s} for scalar\\
 \texttt{v\_in} -- an input variable, with \texttt{v} designating vector ...\\(This is perhaps, overkill, but leads little room for any confusion later.)}
 \begin{docspecbold}
-\textcolor{blue}{function} [s\_out] = maxxx(v\_in)\\
-\textcolor[rgb]{0,0.501961,0}{\% maxxx\\
+\textcolor{blue}{function} [s\_out] = maxx(v\_in)\\
+\textcolor[rgb]{0,0.501961,0}{\% maxx\\
 \%\\
 \% Takes a (single) vector as input;\\ \%\ returns the maximum value.}\\
 \textcolor[rgb]{0,0.501961,0}{\%\%\% CODE} \\
 \textcolor{blue}{end}
 \end{docspecbold}
-
 You have hence created a (empty) shell for the program (\textit{function}). You could try calling it/running it at the command line, just to check there is no problem so far, although it is clearly not going to do anything. To call your \textit{function} at the command line -- remember that you have defined the \textit{function} to take 1 input -- you \uline{must} therefore give it an input ... First -- make a test input in the \textbf{MATLAB} workspace (not in the \textit{function}), e.g.
 \begin{docspecbold}
 >> A = [1:100];
 \end{docspecbold}
-which defines a vector of integers between 1 and 100. You can now call the \textit{function} at the command line, passing in this test vector to \texttt{maxxx}:
+which defines a vector of integers between 1 and 100. You can now call the \textit{function} at the command line, passing in this test vector to \texttt{maxx}:
 \begin{docspecbold}
->> maxxx(A)
+>> maxx(A)
 \end{docspecbold}
 Nothing gets returned yet, but equally, you should not be presented with pages of red \textbf{MATLAB} error text.
 
@@ -6891,10 +6914,10 @@ s\_out = v\_in(1);
 \end{docspec}
 and then re-try:
 \begin{docspecbold}
->> maxxx(A)
+>> maxx(A)
 \end{docspecbold}
 
-You are still not solving the problem yet, but in this step, you have now demonstrated that your \textit{function} can take in a (\textit{vector}) input, do something with it, and now set the output variable (and return a scalar)\marginnote{Which in this example just happens to be the first element of the vector}.
+You are still not solving the problem yet, but in this step, you have now demonstrated that your \textit{function} can take in a (\textit{vector}) input, do something with it, and now set the output variable (and return a scalar)\sidenote{Which in this example just happens to be the first element of the vector}. This is an important step in developing more complex programs.
 
 OK, so ... we need to devise an \uline{algorithm} to find the largest value in the vector \texttt{v\_in}. The first piece of potentially useful information you can find, is the number of elements in the vector. You can obtain this via the function \docenv{length}\sidenote{It turns out that \texttt{length} does not care about the orientation of a vector, and:
 \begin{docspecmargin}
@@ -6920,16 +6943,18 @@ What about the next part or structure in the program? You are going to need to s
 \end{docspecbold}
 (and which goes after the value of \texttt{nmax} has been defined).
 
-The crux of the problem is recognising that you need to keep tabs on the running maximum value, or a local or temporary maximum value, that is your maximum value so far, as you progress through repeated iterations of the \textit{loop}. With this value, you are going to test whether each element of the array is larger than it -- if true (the element in the vector being tested is larger than the current or largest-to-date maximum estimate) -- you are going to replace the current maximum estimate with the vector element that you have just found is larger than your largest so far. We could call this \textit{variable}, e.g. \texttt{temp\_max} to indicate that is it temporary and not necessarily the largest value of the vector as a whole.
+The crux of the problem is recognising that you need to keep tabs on the running maximum value, or a local or temporary maximum value, that is your maximum value so far as you progress through repeated iterations of the \textit{loop}. With this value, you are going to test whether each element of the array is larger than it -- if true (the element in the vector being tested is larger than the current or largest-to-date maximum estimate) -- you are going to replace the current maximum estimate with the vector element that you have just found is larger than your largest so far. We could call this \textit{variable}, e.g. \texttt{temp\_max} to indicate that is it temporary and not necessarily the largest value of the vector as a whole.
 
+\vspace{1mm}
 \uline{Within the loop}, the test we make is therefore:
 \begin{docspecbold}
 \ \ \ \textcolor{blue}{if} (v\_in(n) > temp\_max),\\
 \ \ \ \ \ \ temp\_max = v\_in(n);\\
 \ \ \ \textcolor{blue}{end}
 \end{docspecbold}
+Make sure you are happy what this is doing -- if the current loop value of the vector (\texttt{v\_in(n)}) is greater than the largest value found so far as we work our way through the vector (\texttt{temp\_max}), then we update the value of \texttt{temp\_max} with it.
 
-Almost there. Run the program/\textit{function} and see what happens.
+Almost there! Run the program/\textit{function} and see what happens.
 
 \textbf{MATLAB} is unhappy about the line where the value of \texttt{temp\_max} is being tested against \texttt{v\_in(n)}. It may be obvious to you when (in terms of loop iterations) this is occurring. If not, why not, just after:
 
@@ -6948,7 +6973,7 @@ There are 2 (probably 99999999) ways to go about this:
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
 \vspace{1mm}
-\item Seed the value of \texttt{temp\_max} with a value so improbably small, that you are betting that any conceivable array of numbers with have a number greater than this.\sidenote[][-0.5in]{There are obvious dangers here, should a vector of all insanely low values be given as an input. You could for instance determine whether any of the values were higher than the seed value, and if not, report or return an error message. So in this case, even if the function did not work, you would be told why. A bit like \textbf{MATLAB} functions in general, no?} For example, \uline{before} the loop starts, you might write:
+\item Seed the value of \texttt{temp\_max} with a value so improbably small, that you are betting that any conceivable array of numbers will have a number greater than this.\sidenote[][-0.5in]{There are obvious dangers here, should a vector of all insanely low values be given as an input. You could for instance determine whether any of the values were higher than the seed value, and if not, report or return an error message. So in this case, even if the function did not work, you would be told why. A bit like \textbf{MATLAB} functions in general, no?} For example, \uline{before} the loop starts, you might write:
 \begin{docspecbold}
 \texttt{temp\_max} = -999999999;
 \end{docspecbold} And then go through testing all \texttt{nmax} elements in the vector.
@@ -6957,7 +6982,7 @@ There are 2 (probably 99999999) ways to go about this:
 \begin{docspecbold}
 \texttt{nmax} = v\_in(1);
 \end{docspecbold}
-You might also recognise that you need not test this against the first element, and the loop could now start at 2:
+You might also recognise that now, you need not test this against the first element, and the loop could  start at \texttt{2} rather than \texttt{1}, e.g.:
 \begin{docspec}
 \textcolor{blue}{for} n = 2:nmax,
 \end{docspec} 
@@ -6972,65 +6997,74 @@ There are 2 further testing or debugging (if you have issues) steps:
 \vspace{1mm}
 \item Firstly, simply go through in your mind, what you think happens on each iteration. Writing down how the values, e.g. of the temporary variable change on each iteration, is a good idea. Obviously you can do this prior to writing the code, to give you an idea of how it will work (or not).
 \vspace{1mm}
-\item Create a series of test arrays (vectors), or varying length, ordered, or random numbers, integers and/or reals, whatever youn like ...  and see if your \textit{function} works each and every time.
+\item Create a series of test \textit{arrays} (\textit{vectors}), or varying length, ordered, or random numbers, integers and/or reals, whatever youn like ...  and see if your \textit{function} works each and every time.
 \end{enumerate}
 
 \noindent\rule{4cm}{0.5pt}
-\vspace{-2mm}
 
-\newthought{When you are passably happy with that --} write a (new) \textit{function} that finds the \textit{minimum} element in a vector input.\sidenote[][-0.0in]{Easiest is to copy the file, rename it \texttt{minxxx.m}, and edit the \textit{function} name on the first line of the file. Then ... edit the code to find the minimum rather than maximum value.} Call this function \texttt{minxxx}.
+\newpage 
+
+\newthought{When you are passably happy with that --} write a (new) \textit{function} that finds the \textit{minimum} element in a vector input.m\sidenote[][-0.0in]{Easiest is to copy the \textbf{m-file}, rename it \texttt{minx.m}, and edit the \textit{function} name on the first line of the file. Then ... edit the code to find the minimum rather than maximum value.} Call this function \texttt{minx}.
 \textbf{You will need this later on ...}
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
+\vspace{-2mm}
 
-\pagebreak 
-
-\newthought{Next ... as a 3rd function --} create a new \textit{function} that now returns a \uline{second} variable from the \textit{function} -- equal to the number of elements that are equal to the maximum.\sidenote[][-0.0in]{If we were cheating, and we \uline{are not} ... then one could use the built-in \textbf{MATLAB} functions as so:
+\newthought{[\textbf{\textcolor{red}{OPTIONAL}]} -- To deal with duplicate maximum values occurring --} create a \uline{new} (empty \textbf{m-file}) \textit{function} that  returns a \uline{second} variable from the \textit{function} -- equal to the number of elements that are equal to the maximum.\sidenote[][-0.0in]{If we were cheating, and we \uline{are not} ... then one could use the built-in \textbf{MATLAB} functions as so:
 \begin{docspecmargin}length(find(A==max(A)));
 \end{docspecmargin}
 Which says ... find the elements in A, equal to \texttt{max(A)} and determine the \texttt{length} (number of elements) of this resulting vector (\texttt{find(A==max(A))}) ...} (i.e. if the maximum value appears 5 times in the input vector ... you additionally return the number '\texttt{5}'.)
 
 The structure of  the (your new) \textit{function} will now look like:
+\vspace{-1mm}
 \begin{docspecbold}
-\textcolor{blue}{function} [s\_out1 s\_out2] = maxxxes(v\_in)\\
-\textcolor[rgb]{0,0.501961,0}{\% maxxxes\\
+\textcolor{blue}{function} [s\_out1 s\_out2] = maxxes(v\_in)\\
+\textcolor[rgb]{0,0.501961,0}{\% maxxes\\
 \%\\
 \% Takes a (single) vector as input, \\ \% returns the maximum value
 \\ \% PLUS the number of elements equal to that value.}\\
 \textcolor[rgb]{0,0.501961,0}{\%\%\% CODE} \\
 \textcolor{blue}{end}
 \end{docspecbold}
+\vspace{-1mm}
 which passes back two variables (rather than the single one you had before).
 
 You might try exploring what you are doing to 'do' with 2 outputs ... e.g.. if you (temporarily) added the following lines to your \textit{function}:
+\vspace{-1mm}
 \begin{docspec}
-s\_out1=1.1;\\
-s\_out2=2.2;
+s\_out1=v\_in(1);\\
+s\_out2=v\_in(2);
 \end{docspec}
-then at the command line, you could test the function:
+\vspace{-1mm}
+then at the command line, you could test the \textit{function}:
+\vspace{-1mm}
 \begin{docspecbold}
->> maxxxes([])
+>> maxxes([1:100])
 \end{docspecbold}
-here passing in an empty vector (as we are not yet doing anything with the input), and you should see:
+\vspace{-1mm}
+here passing in a \textit{vector} of integers from 1 to 100, and you should see:
+\vspace{-1mm}
 \begin{docspec}
 ans =\\
-\ \\
-\ \ \ \ 1.1
+\ \ \ \ 1
 \end{docspec}
-which ... is only 1 of the outputs!!! So you need to explicitly assign the result of your function to 2 variables, e.g.
+\vspace{-1mm}
+which ... is not right(!) and is only 1 of the outputs!!! So you need to tell \textbf{MATLAB} to explicitly assign the result of your \textit{function} to 2 variables, e.g.
+\vspace{-1mm}
 \begin{docspecbold}
->> [a b] = maxxxes([]);
+>> [a b] = maxxes([1:100]);
 \end{docspecbold}
-Now you get the results you were expecting (\(1.1\) and \(2.2\)) returned and assigned to the variables \texttt{a} and \texttt{b}, respectively. Note that as you are assigning the result of your function to variables, you can add the \texttt{;} to the end of the line to suppress unnecessary output at the command line.
+\vspace{-1mm}
+Now you get the results you were expecting (\texttt{1}, \texttt{100}) returned and assigned to the variables \texttt{a} and \texttt{b}, respectively. Note that as you are returning result of your \textit{function}, you can add the \texttt{;} to the end of the line to suppress unnecessary output at the command line.
 
 Back to the construction of the algorithm and its coding ...
 
-The code to generate the first variable (\texttt{s\_out1}) -- the maximum value of the elements in the input vector -- is as before. You only them need to work out the code to determine the value of \texttt{s\_out2}. The key to this is recognising that previously, when the value of \texttt{temp\_max} was equal to \texttt{v\_in(n)}, you did nothing, as you were only interested in \texttt{v\_in(n) > temp\_max} and hence updating (replacing) the current value of \texttt{temp\_max}. What you need is an \texttt{elseif} statement, and test whether you have found a second value in the vector equal to \texttt{temp\_max}. If so, you need to somehow record this occurrence.
+The code to generate the first variable (\texttt{s\_out1}) -- the maximum value of the elements in the input vector -- is as before. You only them need to work out the code to determine the value of \texttt{s\_out2}. The key to this is recognising that previously, when the value of \texttt{temp\_max} was equal to \texttt{v\_in(n)}, you did nothing, as you were only interested in \texttt{v\_in(n) > temp\_max} and hence updating (replacing) the current value of \texttt{temp\_max}. What you need is an \texttt{elseif} statement, and test whether you have found a second value in the vector equal to \texttt{temp\_max}. If so, you need to somehow record this.
 
 A partial solution (i.e. a first next step in the development of the code) might look like:
 \begin{docspec}
-\textcolor[rgb]{0,0.501961,0}{\% Loop through all \\ \% but the first element in the vector}\\
+\textcolor[rgb]{0,0.501961,0}{\% Loop}\\
 \textcolor{blue}{for} n = 2:nmax,\\
 \ \ \ \textcolor{blue}{if} (v\_in(n) > temp\_max),\\
 \ \ \ \ \ \ temp\_max = v\_in(n);\\
@@ -7042,7 +7076,7 @@ A partial solution (i.e. a first next step in the development of the code) might
 \end{docspec}
 where \texttt{temp\_n} is where we keep a track of the number of maximum elements -- setting this to a value of \texttt{1}, when we first find a new largest value in the vector and then a value of \texttt{2} if we find a second occurrence of that value.
 
-But this does not quite work. Why? Try throwing some test vectors at it, e.g.
+This does not quite work. Why? Try  some test \textit{vectors}, e.g.
 \begin{docspec}
 A = [1 5 7 3 8 2 4];\\
 B = [1 5 7 3 8 2 4 3 5 8];\\
@@ -7051,20 +7085,27 @@ C = [1 5 7 3 8 2 4 3 5 8 7 7 8];
 In particular -- is the answer to \texttt{C} ... right?
 
 So far, we have accounted for a duplicate (maximum) value, but the solution (and code algorithm) is not \textit{general}, i.e. we do not handle the general case of there being \(n\) duplicate maximum values in the vector. A more general solution looks like:
+
 \begin{docspecbold}
+\textcolor[rgb]{0,0.501961,0}{\% Initialize max value}\\
+\texttt{nmax} = v\_in(1);\\
 \textcolor[rgb]{0,0.501961,0}{\% Initialize duplicate counter}\\
 temp\_n = 1;\\
-\textcolor[rgb]{0,0.501961,0}{\% Loop through all \\ \% but the first element in the vector}\\
+\textcolor[rgb]{0,0.501961,0}{\% Loop}\\
 \textcolor{blue}{for} n = 2:nmax,\\
 \ \ \ \textcolor{blue}{if} (v\_in(n) > temp\_max),\\
-\ \ \ \ \ \ temp\_max = v\_in(n);\\
+\ \ \ \ \ \ temp\_max = v\_in(n);\\\textcolor[rgb]{0,0.501961,0}{
+\ \ \ \ \ \ \% Reset the duplicate counter\\
+\ \ \ \ \ \ \% as a new max has been found\\}
 \ \ \ \ \ \ temp\_n = 1;\\
 \ \ \ \textcolor{blue}{elseif} (v\_in(n) == temp\_max),\\
-\ \ \ \ \ \ temp\_n = n+1;\\
+\ \ \ \ \ \ temp\_n = temp\_n+1;\\
 \ \ \ \textcolor{blue}{end}\\
 \textcolor{blue}{end}
 \end{docspecbold}
 Here we have to seed/initialize the value of \texttt{temp\_n} because we start by setting \texttt{temp\_max} as equal to \texttt{v\_in(1)}, i.e. we already have 1 instance of the value of \texttt{v\_in(1)} being the maximum, by the time the loop starts.
+
+Missing from this code fragment is only the \textit{function} definition and how the 2 \textit{function} return values are set. See if you can complete the working \textit{function} for returning the maximum value in a \textit{vector}, and how many times that maximum value occurs.
 
 Again -- a key to programming and developing algorithms, is to follow the behaviour of the code in your head (as well as adding break points and testing with a variety of inputs, including extreme assumptions). For instance -- assume that the 2nd element in the vector was equal to the first, and follow the code around -- check that the value of \texttt{temp\_n} is incremented appropriately and the output, if the vector was only 2 long, or there were no larger values in the remainder of the vector, is right. What if the 1st 3 elements were all equal? How does that pan out in terms of behaviour and output?
 
@@ -7076,12 +7117,13 @@ In general -- if the code works for a selection of extreme assumptions, it will 
 
 (Yes, \textbf{MATLAB} also has functions for sorting values in an array ...)
 
-\vspace{-2mm}
+\vspace{-4mm}
 \newthought{In this second set of Examples --} imagine that you have a vector of numbers, and you wish to sort them into ascending order. The \textit{function} would take a vector as input, and return a vector of the same length as output, comprising all the values of the input vector, but now sorted in order.
 
 How to go about this?
 
-Well -- first create the function framework, as before:
+Well -- first create the function framework (in a new \textbf{m-file}), as before:
+\vspace{-1mm}
 \begin{docspecbold}
 \textcolor{blue}{function} [v\_out] = sortx(v\_in)\\
 \textcolor[rgb]{0,0.501961,0}{\% sortx\\
@@ -7090,50 +7132,67 @@ Well -- first create the function framework, as before:
 \textcolor[rgb]{0,0.501961,0}{\%\%\% CODE} \\
 \textcolor{blue}{end}
 \end{docspecbold}
+\vspace{-1mm}
 
-So far ... so good. What do we need to do within the \textit{function}? Well, we should start with a simple text of the \textit{function} structure. For instance, we could start by finding the minimum value in the array, and placing it at the start of a new array -- the one that will form the output. In this test, in place of \texttt{\textcolor[rgb]{0,0.501961,0}{\%\%\% CODE}} in the empty \textit{function} outlined above would go:
+What do we need to do within the \textit{function}? Well, we should start with a simple test of the \textit{function} structure. For instance, we could start by finding the minimum value in the array, and placing it at the start of a new array -- the one that will form the output. In this test, in place of \texttt{\textcolor[rgb]{0,0.501961,0}{\%\%\% CODE}} in the empty \textit{function} outlined above, would go the following:
 \begin{docspec}
 \textcolor[rgb]{0,0.501961,0}{\% Initialize the output vector (as empty)}\\
 v\_out = [];\\
 \textcolor[rgb]{0,0.501961,0}{\% Find minimum value}\\
-x = minxx(v\_in);\\
+x = minx(v\_in);\\
 \textcolor[rgb]{0,0.501961,0}{\% Update output vector}\\
 v\_out = [v\_out x];
 \end{docspec}
-remembering that one way to build up a vector for output, is to append to (concatenate) a value to an existing vector. The vector must start defined as something ... here, as empty\texttt{ ([]).}\sidenote{Also in this code fragment -- you need to have created that minimum finding function ...}
+remembering that one way to build up a \textit{vector} for output, is to append to (concatenate) a value to an existing vector -- the \texttt{v\_out = [v\_out x]} bit. Also note that the vector must start defined as something ... here, we have created an empty vector \texttt{([]).}\sidenote{Also in this code fragment -- you need to have created that minimum finding function ...}
 
-Try this out at the command line to check that it does indeed return the minimum value of the vector input:
-\begin{docspec}
+(\textbf{Make sure you created the \texttt{minx} \textit{function}!!!})
+
+Try this out at the command line to check that it does indeed return the minimum value of the vector input, e.g.:
+\vspace{-1mm}
+\begin{docspecbold}
 >> sortx([1 2 3 4 5 6 7 8 9])
-\end{docspec}
-Of course, you could create a more complicated and challenging vector to test it with and rather than pass the values directly, e.g. if your vector of numbers to sort was assigned to variable \texttt{testvec}, then you would type:
+\end{docspecbold}
+\vspace{-1mm}
+Of course, you could create a more complicated and challenging \textit{vector} to test it with and rather than pass the values directly, e.g. if your \textit{vector} of numbers to sort was assigned to \textit{variable} \texttt{testvec}, then you would type:
+\vspace{-1mm}
 \begin{docspec}
 >> sortx(testvec)
 \end{docspec}
+\vspace{-1mm}
 
-So far, your function returns the lowest (1st) value, rather than sorting them all. You might spot that the 3rd through 6th lines of code, need to be repeated -- i.e. you keep calling the find-the-minimum function, and adding this value to the output vector. But if this is all you did, the program would run forever and return an infinite number of repeats of the minimum value (or give you a vector the length of the input vector with identical (minimum) values in, depending on how you set up the loop (e.g. \texttt{for} or \texttt{while})) -- this is because once you have found the minimum value, and added it to the output array, the value still exists in the input array and will be found again (and again and again) if you create a loop around it.
+So far, your \textit{function} returns the lowest (1st) value, rather than sorting them all. You might spot that the 3rd through 6th lines of code, need to be repeated -- i.e. you keep calling the find-the-minimum function, and adding this value to the output vector. But if this is all you did, the program would run forever and return an infinite number of repeats of the minimum value (or give you a vector the length of the input vector with identical (minimum) values in, depending on how you set up the loop (e.g. \texttt{for} or \texttt{while})) -- this is because once you have found the minimum value, and added it to the output array, the value still exists in the input array and will be found again (and again and again) if you create a loop around it.
 
 The key ... at least, the key to creating the particular algorithm ... is to \uline{remove the element that you have just used from the input array}. e.g. if we find a '\texttt{1}' and this is the lowest value, after it has been added to the output array, it needs to be deleted from the input array. This means that we need to know 'where' in the (input) array the minimum value was.
 
-So ... your next task is to \uline{modify your \texttt{minxx} function, to return the position in the vector that the minimum value occurred at} (in addition to the value of the minimum value itself).\sidenote{HINT: When you find a new minimum value in the loop, the index (the position of that minimum value) is \texttt{n}. So you need to create a temporary variable that you update with the value of \texttt{n}, only when a new minimum value is found in the loop. You will see this variable with '\texttt{1}', consistent with assigning the first minimum value from index \texttt{1} in the vector.} i.e. your \texttt{minxx} (or whatever you called it) function needs to look like:
-
+So ... your next task, leaving your \textit{function} \texttt{sortx} to the side for a moment, is to \uline{modify your \texttt{minx} \textit{function}, to return the position in the vector that the minimum value occurred at} (in addition to the value of the minimum value itself).\sidenote{HINT: When you find a new minimum value in the loop, the index (the position of that minimum value) is \texttt{n}. So you need to create a temporary variable that you update with the value of \texttt{n}, only when a new minimum value is found in the loop. You will see this variable with '\texttt{1}', consistent with assigning the first minimum value from index \texttt{1} in the vector.} i.e. your \texttt{minx} (or whatever you called it) function needs to look like:
+\vspace{-1mm}
 \begin{docspec}
-\textcolor{blue}{function} [s\_out1 s\_out2] = minxx(v\_in)
+\textcolor{blue}{function} [s\_out1 s\_out2] = minx(v\_in)
 \end{docspec}
+\vspace{-1mm}
+where \texttt{s\_out1} is the minimum found value, as before, and \texttt{s\_out2} is the index position of that number in the \textit{vector}.
 
-\noindent where \texttt{s\_out1} is the minimum found value, as before, and \texttt{s\_out2} is the index position of that number in the vector.
+Get this working before moving on!
 
-Having obtained the index of the minimum value -- assuming that you passed it into a variable m (and with \texttt{x}, as before, the minimum value), e.g.
-\begin{docspecbold}
-[x m] = minxx(v\_in);
-\end{docspecbold}
-you can now delete this entry from the input array by means of:
-\begin{docspecbold}
-v\_in(m) = [];
-\end{docspecbold}
-where \texttt{m} is the index.
+\vspace{1mm}
+\noindent OK ... back to your \textit{function} \texttt{sortx}:
 
-The code within your modified sort (not \texttt{minxx}) \textit{function}, would now look something like\sidenote{Note the notation for catching the 2 returned values from the \texttt{minxx} function:
+Your use of \texttt{minx} now looks like:
+\vspace{-1mm}
+\begin{docspec}
+[x p] = minx(v\_in);
+\end{docspec}
+\vspace{-1mm}
+where in addition to passing back the minimum value and assigning it to the \textit{variable} \texttt{x}, you also pass back the position of that value in the \textit{vector}: \texttt{p}
+
+You can now use this new information to delete this entry from the input array by means of:
+\vspace{-1mm}
+\begin{docspec}
+v\_in(p) = [];
+\end{docspec}
+\vspace{-1mm}
+
+The code within your  \texttt{sortx} (not \texttt{minx}) \textit{function}, should now look something like\sidenote{Note the notation for catching the 2 returned values from the \texttt{minxx} function:
 \begin{docspecmargin}[x m] = minxx(v\_in);
 \end{docspecmargin}}:
 \vspace{-1mm}
@@ -7142,24 +7201,27 @@ The code within your modified sort (not \texttt{minxx}) \textit{function}, would
 \textcolor[rgb]{0,0.501961,0}{\% sortx\\
 \%\\
 \% Takes a (single) vector as input, \\ \% returns a vector of the same length, with \\ \% all the values sorted in ascending order.}\\
-\textcolor[rgb]{0,0.501961,0}{\% Determine number of elements in vector}\\
+\%\\
+\textcolor[rgb]{0,0.501961,0}{\% First: determine number of elements in vector}\\
 nmax = length(v\_in);\\
 \textcolor[rgb]{0,0.501961,0}{\% Initialize the output vector (as empty)}\\
 v\_out = [];\\
-\textcolor[rgb]{0,0.501961,0}{\% Loop through all but the first element in the vector}\\
+\textcolor[rgb]{0,0.501961,0}{\% Loop through all the elements in vector}\\
 \textcolor{blue}{for} n = 1:nmax,\\
 \ \ \ \textcolor[rgb]{0,0.501961,0}{\% Find minimum value}\\
-\ \ \ [x m] = minxx(v\_in);\\
+\ \ \ [x p] = minxx(v\_in);\\
 \ \ \ \textcolor[rgb]{0,0.501961,0}{\% Update output vector}\\
 \ \ \ v\_out = [v\_out x];\\
 \ \ \ \textcolor[rgb]{0,0.501961,0}{\% Remove used element}\\
-\ \ \ v\_in(m) = [];\\
+\ \ \ v\_in(p) = [];\\
 \textcolor{blue}{end}\\
 \textcolor[rgb]{0,0.501961,0}{\% function end} \\
 \textcolor{blue}{end}
 \end{docspec}
 \vspace{-1mm}
+Code this up ... test it ... play with it ... try and totally break it ... just \textbf{make sure that you can come to an understanding of how it works}.
 
+\vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
 
@@ -7169,13 +7231,13 @@ v\_out = [];\\
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
 
-\newthought{For even more (but less easy) fun:} create a (new) \textit{function} that sorts in descending order ... but ... \uline{excludes duplicate values}, i.e. no 2 values should be the same in the output vector.\sidenote{HINT: modify the \texttt{maxxx} function to return the index of all the elements having a value equal to the maximum value. This will be a vector, which will be appended to as the loop progresses, with each value being assigned the current value of \texttt{n} (the position of the maximum value in the vector).}
+\newthought{[\textbf{\textcolor{red}{OPTIONAL}} -- For even more (but less easy) fun:} create a (new) \textit{function} that sorts in descending order ... but ... \uline{excludes duplicate values}, i.e. no 2 values should be the same in the output vector.\sidenote[][-0.375in]{HINT: modify the \texttt{maxx} function to return the index of all the elements having a value equal to the maximum value. This will be a vector, which will be appended to as the loop progresses, with each value being assigned the current value of \texttt{n} (the position of the maximum value in the vector).}
 
 %------------------------------------------------
 
 \newpage
 
-\subsection{Example \#3: a gridded problem}
+\subsection{A gridded algorithm problem}
 
 We are going to base this next example around the (modern) topography of a simple Earth system model (\textbf{GENIE}).
 
