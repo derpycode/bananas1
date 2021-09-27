@@ -478,7 +478,7 @@ Well ... not so exciting. But not so disastrous! \textbf{MATLAB} simply has no c
 
 \subsection{MATLAB GUI}
 
-There are lots of fancy looking icons and pretty colors and you could spend all day staring at them and not getting any work done. Or you could learn some good programming practice. Which is why we mostly will ignore the eye-candy and little (if any) guidance will be given as to the functionality of the Graphical User Interface (\textit{GUI}). Look at this as a lesson for the user (to read the \textsf{Help}, textbook, on-line documentation, or simple go Google for an answer\sidenote{Otherwise known as Internet fishing.}).
+There are lots of fancy looking icons and pretty colors and you could spend all day staring at them and not getting any work done. Or you could learn some good programming practice. Which is why we mostly will ignore the eye-candy and little (if any) guidance will be given as to the functionality of the Graphical User Interface (\textit{GUI}). Look at this as a lesson for the user (to read the \textsf{Help}, textbook, on-line documentation, or simple go \textbf{Google} for an answer\sidenote{Otherwise known as Internet fishing.}).
 
 %------------------------------------------------
 
@@ -519,7 +519,7 @@ In the course text, for each \textit{function} that \textbf{MATLAB} provides a c
 
 A \textit{variable}\index{variable} is, in a sense, a pointer to a location in computer memory where a piece of information is stored\sidenote{In the bad old days, this pointer was the actual address in memory and might have looked something like \texttt{f04da105}.}. For instance -- open up a blank worksheet in \textbf{Excel}, and in the very top left hand cell, enter the number \textsf{10}. You can see visually, that \textbf{Excel} is referencing this location as column A, and row '1'. In fact, this location ('\textsf{A1}') is indicated in the \textsf{Name Box} to the left of the \textsf{Formula Bar}.
 
-In \textbf{MATLAB}, a variable is associated a name (rather than a letter-number code as in \textbf{Excel}) in order to make things rather more easy and convenient. The name can be almost any sequence of characters you like, regardless of whether it is a real or fake word, as long as it does not contain numbers or special characters (e.g. \#, \$, \%, ...) or spaces. So actually, you are only left with continuous sequences of characters without spaces ('words'!). Note that you can  create a variable name based on 2 (or more) real words, separated by an underscore (\texttt{\_}) if that helps describe what the \textit{variable} refers to. Valid variable names  include:
+In \textbf{MATLAB} (and other programming languages), a variable (or rather, the value of a variable) is associated with a name (rather than a letter-number code as in \textbf{Excel}) in order to make things rather more easy and convenient. The name can be almost any sequence of characters you like, regardless of whether it is a real or fake word, \uline{just as long as it does not contain numbers or special characters (e.g. \#, \$, \%, ...) or spaces}. So actually, you are only left with continuous sequences of characters without spaces ('words'!). Note that you can  create a variable name based on two (or more) real words, separated by an underscore (\texttt{\_}) if that helps describe what the \textit{variable} refers to. Valid variable names  include:
 
 \begin{docspec}
 A\\
@@ -528,7 +528,7 @@ cat\\
 derpyhooves\\
 this\_is\_boring\_stuff\\
 BIG\\
-big\sidenote{Note that \textbf{MATLAB} distinguishes between lower and UPPER case letters in a variable (i.e. \texttt{BIG} and \texttt{big} would represent two different and distinct variables). I would \uline{strongly} advise to stick to all lower case, or all upper case, to avoid possible future confusion. (or come up with a naming convention, of whatever sort (e.g. capital first letter), and stick to it.)}
+big\sidenote{Note that \textbf{MATLAB} distinguishes between lower and UPPER case letters in a variable (i.e. \texttt{BIG} and \texttt{big} would represent two different and distinct variables). But other programming languages may not.\\ I would \uline{strongly} advise to stick to all lower case (or all upper case), to avoid possible future confusion. (or come up with a naming convention, of whatever sort (e.g. capital first letter), and stick to it.)}
 \end{docspec}  
 
 \noindent (but noting that my personal preference/recommendation is to avoid uppercase characters and stick to all lowercase)
@@ -774,8 +774,8 @@ Note that there is also a \textsf{Command History} window that list all the prev
 
 \section{Vectors and arrays \#1}
 
-So far, most of your \textit{variables} have all be what are known as \textit{scalars} -- i.e. single numbers (whether \textit{real} or \textit{integer})\sidenote{An exception are when you assigned a string, which technically is a vector (assuming multiple characters in the string)}.
-One of the most powerful things about \textbf{MATLAB} is its ability to represent vectors (1D columns or rows of numbers or strings) and arrays -- 2D and higher dimensional regular grids of numbers or strings. (\textit{matrix}\sidenote{Not to be confused with the film containing bad acting by Keanu Reeves.} is the name commonly given to a 2-D array.)
+So far, most of your \textit{variables} have all been what are known as \textit{scalars} -- i.e. single numbers (whether \textit{real} or \textit{integer})\sidenote{An exception are when you assigned a string, which technically is a vector (assuming multiple characters in the string)}.
+One of the most powerful things about \textbf{MATLAB} is its ability to represent vectors (1D columns or rows of numbers or characters) and arrays -- 2D and higher dimensional regular grids of numbers or strings. (\textit{matrix}\sidenote{Not to be confused with the film containing bad acting by Keanu Reeves.} is the name commonly given to a 2-D array.)
  
 %------------------------------------------------
 
@@ -1004,7 +1004,7 @@ So far ... I suspect this is heavy-going and there is a lot to try and remember,
 
 \subsection{Plotting}
 
-First -- create yourself a dummy dataset to plot. You are going to need to create yourself a pair of \textit{vectors} -- these can have any values in them that you like, but perhaps aim for 1 vector with values counting up from 1 to 10 (or similar) -- this will form your \textit{x}-axis, and the 2nd column ... whatever you like. \sidenote[][-3.00in]{Looking ahead -- you could create a y-axis \textit{vector} formed of the squares of the numbers in the x-axis \textit{vector}: 
+First -- you will create yourself a dummy dataset to plot. To do this, you are going to need to create yourself a pair of \textit{vectors} -- these can have any values in them that you like, but perhaps aim for 1 vector with values counting up from 1 to 10 (or similar) -- this will form your \textit{x}-axis, and the 2nd column (the second vector you will create) ... whatever you like. \sidenote[][-3.00in]{Looking ahead -- you could create a y-axis \textit{vector} formed of the squares of the numbers in the x-axis \textit{vector}: 
 \begin{docspecmargin}
 >> Y = X.\(^{\wedge}\)2  
 \end{docspecmargin}
@@ -1046,11 +1046,11 @@ This ... is easily the least professional plot ever (aside from anything created
 \end{marginfigure}
 
 Note that by default, \textbf{MATLAB} also scales both axes to reasonably closely match the range of values in the two data vectors. In the example here, the default min and max
-axes limits in fact turn out to be the min and max values in the \textit{x} and y-axis data because the data is composed of relatively simply/whole numbers. If however the maximum \textit{y} value was very  slightly larger, you'd see that \textbf{MATLAB} would adjust the maximum \textit{y}-axis limit to the next convenient value so as to preserve a relatively simple series of labelled tick marks in the axis scale. In fact, why not try that -- replace your maximum data value\sidenote[][-1.25in]{Remember that you can replace e.g. the last element of \textit{vector} \texttt{Y} with the value \texttt{9.9}, by:
+axes limits in fact turn out to be the min and max values in the \textit{x} and y-axis data because the data is composed of relatively simply/whole numbers. If however the maximum \textit{y} value was very  slightly larger, you'd see that \textbf{MATLAB} would adjust the maximum \textit{y}-axis limit to the next convenient value so as to preserve a relatively simple series of labelled tick marks in the axis scale. In fact, why not try that -- replace your maximum data value\sidenote[][-0.25in]{Remember that you can replace e.g. the last element of \textit{vector} \texttt{Y} with the value \texttt{9.9}, by:
 \begin{docspecmargin}
 Y(end) = 9.9;
 \end{docspecmargin}}, with a value that is very slightly larger (an example is given in Figure \ref{fig:ch1-plot-basic3}).
-\sidenote[][-0.75in]{If you have created a dummy dataset in which the value in the last row is the largest, replacing it is simple -- remember the use of \texttt{end} in addressing an element in an array. If your dataset does not monotonically increase and the largest value falls somewhere in the middle ... you could cheat' and open the array in the variable editor and discover which row it occurs on.} Then re-plot and note how it has changed (if at all -- it will depend somewhat on what data you invented in the first place).
+\sidenote[][-0.0in]{If you have created a dummy dataset in which the value in the last row is the largest, replacing it is simple -- remember the use of \texttt{end} in addressing an element in an array. If your dataset does not monotonically increase and the largest value falls somewhere in the middle ... you could cheat' and open the array in the variable editor and discover which row it occurs on.} Then re-plot and note how it has changed (if at all -- it will depend somewhat on what data you invented in the first place).
 
 \begin{marginfigure}[0.0in]
 \includegraphics[width=\linewidth]{ch1-plot-basic3.eps}
@@ -1084,7 +1084,7 @@ Information as to how to use all of these commands can be found via \textbf{MATL
 
 Employing the above 3 suggestions gives rise to the improved plot shown in Figure \ref{fig:ch1-plot-basic2}, is given in the margin.
 
-\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-0.5in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 Example of adding axis labels and a plot title ...
 \begin{docspecmargin}
 >> xlabel ... 
@@ -1099,7 +1099,7 @@ Example of adding axis labels and a plot title ...
 (The notation gets confusing in a narrow box like this -- the\texttt{ ...} indicates that the line should be \uline{continuous} and not broken across 2 different lines.)
 \end{mdframed}}
 
-Note that in the usage of all the above listed commands, they all require something to be passed within a set of parentheses -- \texttt{( )}. In fact, they are all \textbf{MATLAB} \textit{functions} and require an input (hence the use of the parentheses). Some of the functions require a \textit{string} input, such as the name of the title in \docenv{title}, and this must be encased in quotation marks -- \texttt{' '} to designate it a string rather than a \textit{variable} name.\sidenote[][-0.5in]{You could instead assign a \textit{string} to a \textit{variable}, and then pass the \textit{variable} name (no quotation marks).} This will all become clearer once you start creating your own \textit{functions} (computer programs) in the next chapter.
+Note that in the usage of all the above listed commands, they all require something to be passed within a set of parentheses -- \texttt{( )}. In fact, they are all \textbf{MATLAB} \textit{functions} and require an input (hence the use of the parentheses). Some of the functions require a \textit{string} input, such as the name of the title in \docenv{title}, and this must be encased in quotation marks -- \texttt{' '} to designate it a string rather than a \textit{variable} name.\sidenote[][-0.0in]{You could instead assign a \textit{string} to a \textit{variable}, and then pass the \textit{variable} name (no quotation marks).} This will all become clearer once you start creating your own \textit{functions} (computer programs) in the next chapter.
 
 %------------------------------------------------
 
@@ -1113,7 +1113,7 @@ You can also have more than one plot in a single \textsf{Figure window}. As an e
 \end{docspec}
 (Note how in the first line, the \textit{colon operator} is used to create an \textit{x} vector from 0 to 2\(\pi\), in steps of 0.1. The second and third lines calculate the sine of all the x values, and sine of 2 times the \textit{x} values, respectively, and assign the results to a pair of new vectors, \texttt{y} and \texttt{y2}.)
 
-\marginnote[-3.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-2.25in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{axis}
 \\For once, helpfully, \textbf{MATLAB} says:
 \\"\textit{\texttt{axis([xmin xmax ymin ymax])} sets the limits for the x- and y-axis of the current axes.}"
@@ -1153,7 +1153,7 @@ The basic code then goes something like:
 \subsection{Saving graphics and figures}
 
 You might just want to save the figure. (Why create it in the first place in fact if you are just going to throw it away ... ?) Again, you can do this via the \textit{GUI} or at the \textit{command line}
-\sidenote[][-0.0in]{
+\sidenote[][-0.in]{
 To export a graphic at the command line, use the \docenvdef{print} function. To cut a long story short (see: \texttt{help print}), to print to a postscript file:
 \\\texttt{print('-dpsc2', FILENAME)}
 \\\noindent where \texttt{FILENAME} is the filename as a \textit{string} or a \textit{variable} containing a \textit{string}.
@@ -1168,6 +1168,8 @@ To close the current (active) \textsf{Figure window}, the command is:
 \\ \noindent To close all currently open \textsf{Figure windows}:
 \\ \texttt{>> close all}
 \end{mdframed}}
+
+(Don't worry for now where you are saving it ... just note the save option, and we'll worry about the computer file system and folder locations later.)
 
 %------------------------------------------------
 
@@ -1228,7 +1230,7 @@ Elements in the \textit{matrix} can be addressed using the syntax:
 \begin{docspec}
 A(i,j)
 \end{docspec}
-where \uline{\texttt{i} is the row number, and \texttt{j} is the column number.} It is very very easy to keep forgetting in which order the rows and columns are indexed, but I'll tell you here and now before I forget:
+where \uline{\texttt{i} is the row number, and \texttt{j} is the column number.} It is very very easy to keep forgetting in which order the rows and columns are indexed, but I'll tell you here and now before I also forget:
 \hfill \break
 \\{\LARGE rows, columns}
 \hfill \break
@@ -1278,19 +1280,9 @@ and
 \noindent\rule{4cm}{0.5pt}
 \vspace{2mm}
 
-\noindent In the following, having previously created the matrix \texttt{A}, you will derive a matrix \texttt{C}, and then preform some operations on it. to start with: multiply all the elements of \texttt{A} by the number \texttt{17}. Assign the answer to a 3rd array (\texttt{C}). 
+\noindent In the following, having previously created the matrix \texttt{A}, you will derive a matrix \texttt{C}, and then preform some operations on it. 
 
-\newthought{Question:} What is the value of the element \texttt{C(2,3)}? How would you ask for the 4th row, 2nd column element of the array \texttt{C}, and what is its value?
-
-\newthought{Question:} What is the sum of the 4th column of \texttt{C}
-\marginnote[-0.75in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-The \textit{function} \docenvdef{sum} ... sums things. The \textbf{MATLAB} Help documentation (\texttt{help sum}) says:
-\\'\texttt{If A is a vector, sum(A) returns the sum of the elements.}'
-\\'\texttt{If A is a matrix, sum(A) treats the columns of A as vectors, returning a row vector of the sums of each column.}'
-\end{mdframed}}
-? (Sure -- you also do it by using a calculator, but you will not always have such a small data-set as here. Perhaps you'll get a much larger data-set in an assessed exercise ;) So, practice doing it properly.) The \textbf{MATLAB} function for this is \docenv{sum}.
-
-\newthought{Question:} What is the sum of the 2nd row of \texttt{C}?
+To start with: multiply all the elements of \texttt{A} by the number \texttt{17}. Assign the answer to a 3rd array (\texttt{C}). What is the sum of the 2nd row of \texttt{C}?
  For a \textit{matrix} (rather than a \textit{vector}) as input, \docenv{sum}  returns the individual sums of each column, and so on its own;
 \begin{docspec}
 >> C\\
@@ -1362,7 +1354,6 @@ ans =\\
 and then to sum the rows:
 \begin{docspec}
 >> sum(C,2)\\
-ans =\\
 ans = \\
 \ \ \ \ 663\\
 \ \ \ \ 510\\
@@ -1371,7 +1362,7 @@ ans = \\
 \end{docspec}
 
 
-\newthought{Question:} What is the sum of *all* the elements in the \textit{matrix} \texttt{C}?
+What then is the sum of *all* the elements in the \textit{matrix} \texttt{C}?
 
 You could sum all the columns to give you a row \textit{vector} of partial sums, and then sum the elements in the row \textit{vector} to give you the grant total sum of all the elements. You can do this, either in completely separate steps\sidenote{In general in programming -- use as many smaller, separate steps as you like and are most comfortable. The more you break down the calculation, the clearer it will be to you and the easier to debug if things go wrong. However, this does come at the expense of longer and longer code and sometimes more compact code is easier to deal with.}:
 \begin{docspec}
@@ -1468,8 +1459,6 @@ F =\\
 \ \ \ \  7    10\\
 \ \ \ \ 15    22
 \end{docspec}
-
-If your matrix math is rusty and you are not following this, maybe refresh it (your memory of basic matrix math).
 
 %------------------------------------------------
 
