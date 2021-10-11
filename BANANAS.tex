@@ -196,7 +196,7 @@ Copyright \copyright\ \the\year\ \thanklessauthor
 \\Creative Commons Attribution-NonCommercial-ShareAlike 3.0 license (CC BY-NC-SA 3.0) 
 \\(http://creativecommons.org/licenses/by-nc-sa/3.0/)\index{license}
 
-\par\textit{Current printing, \today}
+\par\textit{The last time anyone could be bothered to hack this document, was \today}
 \end{fullwidth}
 
 %----------------------------------------------------------------------------------------
@@ -893,10 +893,10 @@ returning its \textit{integer} length, and which could in turn be assigned to a 
 If you find that you want a different orientation (row vs. column) of the a \textit{vector}, the \textit{vector} can be flipped around (converting row-to-column and column-to-row) using the \textit{transpose operator} (\texttt{.'}), e.g.:
 
 \begin{docspec}
-D = B.'
+B = B.'
 \end{docspec}
 
-\noindent will turn the vector \texttt{B} into one (assigned to the \textit{variable} \texttt{D}) with the same orientation as \texttt{C}. \sidenote{Note ... \textbf{MATLAB} gives the syntax as \texttt{.'}, whereas I always only ever added the \texttt{'} bit ... which works ...}
+\noindent will turn the vector \texttt{B} into one (assigned back to the same \textit{variable} name) with the same orientation as \texttt{C}. \sidenote{Note ... \textbf{MATLAB} gives the syntax as \texttt{.'}, whereas I always only ever added the \texttt{'} bit ... which works ...}
 
 You can also re-order the values in a \textit{vector} (hence addressing the restriction in using the \textit{colon operator} to create a \textit{vector} that the values must be monotonically increasing rather than decreasing). Depending on the orientation of the \textit{vector}, you can use either the \docenv{flipud} (for column \textit{vectors}), or \docenv{fliplr} (for row \textit{vectors}) \textit{functions} to re-order the elements (see margin box).
 \marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
@@ -2091,7 +2091,9 @@ resulting in Figure \ref{fig:plot-CO2scatter2}.
 
 There are 2 different simple \textbf{MATLAB} commands for visualizing a 2D dataset (i.e. a matrix) as a bitmap image (and via a 3rd command, viewing various bitmap photo and image format files too).
 
-As something (2D data) to play with -- \texttt{load} in the data matrix: \texttt{model\_grid.txt} (labelled as: '2D model grid \uline{data}'). Then, view the data in the array viewer, just to get a feel for what you are dealing with here (although you are unlikely to be much wiser after doing so). Lastly,  go ahead and employ the \docenv{pcolor} function in its simplest possible usage (see Box) to visualize the data. You can see (Figure \ref{fig:ch1-plot-pcolor1} ) that it is ... something. Maybe a little like the continents, but up-side-down at the very least. What to do?
+As something (2D data) to play with -- \texttt{load} in the data matrix: \texttt{model\_grid.txt} (labelled as: '2D model grid \uline{data}'). Then, view the data in the array viewer, just to get a feel for what you are dealing with here (although you are unlikely to be much wiser after doing so). 
+
+Now, employ the \docenv{pcolor} function in its simplest possible usage (see Box) to visualize the data -- i.e. you simply pass the name of the variable containing the data matrix into the function. You can see (Figure \ref{fig:ch1-plot-pcolor1} ) that it is ... something. Maybe a little like the continents, but up-side-down at the very least. What to do?
 
 Well, it is a good job that you remember how to re-orientate arrays, right? If you guess right first time (three different basic transformations of a matrix were described), you will get Figure \ref{fig:ch1-plot-pcolor2}.
 
@@ -2107,7 +2109,7 @@ Well, it is a good job that you remember how to re-orientate arrays, right? If y
 \label{fig:ch1-plot-pcolor2}
 \end{marginfigure}
 
-Next try something very similar. but using the \docenv{image} function.\footnote{Now the model grid is the correct way around! I have absolutely no idea why and why it is reading the matrix dimensions differently from \docenv{pcolor}. I am sure you could \textbf{Google} and find out. But you would have to actually care first.} 
+Next try something very similar, but use the \docenv{image} function --  refer to the help box but note that for viewing a data matrix its usage is the same as that for \docenv{pcolor}  (you pass the variable name containing the 2D data).\footnote{Now the model grid is the correct way around! I have absolutely no idea why and why it is reading the matrix dimensions differently from \docenv{pcolor}. I am sure you could \textbf{Google} and find out. But you would have to actually care first.} 
 
 \marginnote[0.0in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{pcolor}
@@ -2122,7 +2124,7 @@ So if you have a matrix, \textbf{MATLAB} will plot a regular arrays of cells, wi
 
 What is the point of this? You now have the ability to simply visualise a gridded dataset. Later, we'll be doing it more formally  and it gets rather more involved when you have to create matrixes to describe the grid dimensions (e.g. lon and lat) for yourself.
 
-As your very last exercise -- find an image on the internet that amuses you, download it, load it into \textbf{MATLAB} (using \docenv{imread}), visualize it using \texttt{image}, and then ... well, that depends on how amusing it is. Maybe try plotting something on top of it (using \texttt{hold on}) or simply go home.
+As your very last exercise -- find an image on the internet that amuses you, download it, load it into \textbf{MATLAB} (using \docenv{imread} -- see Box), visualize it using \texttt{image} (passing the name of the variable you created using  \docenv{imread}), and then ... well, that depends on how amusing it is. Maybe try plotting something on top of it (using \texttt{hold on}) or simply go home.
 
 %------------------------------------------------
 
@@ -2277,7 +2279,9 @@ Commands in \textbf{MATLAB} can become very lengthy, and you typically end up wi
 \\Assume a similar convention to that for \textit{variables} in the naming of \textit{m-files}.
 \end{mdframed}}
 
-Your wish is granted! In \textbf{MATLAB}, it is possible to store all of your commands in a single text file, and then request that they (the list of commands) are all executed (sequentially)  at one go. \textbf{MATLAB} gives this text file a fancy name (because it is a very fancy piece of software, after all) -- a \textit{script}\sidenote{The conception of a \textit{function}, will be introduced later.}, otherwise known as an \textit{m-file}.  To create a new \textit{m-file}; from the  \textsf{File menu}, select \textsf{Script} (a common type of \textit{m-file})\sidenote[][0.0in]{In order version of \textbf{MATLAB}: \textsf{File}/\textsf{New} menu, and select: \textsf{Blank M-file}.}. You will see a text editor (more fancy-ness) appear in front of your very eyes, containing your requested (but currently empty) \textit{m-file}. Save the \textit{m-file} to your directory of choice. (Alternatively, simply create a new (blank) text file and save it with the extension \textsf{.m}, rather than e.g. \textsf{.txt} -- this creates you a (script) \textit{m-file}, illustrating that an \textit{m-file} is nothing more than a text file with a \textsf{.m} file extension.) From an \textit{m-file}, you can issue all the \textbf{MATLAB} commands you previously would have entered individually, line-by-tedious-line, at the command line. Furthermore, having created and saved  a \textbf{MATLAB} script, it can be executed again and as many times as you like.
+Your wish is granted! In \textbf{MATLAB} (and effectively, all programming languages), it is possible to store all of your commands in a single text file, and then request that they (i.e. the list of commands) are all executed (sequentially)  at one go. \textbf{MATLAB} gives this text file a fancy name (because it is a very fancy piece of software, after all) -- a \textit{script}\sidenote{The conception of a \textit{function}, will be introduced later.}, otherwise known as an \textit{m-file}.  To create a new \textit{m-file}; from the  \textsf{File menu}, select \textsf{Script} (a common type of \textit{m-file})\sidenote[][0.0in]{In order version of \textbf{MATLAB}: \textsf{File}/\textsf{New} menu, and select: \textsf{Blank M-file}.}. You will see a text editor (more fancy-ness) appear in front of your very eyes, containing your requested (but currently empty) \textit{m-file}. Save the \textit{m-file} to your working/course  directory of choice. (Alternatively, simply create a new (blank) text file and save it with the extension \textsf{.m}, rather than e.g. \textsf{.txt} -- this creates you a (script) \textit{m-file}, illustrating that an \textit{m-file} is nothing more than a text file with a \textsf{.m} file extension.) 
+
+From an \textit{m-file}, you can issue all the \textbf{MATLAB} commands you previously would have entered individually, line-by-tedious-line, all at once. Furthermore, having created and saved  a \textbf{MATLAB} script, it can be executed again and as many times as you like.
  
 You can execute an \textit{m-file} by typing its name into the \textsf{Command window} (\uline{omitting the \textsf{.m} file extension}). \uline{Ensure that \textbf{MATLAB} is operating in the same directory as the directory that you have saved your \textit{m-file}}. You can also run the \textit{script} (\textit{m-file}) by hitting the big bright green Run icon button at the top of the \textit{m-file} editor\sidenote[][-0.25in]{In older versions of \textbf{MATLAB} -- select: \textsf{Debug}/\textsf{Run} from the 'debug' menu of the \textsf{Editor window}.}. The short-cut for running it is to whack your paw down on the Function Key \textsf{F5}.
 
@@ -2289,7 +2293,7 @@ You can execute an \textit{m-file} by typing its name into the \textsf{Command w
 disp(STRING)
 \end{docspecmargin}
 where \texttt{STRING} is a .... \textit{string}, you get the \textit{string} displayed as text at the command line.
-\\I n general, you can  pass the name of \uline{any} variable
+\\In general, you can  pass the name of \uline{any} variable
 \begin{docspecmargin}
 disp(VARIABLE)
 \end{docspecmargin}
@@ -2302,7 +2306,7 @@ is ... well, find out for yourself!
 \\Note that there is no effect of including the semi-colon (\texttt{;}) at the end of \texttt{disp()}.
 \end{mdframed}}
 
-OK -- you are now ready for your very first program ... inevitably ... this has to be to print 'Hello, World' to the screen. No, really. (\textbf{Google} it.) 
+OK -- you are now ready for your very first program ... inevitably ... this has to be to print '\texttt{Hello, World}' to the screen. No, really. (\textbf{Google} it.) 
 
 Create a new \textit{m-file}, calling it e.g. \textsf{hello\_world.m} (remembering that spaces are NOT allowed in filenames). Make sure it is in the same directory  that \textbf{MATLAB} is working from ... You are going to use the function \docenv{disp} (see margin help box and/or type \texttt{>> help disp}  to find out the \textbf{MATLAB} \textit{function} syntax and usage). This command (/\textit{function})  will print to the screen, either any text you specify (in inverted commas), or the contents of any\textit{} \textit{variable} (you pass the variable name to \texttt{disp} (without inverted commas)). For now, simply pass the text directly.
 
@@ -2317,21 +2321,21 @@ Your program needs just a single line \uline{in the \textit{m-file}} (not at the
 
  Your first program is a success!(?)\sidenote[][-0.375in]{If \textbf{MATLAB} gives you an error message something like \\\textcolor{red}{\texttt{Undefined function or variable 'hello\_world'}} \\\noindent then it is likely you are simply not in the same directory as the \textit{m-file}, and/or the location of the \textit{m-file} is not in one of the directory paths \textbf{MATLAB} knows about (see previous Tutorials for comments on changing directory vs. adding paths.).} 
 
-You could extend this to a mighty 2-line program by defining the string as a variable on the first line of the file (program), and displaying the contents of the variable (on the second). In a new \textit{script} \textit{m-file} (saved as e.g. \textsf{hello\_world2.m}), add the lines:
-\begin{docspec}
+You could extend this to a mighty 2-line program by defining the string as a variable on the first line of the \textit{m-file} (i.e. the 'program'), and displaying the contents of the variable (on the second). In a new \textit{script} \textit{m-file} (saved as e.g. \textsf{hello\_world2.m}), add the lines:
+\begin{docspecbold}
 message = 'hello, world ... again!';
 \\disp(message)
-\end{docspec}
+\end{docspecbold}
 
 \noindent and then save and run it.\sidenote[][0.25in]{Remember that when a \textit{function} requires a \textit{string} input, you can either pass the string directly (encased in inverted commas), or assigned the string to a variable, and pass the name of the variable (no inverted commas).}\sidenote[][0.0in]{If you get the message repeated twice, you might have committed the semicolon form the end of the first line.}
 
-For further practice -- pick one of any of the previous exercises in which multiple lines of code were required, such as loading and then plotting a data set -- place these lines of code into a new \textit{m-file }(either by re-typing them in or copying them out of the \textsf{Command History window}), save the file (to the same directory that you are working from), and then run it my typing its name at the command line (omitting the \textsf{.m} extension).
+For further practice -- pick one of any of the previous exercises in which multiple lines of code were required, such as loading and then plotting a data set -- place these lines of code into a new \textit{m-file }(either by re-typing them in or copying them out of the \textsf{Command History window}), save the file, and then run it my typing its name at the command line (omitting the \textsf{.m} extension).
 
 %------------------------------------------------
 
 \subsection{Programming good practice}
 
-A few tips about good practice in (\textbf{MATLAB}) programming before we go on (and on and on and on):
+A few tips about good practice in (e.g. \textbf{MATLAB}) programming before we go on (and on and on and on):
 
 \marginnote[-0.75in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \textbf{Creating \texttt{help} text in an \texttt{m-file}}
@@ -2348,7 +2352,7 @@ A typical basic format is:
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
 
-\item Choose helpful \textit{variable} names so that it is clear what each \textit{variable} represents. Avoid *excessively* short names, except for simple index and counting \textit{variables}. At the other extreme -- excessively long names, which the might be wonderfully descriptive, can lead to even simple calculation stretching over multiple lines of code (which can make it more difficult to see what is going on in the code overall). It is also very easy to create typos in trying to use very long \textit{variable} names.
+\item Choose helpful \textit{variable} names so that it is clear what each \textit{variable} represents. Avoid *excessively* short names, except for simple index and counting \textit{variables}. At the other extreme -- excessively long names, which the might be wonderfully descriptive, can lead to even simple calculations stretching over multiple lines of code (which can make it more difficult to see what is going on in the code overall). It is also very easy to create typos in trying to use very long \textit{variable} names.
 
 \vspace{1mm}
 \item Use comments within your \textit{m-file} to add explanation and commentary on your program. Anything after a \texttt{\%} on the same line is a considered a \textit{comment}\sidenote{Your \texttt{\% comment} can start on a new line, or follow on from the end of a line of code, whichever is more helpful.}, and is ignored by \textbf{MATLAB}.
@@ -2357,13 +2361,13 @@ A typical basic format is:
 \item Structure the code nicely. You can break the code up into sections, e.g. by adding a blank line. You might also start each section with a label (\textit{comment}) summarizing that it is going to do (via the addition of a \textit{comment} line).
 
 \vspace{1mm}
-\item To start with - create the- program in as simple a step-by-step way as possible. Breaking a complex calculation into several lines of simpler calculations is much easier to debug and work out what you were doing later, particularly if comments are also added. For all practical purposes -- at this level, everything will run just as fast whether as a complex calculation on one line, or simple bite-sized calculation spread over 4 lines with \textit{comments} in between. 
+\item To start with - create and structure your program in as simple a step-by-step way as possible. Breaking a complex calculation into several lines of simpler calculations is much easier to debug and work out what you were doing later, particularly if comments are also added. For all practical purposes -- at this level, everything will run just as fast whether as a complex calculation on one line, or simple bite-sized calculation spread over 4 lines with \textit{comments} in between. 
 
 \vspace{1mm}
 \item \uline{Always save your changes before running your program} (or you may unknowingly be running the previous version).
 
 \vspace{1mm}
-\item If using the \textit{script} to do some plotting, sometimes (but not always) it is convenient to add at the top of the \textit{m-file}, \begin{docspec}
+\item If using a \textit{script} to do some plotting, sometimes (but not always) it is convenient to add at the top of the \textit{m-file}, \begin{docspec}
 close all;
 \end{docspec}
 This command close all currently open figures, plots, images, etc. so that if you repeatedly run the script such as you might in developing and debugging it, you don't end up with 1000000000s of \textsf{Figure windows} open ...
@@ -2461,7 +2465,7 @@ Finally, and related to the next subsection -- code in stages, testing the (part
 
 What programming is mostly about is not writing new code so much as debugging\sidenote{The art of fault-finding in computer code.} what you have already written. Key then, is to reduce the incidence of bugs occurring in the first place, and when they do occur, firstly to have code that lends itself to debugging and secondly, knowing how to go about the debugging. The first two facets are at least partly addressed through good programming practice (see earlier)\sidenote{And by the discipline of software engineering, which is way out of scope of this course.}.
 
-Here is an example to try out to start to see what might be involved in debugging,  loosely based on a previous plotting example -- go create a new \textit{m-file} called: \textsf{plot\_some\_dull\_stuff.m}\sidenote{Remember -- you are advised to name your \textit{m-files} as something vaguely descriptive of what the script actually does (and you do ont have to go with this choice, although it might turn out to be perfectly descriptive ;) (i.e. you do not have to call it this!)}. Then add the following lines to the file (you can probably just directly copy-paste from the PDF file):
+Here is an example to try out to start to see what might be involved in debugging,  loosely based on a previous plotting example -- go create a new \textit{m-file} called: \textsf{plot\_some\_dull\_stuff.m}\sidenote{Remember -- you are advised to name your \textit{m-files} as something vaguely descriptive of what the script actually does (and you do ont have to go with this choice, although it might turn out to be perfectly descriptive ;) (i.e. you do not have to call it this!)}. Then add the following lines to the file (you can probably just directly copy-paste from the PDF file but may have to change the \texttt{'} characters):
 
 \begin{docspec}
 \textcolor[rgb]{0,0.501961,0}{\% my dull plotting program
@@ -2518,7 +2522,7 @@ Other strategies for helping debug include:
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
 \vspace{0mm}
-\item Checking  what the values of the variables were at the point at which the program derp-ed -- the current (and the point of program crash) variable values are listed in the \textsf{Workspace window}.
+\item Checking  what the values of the variables were at the point at which the program derp-ed (broke down) -- the current (and the point of program crash) variable values are listed in the \textsf{Workspace window}.
 \vspace{1mm}
 \item Changing the relevant variable value(s) (here \texttt{x}) and re-typing the problem line to see if it makes a difference\sidenote{This is sort of similar to the example given of simply testing a specific value directly.}.
 \vspace{1mm}
@@ -2527,7 +2531,7 @@ Other strategies for helping debug include:
 \item You can also put your program on hold just before the problem line and explore the state of the variables at that point (see Box), although in this particular example of a bug, \textbf{MATLAB} does not allow this, presumably because if feels that the mistake is simple and can be easily fixed. 
 \end{enumerate}
 
-\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-2.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \textbf{Debugging -- breakpoints}
 \\\textit{Breakpoints} are indicators in the code that tell \textbf{MATLAB} to pause that that point. This allows for in-depth testing of variable values and lines of code without having to exit the program.
 \\To add a \textit{breakpoint} in the code -- click in the (grey) margin of the code editor on the problem line or before, and \textbf{MATLAB} adds a red circle to indicate a 'breakpoint' has been set. The presence of a breakpoint tells MATLAB to pause that that line.
@@ -2625,6 +2629,7 @@ Your new \textit{function} is used pretty much as you would expect and have used
 \end{docspec}
 \noindent does the same but assigns the answer to the variable \texttt{Y} (with the semi-colon suppressing output to the command line).
 
+\newpage
 NOTE that you can make a new function in 2 different ways:
 \begin{enumerate}[noitemsep]
 \vspace{1mm}
@@ -2664,7 +2669,7 @@ H = SCATTER(...) returns handles to the scatter objects created.
 \end{docspec}
 with the \texttt{handle}, \texttt{H}, being an identifier of the graphic which could prove to be useful if  e.g. you would like to modify  one of the properties of an existing graphic.
 
-\marginnote[-1.5in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-2.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \textbf{Debugging -- \textit{functions}}
 \\\textit{Functions} are a prime example of the importance of being able to pause code part the way through (e.g. by setting a \textit{breakpoint}) because when a \textit{function} terminates, or crashes, you get to see none of the values of any variables created within the \textit{function}, unless they have been returned as output (and assuming here that the code did not crash and managed to get to the end). Setting a \textit{breakpoint} allows you to interrogate the values of any internal \textit{variables}.
 \end{mdframed}}
@@ -2739,7 +2744,7 @@ In creating an \texttt{if ... end} construct, the statement tested for truth can
 if happy
 \\...
 \end{docspec}
-where \texttt{happy} is a variable.
+where \texttt{happy} is a variable which is  \texttt{true} (\texttt{1}) or \texttt{false} (\texttt{0}).
 \vspace{1mm}
 \item A \textbf{MATLAB} \textit{function} returning a \texttt{true} or \texttt{false}, e.g.
 \begin{docspec}
@@ -2748,11 +2753,11 @@ if isnan(A)
 \end{docspec}
 where variable \texttt{A}, may or may not be a \texttt{NaN}.
 \vspace{1mm}
-\item A \textit{relational operator} (see earlier), i.e. one of e.g.:
+\item The result of a \textit{relational operator} (see earlier), i.e. one of e.g.:
 \begin{docspec}
 >, <, <=, >=, ==, \(\sim\)=, \&\&, ||
 \end{docspec}
-and applied to a pair of \textit{variables}, one \textit{variable} and one value, or two values, e.g.:
+ applied to a pair of \textit{variables}, one \textit{variable} and one value, or two values, e.g.:
 \begin{docspec}
 if A > B
 \\...
@@ -2765,19 +2770,19 @@ All this will hopefully become apparent during this and later weeks, so don't wo
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
 
-\newthought{An initial and rather computer programming textbook-like example} follows. There are different stages in the development of the final program. \uline{Consider creating a new \textit{m-file} for each stage}.
+\newthought{A rather computer programming textbook-like example} now follows ... :(
 
-Designing a program (a \textbf{MATLAB} script saved as an \textit{m-file})  that asks whether or not you like bananas, and if you answer 'yes', tells you 'Correct -- they are a great fruit!'.
+We will create a program (a \textbf{MATLAB} \textit{script} saved as an \textit{m-file})  that asks whether or not you like bananas, and if you answer 'yes', tells you 'Correct -- they are a great fruit!'(!)
 
 But before we worry about anything else (e.g. how to apply a \textit{conditional} statement), you'll  need to know about inputting information into a \textbf{MATLAB} program from the keyboard\sidenote{All programming languages have such a facility and man basic programs, at least in the Old Days prior to widespread \textit{GUI}s, make use of keyboard input}. Amazingly, you can guess (I actually just did) the command for requesting input -- it is \docenv{input} (for 'input' -- a rare occasion when everything is logical and simple!) (see Box).
 
 Armed with this important new information (how to get \textbf{MATLAB} to ask for input and then receive and do something with keyboard input) -- \uline{firstly create a blank \textit{m-file} and save with a 'suitable' filename}. (You are going to be typing code into the \textit{script} \textit{m-file} (not at the command line.) Maybe add a header line \textit{comment} (a 1st line or lines starting with a \texttt{\%}) to remind you what this \textit{script} is going to do.
 
-Secondly, (and on the next line) -- define the text (question) that you are going to ask and assign this string to the variable \texttt{MY\_QUESTION} (substitute your own variable name here). 
+Secondly, (and on the next line after the comment line) -- define the text (question) that you are going to ask and assign this string to the variable \texttt{MY\_QUESTION} (substitute your own variable name here). 
 
-Then place the \texttt{input}command (on the next, now 3rd line) for string input, and assign the input string to the variable \texttt{MY\_ANSWER} (again, you can pick your own variable name). 
+Then place the \texttt{input} command (on the next, now 3rd line) for string input, and assign the input string to the variable \texttt{MY\_ANSWER} (again, you can pick your own variable name). 
 
-You should now have a program consisting of 3 (or more, depending on how many \textit{comment} lines you include) lines -- an initial \textit{comment} line, a line defining the question and assigning this string to a handy variable (\texttt{MY\_QUESTION}), and a line taking the results of the input function, and assigning it to a second variable (\texttt{MY\_ANSWER}). The structure of your program should look like Figure \ref{fig:ch2-bananas}. To help you out, a complete program looks like:
+You should now have a program consisting of 3 (or more, depending on how many \textit{comment} lines you include) lines -- an initial \textit{comment} line, a line defining the question and assigning this string to a handy variable (\texttt{MY\_QUESTION}), and a line taking the results of the \texttt{input} function, and assigning it to a second variable (\texttt{MY\_ANSWER}). The structure of your program should look like Figure \ref{fig:ch2-bananas}. To help you out, a complete program looks like:
 
 \marginnote[-3.675in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{input}
@@ -2818,19 +2823,19 @@ Run the program thus far. You should see the question displayed, and when you ty
 
 \noindent OK -- aside from the use of \texttt{input}, there is nothing new here. Yet. The ultimate purpose of the program is to give a reply that depends on the answer given. This is where we are going -- to utilize a \textit{conditional statement} -- depending on whether the answer is 'yes' or not, we are going to display a different message. This is a fundamental programming element -- different code (the \textit{statements} in the \textit{conditional} definition) will execute depending on the value of a \textit{variable} -- in this example, the 'different code' is a different message and the value of the variable is 'yes' or 'no' (or other answer).
 
-Copy your previous \textit{m-file} and give it a new name, so you retain a copy of your previous working program before you start developing it further. Work from this new file.
+Copy your previous \textit{m-file} and give it a new name, so that you retain a copy of your previous working program before you start developing it further. Work from the new file.
 
-You are going to add an '\texttt{if ...}' statement to the code (starting on at the end of your current code) to test whether the answer, held in the variable \texttt{MY\_ANSWER}, is equal to '\texttt{yes}'.
+You are going to add in an '\texttt{if ...}' statement to the code (starting on a line at the end of your current code) to test whether the answer, held in the variable \texttt{MY\_ANSWER}, is equal to '\texttt{yes}'.
 In the language of \textbf{MATLAB} syntax (see Box), the \textit{expression} is  whether the string contained in \texttt{MY\_ANSWER} is '\texttt{yes}'. How do we ask \textbf{MATLAB} to compare the value of \texttt{MY\_ANSWER} with '\texttt{yes}'?
 
 Once upon a time, long long ago, \textbf{MATLAB} was simple and helpful and you could write:
 \begin{docspec}
 if (my\_answer == 'yes')
-\\ \ \ [MESSAGE]
+\\ \ \ [RESPONSE]
 \\end
 \end{docspec}
 
-\noindent where \texttt{[MESSAGE]} you will later replace by a message that you will display using the \texttt{disp} command that you saw before. (In this stupid example it might be: 'Correct -- they are a great fruit!').
+\noindent where \texttt{[RESPONSE]} you will later replace by a message that you will display using the \texttt{disp} command that you saw before. (In this stupid example it might be: 'Correct -- they are a great fruit!').
 In this (now illegal!) usage, we are trying to ask whether the contents of the \textit{variable} \texttt{my\_answer}, are equivalent (the \texttt{==}) to the string \texttt{'yes'}.
 
 \marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
@@ -2847,14 +2852,14 @@ Life is no longer this simple. \textbf{MATLAB} is going to make us use the funct
 \begin{docspec}
 COMPARISON\_RESULT = strcmp(MY\_ANSWER, 'yes');
 \\if COMPARISON\_RESULT
-\\ \ \ [MESSAGE]
+\\ \ \ [RESPONSE]
 \\end
 \end{docspec}
 
 Or, we could have made this more compact:
 \begin{docspec}
 if strcmp(MY\_ANSWER, 'yes')
-\\ \ \ [MESSAGE]
+\\ \ \ [RESPONSE]
 \\end
 \end{docspec}
 
@@ -2894,13 +2899,13 @@ Your code should now comprise something like the 3-5 or so lines from before (co
 
 \noindent(Please -- do not just copy-paste the code ... write your own version of the code and only use this code as a guide.)
 
-Re-run (after saving) the program and confirm that it works (asking whether you like bananas and if you answer 'yes', tells you 'Correct -- they are a great fruit!'). If not -- time to de-bug! Note that if you tested the code in two stages, any bug at this point is only in the conditional structure. Start by double-checking the syntax required for the \texttt{if ...} structure. You could also try commenting out the message line and re-running.
+Re-run (after saving) the program and confirm that it works (asking whether you like bananas and if you answer 'yes', tells you e.g. 'Correct -- they are a great fruit!' (or whatever reply text you like)). If not -- time to de-bug! Note that if you tested the code in two stages, any bug at this point is only in the conditional structure. Start by double-checking the syntax required for the \texttt{if ...} structure. You could also try commenting out the message line and re-running.
 
-You can also turn this around, and test for an answer that is not 'no' (the \(\sim\) is making the test, not 'no'), i.e.
+Note (but not necessary try out) that you can also turn this around, and test for an answer that is not 'no' (the \(\sim\) is making the test, not 'no'), i.e.
 
 \begin{docspec}
 if \(\sim\)strcmp(MY\_ANSWER, 'no')
-\\ \ \ [MESSAGE]
+\\ \ \ [RESPONSE]
 \\end
 \end{docspec}
 
@@ -2910,7 +2915,7 @@ if \(\sim\)strcmp(MY\_ANSWER, 'no')
 \noindent\rule{2cm}{0.5pt}
 \vspace{2mm}
 
-\noindent Next, you might display an alternative message is the answer is not 'yes'. Refer to \textbf{help} / the margin Box on if ... and note that you can extent the structure with an \texttt{else} which would be followed by a line displaying the alternative message (e.g. 'Then you need to get a life, apple-lover.')\sidenote[][-0.75in]{And then the line with \texttt{end} after that -- follow the prescribed structure *exactly*.}.
+\noindent Next, you might display an alternative message is the answer is not 'yes'. Refer to \textbf{help} / the margin Box on \texttt{if ...} and note that you can extend the structure with an \texttt{else} which would be followed by a line displaying the alternative message (e.g. 'Then you need to get a life, apple-lover.')\sidenote[][-0.75in]{And then the line with \texttt{end} after that -- follow the prescribed structure *exactly*.}.
 
 
 Copy your previous \textit{m-file} and give it a new name, so you retain a copy of your previous working program before you start developing it further. Work from this new file.
@@ -2925,21 +2930,21 @@ Try this first -- extend you program with an \texttt{else} line and then a an al
 
 \begin{docspec}
 if strcmp(MY\_ANSWER, 'yes')
-\\ \ \ [MESSAGE1]
+\\ \ \ [RESPONSE1]
 \\else
-\\ \ \ [MESSAGE2]
+\\ \ \ [RESPONSE2]
 \\end
 \end{docspec}
 
-Finally -- you could extend this example further and tackle the situation of there being 3 possible answers -- 'yes', 'no', and ... 'I don't know' (or any other answer).
+Finally -- you could extend this example one more step further and tackle the situation of there being 3 possible answers -- 'yes', 'no', and ... 'I don't know' (or any other answer).
 Now the basic structure becomes
 \begin{docspec}
 if strcmp(MY\_ANSWER, 'yes')
-\\ \ \ [MESSAGE1]
+\\ \ \ [RESPONSE1]
 \\elseif strcmp(MY\_ANSWER, 'no')
-\\ \ \ [MESSAGE2]
+\\ \ \ [RESPONSE2]
 \\else
-\\ \ \ [MESSAGE3]
+\\ \ \ [RESPONSE3]
 \\end
 \end{docspec}
 \noindent Here -- we are now adding an \texttt{elseif ... }line (followed by its specific message) (and see Box/\textbf{help}). 
@@ -2952,12 +2957,12 @@ Try this extension to your program and test it fully -- inputting a 'yes', a 'no
 \newthought{Continuing to beat this same tired example to death ...} what if some wise-crack answered 'YES' rather than 'yes'?\sidenote{This goes to the heart of all software testing -- what if the user does something you were not expecting? Hence why all software undergoes extensive testing by user or people who did not test it. Sometimes there are pre-releases ('alpha' or 'beta' versions or simple 'pre-release') of software to all or specific parts of the user community, precisely to provide feedback, find bugs, and see whether they can break it ...} One could write:
 \begin{docspec}
 if strcmp(MY\_ANSWER, 'yes')
-\\ \ \ [MESSAGE 1]
+\\ \ \ [RESPONSE]
 \\elseif strcmp(MY\_ANSWER, 'YES')
-\\ \ \ [MESSAGE 1]
+\\ \ \ [RESPONSE]
 \\end
 \end{docspec}
-This will work, but you might note that you have had to exactly duplicate the MESSAGE line. If instead of displaying a simple message, a complex calculation was carried out -- all the lines of the code following the \texttt{if ...} would have to be exactly duplicated after the \texttt{elseif ...} . While it might seem trivial to simply copy-paste the required lines, this is\sidenote{Note quite in the same way that driving down a mountain highway with your eyes shut or hungry sharks are dangerous.} dangerous -- if the first set of lines are ever changed (due to a bug-fix or simple further development of the code), the same changes MUST\ then be exactly duplicated in each and every instance, or the code will not longer work correctly. This is *very* easy to forget to do, particularly for extensive code or code that you have not looked at for ... years. Code duplication also makes the overall code unnecessarily long (and hence harder to look through).
+This will work, but you might note that you have had to exactly duplicate the RESPONSE line. If instead of displaying a simple message, a complex calculation was carried out -- all the lines of the code following the \texttt{if ...} would have to be exactly duplicated after the \texttt{elseif ...} . While it might seem trivial to simply copy-paste the required lines, this is\sidenote{Note quite in the same way that driving down a mountain highway with your eyes shut or hungry sharks are dangerous.} dangerous -- if the first set of lines are ever changed (due to a bug-fix or simple further development of the code), the same changes MUST\ then be exactly duplicated in each and every instance, or the code will not longer work correctly. This is *very* easy to forget to do, particularly for extensive code or code that you have not looked at for ... years. Code duplication also makes the overall code unnecessarily long (and hence harder to look through).
 
 Instead, we can nest statements containing relational operators. What does this mean? Well, in the example of the answer being 'yes' or 'YES', logically, what we want is:
 
@@ -2999,24 +3004,24 @@ N\_BANANAS = input(MY\_QUESTION);
 \end{docspec}
 where \textbf{MATLAB} is going to treat whatever you enter as a \textit{number}.
 
-In the if statement, we now want to test whether the value of \texttt{N\_BANANAS} is greater or equal to 10 (or equivalently, greater than 9), i.e.
+In the if statement, we now want to test whether the value of \texttt{N\_BANANAS} (which you replace with your own variable name) is greater or equal to 10 (or equivalently, greater than 9), i.e.
 \begin{docspec}
 if (N\_BANANAS >= 10)
-\\ \ \ \ [MESSAGE1]
+\\ \ \ \ [RESPONSE1]
 \\else
-\\ \ \ \ [MESSAGE2]
+\\ \ \ \ [RESPONSE2]
 \\end
 \end{docspec}
 or equivalently:
 \begin{docspec}
 if (N\_BANANAS > 9)
-\\ \ \ \ [MESSAGE1]
+\\ \ \ \ [RESPONSE1]
 \\else
-\\ \ \ \ [MESSAGE2]
+\\ \ \ \ [RESPONSE2]
 \\end
 \end{docspec}
 
-Write this code and get it going. Start with a new blank \textit{script} \textit{m-file}. Your code will look almost identical to previously, except for the different usage of \texttt{input}, and the form of the conditional.
+Write some  code along these lines (using this structure) and get it working. Start with a new blank \textit{script} \textit{m-file}. Your code will look almost identical to previously, except for the different usage of \texttt{input}, and the form of the conditional.
 
 Feel free to switch fruit / fruit consumption threshold, question/answers, or whatever.
 
@@ -3032,7 +3037,7 @@ A slightly less commonly used alternative to \texttt{if ...} is:
 
 \noindent and is helpful in the case of multiple possible correct answers and/or multiple different answers.
 
-\marginnote[-0.75in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
+\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
 
 \textbf{Conditional Statements (2)}
 \\The other main \textit{conditional} statement is: \docenvdef{switch ... case ... end}
@@ -3199,7 +3204,7 @@ for n=1:10
 You could 'tart this up'\sidenote[][-0.0in]{(make look nicer)} further by creating a string that provides more explicit information back to you, which is when you really need to use \texttt{num2str}, e.g.
 \begin{docspec}
 for n=1:10
-\\ \ \ \ my\_string = ['The value of n is: ' num2str(n)]
+\\ \ \ \ my\_string = ['The value of n is: ' num2str(n)];
 \\ \ \ \ disp(my\_string)
 \\end
 \end{docspec}
@@ -3216,7 +3221,7 @@ for n=1:10
 If you are not yet 100\% with \textit{concatenation} -- the '\uline{action of linking things together in a series}' (dictionary definition), what is happening in the line: 
 
 \begin{docspec}
-my\_string = ['The value of n is: ' num2str(n)]
+my\_string = ['The value of n is: ' num2str(n)];
 \end{docspec}
 
 \noindent is that you are taking the string \texttt{'The value of n is: '}, and the string equivalent of the numerical value of \texttt{n} (created via the use of \texttt{num2str}) and ... joining them together, one (\texttt{num2str(n)}) after the other (\texttt{'The value of n is: '}).
@@ -3244,7 +3249,7 @@ answer = A+B;
 \end{docspec}
 then please do! There is no particular computational penalty in \textbf{MATLAB} for creating as many variables as you like and breaking down code into multiple lines.
 
-So far so good. But what if you wanted 4 numbers summed ...
+So far so good. But what if you wanted 4 numbers summed (\uline{don't write all this out}!) ...
 \begin{docspec}
 my\_question = 'Please enter a number: ';
 \\A = input(my\_question);
@@ -3286,9 +3291,9 @@ for n = 1:4
 \\ \ \ \ x = input(my\_question);
 \\end
 \end{docspecbold}
-and see if you can see what is going on, or rather, not going on. If you think that it is not working as expected -- try some debugging (i.e. adding one (or more) \texttt{disp} statements within the loop code, \uline{or} add a \textit{breakpoint} within the \textit{loop}). (You should have deduced that what is not going on, is that you are not learning what the sum of all those numbers is.)  
+and see if you can see what is going on, or rather, not going on. If you think that it is not working as expected -- try some debugging (i.e. adding one (or more) \texttt{disp} statements within the loop code, \uline{or} add a \textit{breakpoint} within the \textit{loop}). (You should have deduced that what is not going on, is that you are not learning what the sum of all those numbers is because the value of \texttt{x} is being replaced each time.)  
 
-See if you can come up with a solution for how to determine the sum of all the numbers you inputted. (Warning: the spoiler is in the margin.)
+See if you can come up with a solution for how to determine the sum of all the numbers you inputted. (Warning: the spoiler (answer) is in the margin.)
 
 \marginnote[-5.875in]{
 It should be apparent if you tried it out, that the value of \texttt{x} at the very end of the program, is equal to the last value you entered. In other words, each time you go around the loop you are over-writing the previous entered value and end up with nothing to sum at the end. There are two (or more) possibilities to solve this:
@@ -3333,6 +3338,7 @@ y = [];
 \end{docspec}
 (before the loop starts, of course), or you can clear the workspace using \texttt{>> clear all} (clears *all* variables), or clear just the problem variable (\texttt{y}) that will end up growing and growing and growing ... (\texttt{>> clear y}).
 \\You could also add \texttt{clear all} to the very start of your \textit{script} \textsf{m-file}.
+\\Or ... you could make the \textit{script} a \textit{function}, making the vector created inside the \textit{function} 'secret'.
 \end{enumerate}
 
 \vspace{-1mm}
@@ -3348,7 +3354,7 @@ end
 
 \noindent will simply loop around 10 times, as the \textit{loop} counter \texttt{n} is repeatedly incremented by 1 (the default increment of the colon operator), until it reaches a value of 10.
 
-Create a new \textsf{m-file} and enter the following code:
+\uline{Create a new \textbf{m-file}} and enter the following code:
 
 \begin{docspec}
 \textbf{m = 0;\\
