@@ -3320,6 +3320,15 @@ Or, to break it down:
 z = input(prompt);\\
 y = [y z];
 \end{docspecmargin}
+and then after the loop finishes, you can retrieve the sum of all the numbers by:
+\begin{docspecmargin}
+sum(y);
+\end{docspecmargin}
+or if you like:
+\begin{docspecmargin}
+sum(y(:));
+\end{docspecmargin}
+(Both give the sum of all the elements in \texttt{y}.)
 \end{enumerate} 
 }
 
