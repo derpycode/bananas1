@@ -3454,23 +3454,24 @@ The value of  the loop counter \texttt{n} simply differs by a factor of 10 at ev
 First download all the monthly global surface temperature data-files on the  course webpage (there are 12 files to download)\sidenote{In scripting, it is also possible to automate downloading files from the internet.}. Then you are going to want to plot them all ... which would get desperately tedious if you had to do this at the command line 12 times. Think how much more of your life you would be wasting if the data were weekly. Or monthly data for 1972 through 2003, some 372 separate data-files ... You would never have time to go get a coffee ever again(?) So we are going to use a \textit{loop}.
 
 To make an animation, we need to make a series of frames, with each one being a different monthly temperature plot (in sequence; Jan through Dec). The files are rather conveniently named: \texttt{temp1.tsv}, \texttt{temp2.tsv}, ... \texttt{temp12.tsv}\sidenote{Don't worry about the \texttt{.tsv} file extension -- the file format is plain old text (ASCII) and could have instead been \texttt{.txt}.}. We should start by loading this little lot in. For example, at the command line, to load in the the first file we could write:
-\begin{docspecbold}
+\begin{docspec}
 >> temp = load('temp1.tsv');
-\end{docspecbold}
+\end{docspec}
 or equally:
 \begin{docspec}
 >> temp(:,:) = load('temp1.tsv');
 \end{docspec}
 Then for the 2nd file:
-\begin{docspecbold}
+\begin{docspec}
 >> temp = load('temp2.tsv');
-\end{docspecbold}
+\end{docspec}
 and the third ...
-\begin{docspecbold}
+\begin{docspec}
 >> temp = load('temp3.tsv');
-\end{docspecbold}
+\end{docspec}
 ...
 
+\newpage
 This is something that a \textit{loop} could be used for while you go off for a coffee. So this is what we are going to do -- use a \textit{loop} to load in all of the files in turn.
 
 \textbf{Create a new \textit{script} \textsf{m-file}.} Call it ... anything you like\sidenote{\texttt{bob\_the\_builder.m} counts as 'anything you like', but that looks pretty lame and it certainly won't help you remember what the script does if you came back to it sometime in the future.}. However, as well as appropriately naming your \textit{script} file, add a \textit{comment} on the first line of the file as a reminder to yourself of what it is going to do. (If you get totally confused as to what should be going into the program and where -- refer to the 'answers' for this section at the back of the book.)
@@ -3496,7 +3497,7 @@ We can construct filenames to load in by:
 \item Converting a number value of a (count) variable to a string (the \docenv{num2str} function), so instead of hard-coding in the string representing a number (\texttt{1} in this example), you convert from the value of a counter, e.g. \texttt{num2str(month)}.
 \end{enumerate}
 
-\marginnote[-1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
+\marginnote[-0.125in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=gray!10]
 \docenvdef{num2str}
 \\Converts a number to a \textit{string} (\texttt{s}), e.g.
 \begin{docspecmargin}
@@ -3539,7 +3540,7 @@ temp(:,:) = load(filename);
 
 \noindent We'll now add some graphics.
 
-\begin{marginfigure}[0.5in]
+\begin{marginfigure}[0.0in]
 \includegraphics[width=\linewidth]{ch3-pcolortemp.eps}
 \caption{Extremely unappealing blocky plot of Earth surface temperature (who cares with month? -- the graphics are too poor to matter ...).}
 \label{fig:ch3-pcolortemp}
@@ -3614,18 +3615,19 @@ close(vidObj);
 \vspace{2mm}
 
 \noindent Note that if we wanted to save all the data in a 3D array, we could also have written:
-\begin{docspecbold}
+\begin{docspec}
 >> temp(:,:,1) = load('temp1.tsv');
-\end{docspecbold}
+\end{docspec}
 and then for the 2nd month:
-\begin{docspecbold}
+\begin{docspec}
 >> temp(:,:,2) = load('temp2.tsv');
-\end{docspecbold}
+\end{docspec}
 
 What you have done here is to load the January 2D (lon-lat) temperature distribution into the 1st 2D layer of the \texttt{temp} array, and then we have gone and created a second 2D layer on top of the first with the February climate data in it. Look at the \textbf{Workspace window} (or type \texttt{size(temp)}) -- you now have a 3D (94\(\times\)192\(\times\)2) array. Fancy! This is your first 3D array -- there is nothing really conceptually different from the 2D arrays that you have already been using, we simply have a 3rd index for the third dimension -- if it helps, \uline{you can think of a 3D array as being indexed by: row, column, layer}. 
 
 You could go on and load in the March, April, etc data in a similar fashion, but you should be able to see a pattern forming here -- each filename differs only in the number at the end of its name and this number corresponds not only to the number of the month, but will also correspond to the layer index of the 3D array that you will create.
 
+\newpage
 A loop for this might look like:
 \begin{docspec}
 for month=1:12\\
@@ -4077,7 +4079,7 @@ This chapter is something of a potpourri of \textbf{MATLAB} data and visualizati
 
 Previously, you imported ASCII data into \textbf{MATLAB} using the \texttt{load} command\sidenote{Or maybe 'cheated' and used the \textbf{MATLAB} GUI ...}. You might not have realized it at the time, but the use of \texttt{load} requires that your data is in a fairly precise format. \textbf{MATLAB} says "\textit{ASCII files must contain a rectangular table of numbers, with an equal number of elements in each row. The file delimiter (the character between elements in each row) can be a blank, comma, semicolon, or tab character. The file can contain MATLAB comments (lines that begin with a percent sign, \%).}" Firstly, your data may not be in a simple format and often may contain both numerical values and string values. Secondly, your data may not even be in a text/ASCII format. For instance, you data maybe be in an \textbf{Excel} spreadsheet, or for spatial scientific data, an increasingly common format is called '\textbf{netCDF}' (Network Common Data Form). In this section, we'll go through the basics and some examples of each.
 
-Please regard this section as a simple overview on some of the different \textbf{MATLAB} file loading/input options. At this stage, it is more important that you are aware of different data formats and the various ways of importing them into \textbf{MATLAB},  then \textit{per se} having to master all the details of using them. For many one-off data loading problems, it can be easier to use the \textbf{MATLAB} GUI and the \textsf{Import Data} wizard. 
+\uline{Please regard this section as a simple overview on some of the different \textbf{MATLAB} file loading/input options}. At this stage, it is more important that you are aware of different data formats and the various ways of importing them into \textbf{MATLAB},  then \textit{per se} having to master all the details of using them. For many one-off data loading problems, it can be easier to use the \textbf{MATLAB} GUI and the \textsf{Import Data} wizard. 
 
 %------------------------------------------------
 
@@ -4482,7 +4484,7 @@ How many dimensions does this array have (e.g. use \texttt{size}, or ensure that
 
 \section{Further (spatial / (x,y,z)) plotting}
 
-As you have seen earlier -- the simplest possible way of taking a matrix of data values and plotting them spatially, as a function of (\textit{x,y}) location, is the function \docenv{image}. In effect, this is treating your data as if it were an image (or photograph) -- the data values being the 'color' of each pixel and the location in the matrix defining where in the image (row, column) the pixel is. The problem with this is that information regrading what is on the \textit{x} and \textit{y} axes is lost, be this distance, lat/lon, or some set of observed/experimental variables, or whatever. Instead, the points are evenly spaced on both axes. Moreover, the raw values are plotted and there is no possibility of interpolation/contouring or smoothing. One could regard scatter plotting as an improvement over this and a sort of \textit{x,y,z} plotting, in as much as a 3rd dimension (\textit{z} data value) can be represented through color and/or symbol shape and at time this can be quite effective. However, again, no interpolation/contouring or smoothing is possible with \texttt{scatter}. 
+As you have seen earlier -- the simplest possible way of taking a matrix of data values and plotting them spatially as a function of (\textit{x,y}) location, is the function \docenv{image} (see earlier margin help box). In effect, this is treating your data as if it were an image (or photograph) -- the data values being the 'color' of each pixel and the location in the matrix defining where in the image (row, column) the pixel is. The problem with this is that information regrading what is on the \textit{x} and \textit{y} axes, be that distance, lat/lon, or some set of observed/experimental variables, or whatever, is lost. Instead, the points are evenly spaced on both axes. Moreover, the raw values are plotted and there is no possibility of interpolation/contouring or smoothing. One could regard scatter plotting as an improvement over this and a sort of \textit{x,y,z} plotting, in as much as a 3rd dimension (\textit{z} data value) can be represented through color and/or symbol shape and at time this can be quite effective. However, again, no interpolation/contouring or smoothing is possible with \texttt{scatter}. 
 
 %------------------------------------------------
 
@@ -4566,7 +4568,7 @@ The function \texttt{imagesc} also enables the range of data values the color ra
 
 HINT: You can use the function \texttt{max} to determine the maximum value in a vector, and for the entire array:
 \begin{docspec}
-etopo1deg\_mxa=max(max(etopo1deg));
+etopo1deg\_max=max(max(etopo1deg));
 \end{docspec}
 as we did for sum in the first chapter, or more elegantly:
 \begin{docspec}
@@ -4659,7 +4661,7 @@ Having created a specific vector of contours to plot, try it out, by:
 \end{docspecbold}
 (see Box for syntax).
 
-OK -- so this is a little weird and maybe not so useful, but you get the point hopefully. Try (still at the command line) plotting some or all of the following:
+OK -- so this is a little weird and maybe not so useful, but you get the point, hopefully ... Try (still at the command line) plotting some or all of the following:
 
 \begin{enumerate}[noitemsep]
 \setlength{\itemindent}{.2in}
@@ -4864,7 +4866,7 @@ Phew! (Figure Figure \ref{fig:ch5-contour5}.)
 \label{fig:ch5-contour5}
 \end{marginfigure}
 
-The final complication is that the data points in the gridded dataset (matrix \texttt{etopo1deg}), technically correspond to the mid-points of a 1 degree grid, not the corners. So if we were going to try and be formally correct\sidenote{Don't worry about this for now -- grids will be covered more in subsequence chapters surrounding numerical (environmental) models.}, our vectors that we'd pass into \texttt{meshgrid}, would be:
+The final complication (\uline{but don't worry about actually doing this}) is that the data points in the gridded dataset (matrix \texttt{etopo1deg}), technically correspond to the mid-points of a 1 degree grid, not the corners. So if we were going to try and be formally correct\sidenote{Don't worry about this for now -- grids will be covered more in subsequence chapters surrounding numerical (environmental) models.}, our vectors that we'd pass into \texttt{meshgrid}, would be:
 \begin{docspec}
 >> x = [0.5:359.5];
 \\ >> y = [-89.5:89.5];
@@ -5682,7 +5684,7 @@ We'll start with some simple line  drawing.
 
 At the command line -- open a new \textsf{figure window} (\texttt{>> figure;}). Then before anything else, do a \texttt{>> hold on;}.
 
-When \textbf{MATLAB} draws lines and shapes and places text, it needs to know the coordinates of where to place things. It is not possible (I think) to draw directly in the \textsf{figure window} -- \textbf{MATLAB} needs what is known as a \textit{frame} to put things in, and the easiest way to do this is to create a set of axes. Having opened a new \textsf{figure window} (even through you have not plotted any data!), set the x- and y-axis range\sidenote{Here taking the example range of 0-100 on both axes.}:
+When \textbf{MATLAB} draws lines and shapes and places text, it needs to know the coordinates of where to place things. It is not possible (I think) to draw directly in the \textsf{figure window} -- \textbf{MATLAB} needs what is known as a \textit{frame} to put things in, and the easiest way to do this is to create a set of axes. Having opened a new \textsf{figure window} (even though you have not plotted any data!), set the x- and y-axis range\sidenote{Here taking the example range of 0-100 on both axes.}:
 \begin{docspecbold}
 >> axis([0 100 0 100]);
 \end{docspecbold}
@@ -5715,6 +5717,7 @@ The resulting figure is really not very exciting (Figure \ref{fig:ch3-graphics01
 \vspace{-2mm}
 \begin{enumerate}[noitemsep]
 
+\vspace{2mm}
 \item \texttt{plot}
 \\Are you recall, \texttt{plot} will plot a sequence of (x,y) points, and by default, join the points up with a line. If we wanted a diagonal line, from the origin to the mid-point of the plot area, we could invent a pair of vectors to define the two points we need -- at (0,0) and (50,50):
 \begin{docspecbold}
@@ -5727,7 +5730,7 @@ plot(X1,Y1);
 \end{docspecbold}
 You should now see something like Figure \ref{fig:ch3-graphics02}. (If you find that the plot area has been re-sized such that the x- and y-axes now both go from 0-50, then you have forgotten to do a \texttt{hold on}.)
 
-\vspace{1mm}
+\vspace{2mm}
 \item \texttt{line}
 \\ \noindent \textbf{MATLAB} provides a specific command for drawing lines ... \docenv{line}. In its simplest usage, it is a little like \texttt{plot}, except taking only a single pair of x- and y-coordinate values.
 \\To use \texttt{line} to draw a 2nd line segment, starting at (50,50) and terminating at (100,0), we create another pair of vectors to define these points:
@@ -5735,7 +5738,10 @@ You should now see something like Figure \ref{fig:ch3-graphics02}. (If you find 
 X2 = [50 100];\\
 Y2 = [50 0];
 \end{docspec}
-and then draw it:
+where \texttt{X2} contains the 2 x-coordinate values, and \texttt{Y2} contains the 2 y-coordinate values, such that you are plotting a line between (\texttt{X2(1)},\texttt{Y2(1)}) and (\texttt{X2(2)},\texttt{Y2(2)}).
+
+\newpage
+To draw it:
 \begin{docspec}
 line(X2,Y2);
 \end{docspec}
@@ -5748,7 +5754,7 @@ as shown in Figure \ref{fig:ch3-graphics03}.
 \noindent\rule{4cm}{0.5pt}
 \vspace{2mm}
 
-\noindent If you are just drawing, rather than annotating a plot with axes, then you might want to turn off, or hide, the axes tick marks and tick labels. To do this, we first need to find the special \textbf{MATLAB} ID of the axes, which helpfully, because you only have one set of axes and have just been using them, is the 'current axis'. To do this, we use the \docenvdef{gca} function, which returns the \textit{handle} (ID) of the axes:
+\noindent If you are just drawing, rather than annotating a plot with axes, then you might want to turn off, or 'hide', the axes tick marks and tick labels. To do this, we first need to find the special \textbf{MATLAB} ID of the axes, which helpfully, because you only have one set of axes and have just been using them, is the 'current axis'. To do this, we use the \docenvdef{gca} function, which returns the \textit{handle} (\textbf{ID}) of the axes:
 \begin{docspecbold}
 >> h = gca;
 \end{docspecbold}
@@ -5758,7 +5764,7 @@ as shown in Figure \ref{fig:ch3-graphics03}.
 >> set(h,'XTick',[],'XTickLabel','');
 \end{docspecbold}
 
-What this does is to tell \textbf{MATLAB}: take the graphics object with the ID contained in variable \texttt{h} (which we just retried via the \texttt{gca} function), and set (which is why we use the command \texttt{set} ...) the following properties:
+What this does is to tell \textbf{MATLAB}: take the graphics object with the \textbf{ID} contained in variable \texttt{h} (which we just retried via the \texttt{gca} function), and set (which is why we use the command \texttt{set} ...) the following properties:
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
 \item \texttt{'XTick',[]} -- set the number and position of tick marks on the x-axis, to the contents of the empty vector \texttt{[]}.
@@ -5767,6 +5773,7 @@ What this does is to tell \textbf{MATLAB}: take the graphics object with the ID 
 
 \noindent Actually, in this example, the 2nd graphics parameter set (the labels) is sort of redundant, as there are no tick-marks in the first place ... 
 
+\vspace{1mm}
 To see how different combinations of settings pan out, try:
 \begin{docspecbold}
 >> set(h,'XTick',[0 50 100],'XTickLabel','');
@@ -5801,7 +5808,7 @@ All this insanity should be looking like Figure \ref{fig:ch3-graphics04} (if we 
 \begin{docspecbold}
 >> h = axes('Position',[0 0 1 1],'Visible','off');
 \end{docspecbold}
-Here, \texttt{'Position',[0 0 1 1]} specifies that the axes area should fill the window, and \texttt{'Visible','off'} says to make the axes invisible. (We keep a copy of the \textit{handle} variable, \texttt{h}, just in case we need it later.) And to set the axes to the same 0-100 limits as before:
+Here, \texttt{'Position',[0 0 1 1]} specifies that the axes area should fill the window, and \texttt{'Visible','off'} says to make the axes invisible. (We keep a copy of the \textit{handle} variable, \texttt{h}, just in case we need it later.) To set the axes scales to the same 0-100 limits as before:
 \begin{docspecbold}
 >> axis([0 100 0 100]);
 \end{docspecbold}
@@ -5830,7 +5837,7 @@ you could store a copy of the \textit{handle} of that line segment -- here it is
 \\\noindent will make the line dotted. 
 \end{itemize}
 
-\noindent Note that here, you are setting line properties \uline{after} you have created the graphics, whereas earlier in eg. using \texttt{plot} to graph data, you specified the properties at the same time as you draw the lines. Both ways are valid, but being able to change properties later and after plotting, gives you greater flexibility. Note that after plotting a graphic, you can also edit and adjust its properties in the \textsf{Figure window} itself (via its GUI)
+\noindent Note that here, you are setting line properties \uline{after} you have created the graphics, whereas earlier in eg. using \texttt{plot} to graph data, you specified the properties at the same time as you draw the lines. Both ways are valid, but being able to change properties later and after plotting, gives you greater flexibility. Note that after plotting a graphic, you can also edit and adjust its properties in the \textsf{Figure window} itself (via the \textbf{GUI})
 
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
@@ -5839,7 +5846,7 @@ you could store a copy of the \textit{handle} of that line segment -- here it is
 \noindent Using a \textit{handle} also now enables you to complete an earlier plot. For the proxy \(CO_{2}\) data where you color-coded the points and added a \texttt{colorbar}, there was not actually any indication of what the color scale actually means in terms of values (and of what). \textbf{MATLAB} will add a colorbar to a plot with the command ... \docenv{colorbar}. Although the color scale gets automatically plotted with labels for the values, looking at the plot, we still don't know what the values are of (e.g. units). We can label the colorbar, but \textbf{MATLAB} needs to know what we are labelling. Each graphic object is assigned a unique ID when you create them and which normally you know nothing about. We can create a variable to store the ID, and then pass this ID to \textbf{MATLAB} to tell it to create a title for the colorbar. To cut a long story short, you would add to your \textit{script} file:
 \begin{docspec}
 colorbar\_id=colorbar;
-\\title(colorbar\_id,'Relative error (\%)';
+\\title(colorbar\_id,'Relative error (\%)');
 \end{docspec}
 The revised plot should then end up looking something like Figure \ref{fig:plot-CO2scatter4} in which you can see the high relative uncertainty (bight colors) prevail at low CO\(_{2}\) values and 'deeper time' (ca. 200-300 Ma). The colorbar title (label) is maybe not ideal, nicer would be one aligned vertically rather than horizontally. We'll worry about that sort of refinement another time.
 
@@ -5912,6 +5919,7 @@ Play around with some RGB value combinations, plotting shapes, or filled circles
 \begin{docspecbold}
 >> scatter(50,50,1000,[0.25 0.75 0.25],'filled');
 \end{docspecbold}
+which scatter-plots a single point at location (50,50), it makes the default circle size \texttt{1000} points (3rd parameter), specifies a particular color (\texttt{[0.25 0.75 0.25]}), and then demands that the point  is 'filled'.
 
 A rendition of the RGB color scale is shown for reference in Figure \ref{fig:RGB_color_solid_cube}. 
 %------------------------------------------------
@@ -5941,23 +5949,28 @@ So in our previous example, with the x- and y-axes going from 0-100, say we want
 \begin{docspecbold}
 >> X1 = [40 40 60 60];
 \end{docspecbold}
-and for the y-axis ... (some care is needed and often it might be helpful to sketch out the coordinate pairs and positions on a piece of paper):
+and for the y-axis ... (some care is needed and often it might be helpful to sketch out the coordinate pairs and positions on  paper):
 \begin{docspecbold}
 >> Y1 = [40 60 60 40];
 \end{docspecbold}
-To draw, simply pass the 2 coordinate vectors to \texttt{patch}, along with any line style specification:
+In this \texttt{(X1,Y1)} point notation, we are telling \textbf{MATLAB} to plot a shape with vertices at:
+\vspace{1mm}
+\((40,40), (40,60), (60,60), (60,40)\)
+\vspace{1mm}
+
+\newpage
+To draw the shape, simply pass the 2 coordinate vectors to \texttt{patch}, along with any line style specification:
 \begin{docspecbold}
 >> patch(X1,Y1,'r');
 \end{docspecbold}
 as shown in Figure \ref{fig:ch3-shape01}. 
 
-Note that in this \texttt{(X1,Y1)} point notation, we are telling \textbf{MATLAB} to plot a shape with vertices at:
-
-\vspace{2mm}
-\((40,40), (40,60), (60,60), (60,40)\)
-\vspace{2mm}
-
-\noindent Also note that \uline{the order of the (x,y) pairs, matters}, as \textbf{MATLAB} draws the line segments between the vertices in the order that they are given to \textbf{MATLAB} (as per for \texttt{plot}). For the same (x,y) pairs, try creating \texttt{X1} and \texttt{Y1} vectors with the pairs in a different order and see what happens.
+\vspace{1mm}
+\noindent Note that \uline{the order of the (x,y) pairs, matters}, as \textbf{MATLAB} draws the line segments between the vertices in the order that they are given to \textbf{MATLAB} (as per for \texttt{plot}). For the same (x,y) pairs, try creating \texttt{X1} and \texttt{Y1} vectors with the pairs in a different order and see what happens, e.g. change the x-vector to:
+\begin{docspecbold}
+>> X1 = [60 40 60 40];
+\end{docspecbold}
+and see what happens when you call \texttt{patch} again.
 
 \begin{marginfigure}[-2.0in]
 \includegraphics[width=\linewidth]{ch3-shape01.eps}
@@ -5965,6 +5978,7 @@ Note that in this \texttt{(X1,Y1)} point notation, we are telling \textbf{MATLAB
 \label{fig:ch3-shape01}
 \end{marginfigure}
 
+\vspace{1mm}
 Slightly changing the values of the (x,y) pairs can also give you a diamond (-ish):
 \begin{docspecbold}
 >> X2 = [40 50 60 50];\\
