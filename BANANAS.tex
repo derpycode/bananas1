@@ -6490,7 +6490,7 @@ The idea then is to \textit{loop} through all the locations in the array in turn
 \ \ \ \textcolor{blue}{end}\\
 \textcolor{blue}{end}
 \end{docspec}
-(where \texttt{\textcolor[rgb]{0,0.501961,0}{\%\%\% CODE}} is simply a place-holder for some code we might need here to act on having found a player \#1 square.
+(where \texttt{\textcolor[rgb]{0,0.501961,0}{\%\%\% CODE}} is simply a place-holder for some code we might need here to act on having found a player \#1 square).
 
 This nested loop ensures that you  visit each and every array location in turn -- working across every column, for each and every row, as per Figure \ref{fig:ch6-grid4} and test for the occurrence of a value of \texttt{1}.
 
@@ -6534,7 +6534,7 @@ searches across columns, form left-to-right, but rows in the order bottom-to-top
 
 The concept is the same even for very large grids (where you cannot easily draw a graphical representation to help you).
 
-Nor, do the number of rows and columns have to be the same. For example you might want to access information stored in an array that has a cell location for every day of the year. In this case, you might have 12 columns for the 12 months, and 31 rows so that you can accommodate the number of days in the longest month.\sidenote{\textbf{MATLAB} does not allow the number of rows to differ, from column to column -- a matrix must have a strictly rectangular shape. \textbf{MATLAB} and other programming languages allow the creation of \textit{objects}, that are more flexible.} In fact, in this example, the inner loop -- days -- might have a different loop maximum, depending on which month, e.g.
+The number of rows and columns do not have to be the same. For example you might want to access information stored in an array that has a cell location for every day of the year. In this case, you might have 12 columns for the 12 months, and 31 rows so that you can accommodate the number of days in the longest month.\sidenote{\textbf{MATLAB} does not allow the number of rows to differ, from column to column -- a matrix must have a strictly rectangular shape. \textbf{MATLAB} and other programming languages allow the creation of \textit{objects}, that are more flexible.} In fact, in this example, the inner loop -- days -- might have a different loop maximum, depending on which month, e.g.
 \begin{docspecbold}
 \textcolor[rgb]{0,0.501961,0}{\% month loop start\\}
 \textcolor{blue}{for} month=1:12\\
@@ -6612,7 +6612,7 @@ remembering that within the inner loop, you access that particular element of \t
 
 Or you can be more clever/flexible and use the \texttt{size} function to determine the number of rows and columns on the basis that \texttt{A} might be any different matrix, e.g.
 \vspace{-1mm}
-\begin{docspec}
+\begin{docspecbold}
 \textcolor[rgb]{0,0.501961,0}{\% define A}\\
 A = ...\\
 \textcolor[rgb]{0,0.501961,0}{\% find size of A}\\
@@ -6624,29 +6624,31 @@ A = ...\\
 \ \ \ \ \ \ \textcolor[rgb]{0,0.501961,0}{\%\%\% CODE}\\
 \ \ \ \textcolor{blue}{end}\\
 \textcolor{blue}{end}
-\end{docspec}
+\end{docspecbold}
 \vspace{-1mm}
 which now becomes generic for any sized array \texttt{A}.
 
 For e.g. the number of occurrences of values great than 9, you will need a counter, which you initially set as zero, \uline{before} the first loop starts ... and then you increment ... i.e. add 1 to its value and re-assign the new total back to itself ... when the condition (value > 9) is met:
-\begin{docspec}
+\begin{docspecbold}
 \textcolor{blue}{if} A(row,column) > 9\\
 \ \ \ count = count + 1;\\
 \textcolor{blue}{end}
-\end{docspec}
+\end{docspecbold}
 (This conditional test of whether the value of the current array element is greater than 9 or not, will go \uline{within} the innermost loop.)
-
+ \uline{Remember to set the initial value of \texttt{count} to zero} (near the start of the \textit{script} file (before the first (outer) loop starts)).
+ 
 After the outer loop has ended, \texttt{disp}lay the answer (value of \texttt{count}).
+
+Create a new \textit{script} file and add the code above. Define a large-ish matrix \texttt{A} at the start of your program, filled with a variety of integers smaller and larger than \(9\). Run the program and check that it works (correctly counts all values in the matrix larger than \(9\)). Try a different matrix and check that also works.
+
+Note that you could always re-frame the \textit{script} file as a \textit{function}, and pass in the matrix \texttt{A} rather than re-defining it at the start of the program each time ...
 
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
 
-%\vspace{1mm}
-%\noindent\rule{4cm}{0.5pt}
-%\vspace{-2mm}
-
 \newthought{Next}: for the simple tic-tac-toe (\(3\times3\)) grid, at each (\textit{column,row}) location, you are going to draw a colored square.
 
+\vspace{1mm}
 Firstly, at the start of a \uline{new} \textit{script} \textbf{m-file}, add the lines:
 
 \begin{docspecbold}
@@ -6704,13 +6706,13 @@ Take a while to think about this -- work through in your head what would happen 
 
 Play this mental (or on paper) game until the end \texttt{column=3} and \texttt{row=3} or until you are happy how the code works and how each of the squares in the (\(3\times3\)) grid are going to be drawn in turn.
 
-\begin{marginfigure}[-0.0in]
+\begin{marginfigure}[-1.5in]
 \includegraphics[width=\linewidth]{ch4-grid1.eps}
 \caption{3x3 grid of black squares ...}
 \label{fig:ch4-grid1}
 \end{marginfigure}
 
-Try this (adding this \texttt{patch} command to your code). You should end up with 9 black squares in a (\(3\times3\)) grid ... which will simply look like a huge black square filling the figure window, as per Figure \ref{fig:ch4-grid1} ... :o)
+Try this (adding this \texttt{patch} command to your code). You should end up with 9 black squares in a (\(3\times3\)) grid ... a huge black square filling the figure window, as per Figure \ref{fig:ch4-grid1} ... :o)
 
 You could make it a little more interesting by creating a color value derived from the values of the \texttt{column} and \texttt{row} counters, e.g.
 \begin{docspecbold}
@@ -6802,7 +6804,7 @@ board = zeros(8);
 \noindent(Refer to \textbf{help} or earlier for the syntax for help on the function \texttt{zeros}.\sidenote[][-0.0in]{You could alternatively write this:
 \begin{docspecmargin}board = zeros(8,8);\end{docspecmargin}}) This array will be defined at the start of your program -- after any comment lines and before the first loop starts.
 
-\marginnote[1.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[0.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \docenvdef{mod}
 \\Not ... the opposite of \docenvdef{rocker} (which doesn't exist in \textbf{MATLAB} anyway) but short for \textit{modulo}. Wikipedia helpfully tells us:
 \\"\textit{In computing, the modulo operation finds the remainder after division of one number by another (sometimes called modulus).}"
@@ -6822,7 +6824,7 @@ If we start with a black square ('\texttt{1}') at the bottom left, we could defi
 
 To implement this in code -- as we loop through both column (\texttt{m}) and row (\texttt{n}) on the board, we will test for  the column number being odd and row number odd, OR, the column number being even and row number being even. If \textit{true}, the square is defined as black. The only tricky bit is to determine whether the row or column number is even or odd. We do this by testing whether there is any remainder after dividing by 2, using the function \docenv{mod}. i.e. if the number is divisible by 2 with no remainder, the number is even; if the remainder is 1, the number is odd.
 
-A complete (but lacking comments!) code might look like:
+A complete (but lacking in comments!) code might look like:
 \vspace{-1mm}
 \begin{docspec}
 board = zeros(8);
@@ -6886,7 +6888,7 @@ Create a \uline{new} \textit{script} \textbf{m-file} and add this code to it (pl
 
 To crudely visualize the result (array contents), after the nested loop has ended (after the very last \texttt{end}), add a line using the \texttt{imagesc} function to plot the array contents (cf. Figure \ref{fig:ch8-chess} and refer back to the syntax of how to visualize array contents using this \textit{function}). Beautiful!
 
-\begin{marginfigure}[0.0in]
+\begin{marginfigure}[-1.0in]
 \includegraphics[width=\linewidth]{ch8-chess.png}
 \caption{Chess board grid pattern.}
 \label{fig:ch8-chess}
