@@ -80,7 +80,7 @@ DOTS
 \ldots
 
 DEGREE SYMBOL
-\(^{\(\circ\)}\)
+\(^{\circ}\)
 \degree 
 
 HAT (POWER) SYMBOL
