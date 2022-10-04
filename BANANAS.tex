@@ -2376,7 +2376,7 @@ Commands in \textbf{MATLAB} can become very lengthy, and you typically end up wi
 \\Assume a similar convention to that for \textit{variables} in the naming of \textit{m-files}.
 \end{mdframed}}
 
-Your wish is granted! In \textbf{MATLAB} (and effectively, all programming languages), it is possible to store all of your commands in a single text file, and then request that they (i.e. the list of commands) are all executed (sequentially)  at one go. \textbf{MATLAB} gives this text file a fancy name (because it is a very fancy piece of software, after all) -- a \textit{script}\sidenote{The conception of a \textit{function}, will be introduced later.}, otherwise known as an \textit{m-file}.  To create a new \textit{m-file}; from the  \textsf{File menu}, select \textsf{Script} (a common type of \textit{m-file})\sidenote[][0.0in]{In order version of \textbf{MATLAB}: \textsf{File}/\textsf{New} menu, and select: \textsf{Blank M-file}.}. You will see a text editor (more fancy-ness) appear in front of your very eyes, containing your requested (but currently empty) \textit{m-file}. Save the \textit{m-file} to your working/course  directory of choice. (Alternatively, simply create a new (blank) text file and save it with the extension \textsf{.m}, rather than e.g. \textsf{.txt} -- this creates you a (script) \textit{m-file}, illustrating that an \textit{m-file} is nothing more than a text file with a \textsf{.m} file extension.) 
+Your wish is granted! In \textbf{MATLAB} (and all programming languages), it is possible to store all of your commands in a single text file, and then request that they (i.e. the list of commands) are all executed (sequentially)  at one go. \textbf{MATLAB} gives this text file a fancy name (because it is a very fancy piece of software, after all) -- a \textit{script}\sidenote{The conception of a \textit{function}, will be introduced later.}, otherwise known as an \textit{m-file}.  To create a new \textit{m-file}; from the  \textsf{File menu}, select \textsf{Script} (a common type of \textit{m-file})\sidenote[][0.0in]{In order version of \textbf{MATLAB}: \textsf{File}/\textsf{New} menu, and select: \textsf{Blank M-file}.}. You will see a text editor (more fancy-ness) appear in front of your very eyes, containing your requested (but currently empty) \textit{m-file}. Save the \textit{m-file} to your working/course  directory of choice. (Alternatively, simply create a new (blank) text file and save it with the extension \textsf{.m}, rather than e.g. \textsf{.txt} -- this creates you a (script) \textit{m-file}, illustrating that an \textit{m-file} is nothing more than a text file with a \textsf{.m} file extension.) 
 
 From an \textit{m-file}, you can issue all the \textbf{MATLAB} commands you previously would have entered individually, line-by-tedious-line, all at once. Furthermore, having created and saved  a \textbf{MATLAB} script, it can be executed again and as many times as you like.
  
@@ -2403,9 +2403,15 @@ is ... well, find out for yourself!
 \\Note that there is no effect of including the semi-colon (\texttt{;}) at the end of \texttt{disp()}.
 \end{mdframed}}
 
-OK -- you are now ready for your very first program ... inevitably ... this has to be to print '\texttt{Hello, World}' to the screen. No, really. (\textbf{Google} it.) 
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{2mm}
 
-Create a new \textit{m-file}, calling it e.g. \textsf{hello\_world.m} (remembering that spaces are NOT allowed in filenames). Make sure it is in the same directory  that \textbf{MATLAB} is working from ... You are going to use the function \docenv{disp} (see margin help box and/or type \texttt{>> help disp}  to find out the \textbf{MATLAB} \textit{function} syntax and usage). This command (/\textit{function})  will print to the screen, either any text you specify (in inverted commas), or the contents of any\textit{} \textit{variable} (you pass the variable name to \texttt{disp} (without inverted commas)). For now, simply pass the text directly.
+\noindent OK -- you are now ready for your very first program ... inevitably ... this has to be to print '\texttt{Hello, World}' to the screen. No, really. (\textbf{Google} it.) 
+
+Create a new \textit{m-file}, calling it e.g. \textsf{hello\_world.m} (remembering that spaces are NOT allowed in filenames). Make sure that it is saved in the same directory  that \textbf{MATLAB} is working from ... 
+
+You are going to use the function \docenv{disp} (see margin help box and/or type \texttt{>> help disp}  to find out the \textbf{MATLAB} \textit{function} syntax and usage). This command (/\textit{function})  will print to the screen, either any text you specify (in inverted commas), or the contents of any\textit{} \textit{variable} (you pass the variable name to \texttt{disp} (without inverted commas)). For now, simply pass the text directly.
 
 Your program needs just a single line \uline{in the \textit{m-file}} (not at the command line):
 \begin{docspec}
@@ -2434,18 +2440,6 @@ For further practice -- pick one of any of the previous exercises in which multi
 
 A few tips about good practice in (e.g. \textbf{MATLAB}) programming before we go on (and on and on and on):
 
-\marginnote[-0.75in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
-\textbf{Creating \texttt{help} text in an \texttt{m-file}}
-\\\textbf{MATLAB} allows you to crete a 'help' section in the \textbf{m-file} -- text that is outputted too the screen if you type help on that particular \textit{script} (or \textit{function}). The text is defined by a block of comment lines at the very top of the script file (or after the function definition in the case of a function). The last sequential comment line is taken to be the end of the help section. Note that the help section can be a minimum of eon single line.
-A typical basic format is:
-\begin{enumerate}[noitemsep]
-\item Name of (in capitals), and very brief summary, of the script (/function).
-\item List and description of the different forms of use (if there are one or more optional parameters) including definition of the input parameters.
-\item Examples.
-\item A \texttt{See also} section listing similar or related scripts or functions.
-\end{enumerate}
-\end{mdframed}}
-
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
 
@@ -2471,19 +2465,25 @@ This command close all currently open figures, plots, images, etc. so that if yo
 
 \end{itemize}
 
+\marginnote[-4.5in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\textbf{Creating \texttt{help} text in an \texttt{m-file}}
+\\\textbf{MATLAB} allows you to crete a 'help' section in the \textbf{m-file} -- text that is outputted too the screen if you type help on that particular \textit{script} (or \textit{function}). The text is defined by a block of comment lines at the very top of the script file (or after the function definition in the case of a function). The last sequential comment line is taken to be the end of the help section. Note that the help section can be a minimum of eon single line.
+A typical basic format is:
+\begin{enumerate}[noitemsep]
+\item Name of (in capitals), and very brief summary, of the script (/function).
+\item List and description of the different forms of use (if there are one or more optional parameters) including definition of the input parameters.
+\item Examples.
+\item A \texttt{See also} section listing similar or related scripts or functions.
+\end{enumerate}
+\end{mdframed}}
+
 \vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
 \vspace{2mm}\
 
 \noindent An illustration (and a far from perfect illustration) of a short \textit{function} (\textit{m-file}) exhibiting at least a few examples of good practice, is:
 
-\begin{marginfigure}[6.5in]
-\includegraphics[width=\linewidth]{ch2-example.eps}
-\caption{Schematic of the example program.}
-\label{fig:ch2-example}
-\end{marginfigure}
-
-\begin{docspec}
+\begin{docspecmargin}
 \textcolor{blue}{function} [dum\_temp] = ebm\_basic(dum\_S0)
 \textcolor[rgb]{0,0.501961,0}{\\\% 0D case of EBM -- analytical solution
 \\\% function takes one parameter -- the solar constant (units of W m-2) [NB. modern value: 1370.0]
@@ -2506,10 +2506,16 @@ This command close all currently open figures, plots, images, etc. so that if yo
 \\\% convert temperature units (Kelvin to Celsius) and set value of return variable}
 \\dum\_temp = loc\_temp - const\_0C;
 \textcolor{blue}{\\end}
-\end{docspec} 
+\end{docspecmargin} 
 
 \noindent The schematic for the program structure is shown in \ref{fig:ch2-example}. (Don't worry what this particular program does, just note how I\ have structured it.)
- 
+
+\begin{marginfigure}[0.0in]
+\includegraphics[width=\linewidth]{ch2-example.eps}
+\caption{Schematic of the example program.}
+\label{fig:ch2-example}
+\end{marginfigure}
+
 This example also illustrates one possibility for a consistent \textit{variable} naming convention -- constants (\textit{variables} which never change in value) start with a \texttt{const\_} and parameters (variables whose values might be changed) with \texttt{par\_}, temporary ('local') variables with \texttt{loc\_} and variables passed into and out of the function: \texttt{dum\_}. Note the use of the semi-colon at the end of every line to prevent (here unwanted) printing of results to the screen. (Don't worry about what a \textit{function} is yet ... just not the degree of commenting and that there is some sort of consistent and meaningful naming convention.)
 
 In the file, you can create as much 'ASCII art' as you like if it helps to make the code clearer, e.g. adding separator comment lines ...
@@ -2541,11 +2547,12 @@ In the file, you can create as much 'ASCII art' as you like if it helps to make 
 \end{marginfigure}
 
 Your \textsf{Hello World} program might look like the following once it has had a little tune-up (although in this example this is pretty much over-kill):
+\vspace{-4mm}
 \begin{docspec}
 \textcolor[rgb]{0,0.501961,0}{\\\% program to print 'Hello World' to the screen
 \\\% *** START ***
 \\\% first -- define the text to display and assign it 
-\\\% \ \ \ \ \ \ \ \ to the variable  message}
+\\\% \ \ \ \ \ \ \ \ to the variable: message}
 \\message = 'hello, world';
 \textcolor[rgb]{0,0.501961,0}{\\\% second -- display the contents of variable message}
 \\disp(message)
@@ -2557,12 +2564,14 @@ The book schematic structure of this program (\textit{script}) is shown in Figur
 Finally, and related to the next subsection -- code in stages, testing the (partial) code at each step. \uline{Do not} try and write all the code in one go and only try it out at the end\sidenote{Because it will not work 99 times out of 100 ...}.
 
 %------------------------------------------------
+\newpage 
+%------------------------------------------------
 
 \subsection{Debugging the bugs in buggy code}
 
 What programming is mostly about is not writing new code so much as debugging\sidenote{The art of fault-finding in computer code.} what you have already written. Key then, is to reduce the incidence of bugs occurring in the first place, and when they do occur, firstly to have code that lends itself to debugging and secondly, knowing how to go about the debugging. The first two facets are at least partly addressed through good programming practice (see earlier)\sidenote{And by the discipline of software engineering, which is way out of scope of this course.}.
 
-Here is an example to try out to start to see what might be involved in debugging,  loosely based on a previous plotting example -- go create a new \textit{m-file} called: \textsf{plot\_some\_dull\_stuff.m}\sidenote{Remember -- you are advised to name your \textit{m-files} as something vaguely descriptive of what the script actually does (and you do ont have to go with this choice, although it might turn out to be perfectly descriptive ;) (i.e. you do not have to call it this!)}. Then add the following lines to the file (you can probably just directly copy-paste from the PDF file but may have to change the \texttt{'} characters):
+Here is an example to try out to start to see what might be involved in debugging,  loosely based on a previous plotting example -- go create a new \textit{m-file} called: \textsf{plot\_some\_dull\_stuff.m}\sidenote{Remember -- you are advised to name your \textit{m-files} as something vaguely descriptive of what the script actually does (and you do ont have to go with this choice, although it might turn out to be perfectly descriptive ;) (i.e. you do not have to call it this!)}. Then add the following lines to the file -- you can    copy-paste from the PDF file, but \uline{you will have to change the \texttt{'} characters} (which differ between those used in the PDF and what MATLAB wants):
 
 \begin{docspec}
 \textcolor[rgb]{0,0.501961,0}{\% my dull plotting program
@@ -2582,6 +2591,7 @@ Here is an example to try out to start to see what might be involved in debuggin
 
 \noindent and then \uline{save} and then run it (refer to earlier for how).
 
+\vspace{1mm}
 Pretty dull stuff eh? Wait -- maybe you didn't get a figure appearing on the screen with a pair of sines and cosines on. Has \textbf{MATLAB} given you an error? If you typed in the above 'correctly', you should see:
 \begin{docspec}
 \textcolor{red}{Error: File: plot\_some\_dull\_stuff.m Line: 6 Column: 9
@@ -2611,7 +2621,7 @@ y2 = cos[x];
 
 \noindent Now you have reduced the use of the \texttt{\texttt{cos}} command to its simplest, whilst retaining the usage in your program that seemed to cause an issue. Hopefully, now the error is apparent. If still not, check out help on the \texttt{cos} function, or search \texttt{cos} in the \textbf{MATLAB} help (from the question mark icon in the toolbar).
 
-\textit{Is it important to recognise that (1) bugs will not always be flagged by \textbf{MATLAB} with a line number, and you can have valid code but nonsensical results, and (2) the mistake is often made earlier in the code than when \textbf{MATLAB} flags up a problem line.} 
+\textit{Is it important to recognise that (1) bugs will not always be flagged by \textbf{MATLAB} with a line number, and you can have valid code but nonsensical results, and (2) the mistake may be earlier in the code than when \textbf{MATLAB} flags up a problem line.} 
 
 \vspace{1mm}
 Other strategies for helping debug include:
@@ -2623,12 +2633,12 @@ Other strategies for helping debug include:
 \vspace{1mm}
 \item Changing the relevant variable value(s) (here \texttt{x}) and re-typing the problem line to see if it makes a difference\sidenote{This is sort of similar to the example given of simply testing a specific value directly.}.
 \vspace{1mm}
-\item Commenting out (\textcolor[rgb]{0,0.501961,0}{\%}) lines of code temporarily, or adding in additional (temporary) lines of code, and re-running. Where coding in bite-sized chunks is an advantage in this respect, is that if a program stops working after you have added a new section o code, you can go comment out the new code (never normally just delete it all), check that the original section of code still works, and then line-by-line, un-comment the new code until the problem line is found.
+\item Commenting out (\textcolor[rgb]{0,0.501961,0}{\%}) lines of code temporarily, or adding in additional (temporary) lines of code, and re-running. Where coding in bite-sized chunks is an advantage in this respect, is that if a program stops working after you have added a new section of code, you can go comment out the new code (never normally just delete it all), check that the original section of code still works, and then line-by-line, un-comment the new code until the problem line is found.
 \vspace{1mm}
 \item You can also put your program on hold just before the problem line and explore the state of the variables at that point (see Box), although in this particular example of a bug, \textbf{MATLAB} does not allow this, presumably because if feels that the mistake is simple and can be easily fixed. 
 \end{enumerate}
 
-\marginnote[-2.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
+\marginnote[-0.0in]{\begin{mdframed}[backgroundcolor=gray!10, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 \textbf{Debugging -- breakpoints}
 \\\textit{Breakpoints} are indicators in the code that tell \textbf{MATLAB} to pause that that point. This allows for in-depth testing of variable values and lines of code without having to exit the program.
 \\To add a \textit{breakpoint} in the code -- click in the (grey) margin of the code editor on the problem line or before, and \textbf{MATLAB} adds a red circle to indicate a 'breakpoint' has been set. The presence of a breakpoint tells MATLAB to pause that that line.
@@ -2649,7 +2659,7 @@ Once you have fixed this, re-run the program. Ha ha -- it still does not work. (
 
 Once you have fixed the second bug; saved, and re-run the script, you should see Figure \ref{fig:ch2-debug1}. (unless there were further bugs to find ...)
 
-\begin{marginfigure}[-1.0in]
+\begin{marginfigure}[1.5in]
 \includegraphics[width=\linewidth]{ch2-debug1.eps}
 \caption{Output from the (bug-fixed version of) \textsf{plot\_some\_dull\_stuff} \textit{m-file}.}
 \label{fig:ch2-debug1}
@@ -2698,6 +2708,7 @@ end
 \end{docspecmargin}
 \end{mdframed}}
 
+\vspace{1mm}
 This is all not as weird as you might think. For example, you have already used the \textit{function} \texttt{sin} -- this takes a single input (angle in radians), and returns a single output (the sine of the angle). If you were to write your own function for \texttt{sin}, the file would start something like:
 \begin{docspec}
 function [Y] = sin(X)
@@ -2714,7 +2725,9 @@ In this example, the contents of your \textit{m-file}, which here we'll call \te
 \\Y = (sin(X))\(^{\wedge}\)2; 
 \\end}
 \end{docspec}
-\noindent but of course with \uline{lots} of comments to remind you what the \textit{function} does etc. (Try this out -- create a new blank \textit{script} \textit{m-file}, add this code, save the file, and run it.)
+\noindent but of course with \uline{lots} of comments to remind you what the \textit{function} does etc. 
+
+Try this out -- create a new blank \textit{script} \textit{m-file}, add this code (and add comments!!!), save the file, and run it.
 
 Your new \textit{function} is used pretty much as you would expect and have used previously, e.g.
 \begin{docspec}
@@ -4478,11 +4491,35 @@ would read the values in the \textit{netCDF} file variable \texttt{rain} and ass
 
 \begin{enumerate}
 
-\item Using \docenv{ncread}, which reads data directly from the file.
+\item \textbf{Using \docenv{ncread}, which reads data directly from the file.}
 
 \noindent \docenv{ncread} is by far the simplest way, although it lacks in flexibility and deviates from standard practices used across other programming languages.
 
-\item Via a series of function calls to the netCDF library.
+\vspace{-1mm}
+\noindent\rule{4cm}{0.5pt}
+\vspace{-2mm}
+
+As an example, we'll take the output of a low resolution climate model. To start off, download the 'model netCDF file -- 2D' \textit{netCDF} file -- \textsf{fields\_sedgem\_2d.nc}. The data here is relatively simple -- a 2D distribution of bottom-water and surface sediment properties, saved at a single point in time. In other words, there are only 2 (spatial) dimensions to the data\sidenote[][-0.0in]{Adding time would make it 3 dimensions (2 spatial + 1 of time). Adding height or depth in the ocean would also make it 3 (3 spatial). 3 spatial + time would make for a 4-dimensional dataset ...}.
+
+OK -- we'll start by opening the file. The ID\ of the variable we want to extract and plot  is called \textsf{'grid\_topo'}. To load/extract the 2D field and assign it to a variable \texttt{data}:
+\begin{docspecbold}
+>> data2d = ncread('fields\_biogem\_2d.nc','grid\_topo');
+\end{docspecbold}
+
+You should now have an array called \texttt{data}. It should be 36\(\times\)36 in size. \textbf{Plot it}\sidenote[][-0.0in]{Your choice of 2D plotting function that you have already come across, e.g. \texttt{pcolor} or \texttt{image}, although not all work as well on this particular dataset (e.g. the auto scaling in \texttt{image} causes issues).}. Can you deduce what it might be of? Is it in the correct orientation? (If not -- correct it, by rotating the array, and/or flipping the rows or column.)
+
+(There are more appropriate ways of plotting this, which we will encounter later.)\sidenote[][-0.0in]{Missing here are the x and y axis values, which you should have correctly deduced are longitude and latitude, respectively, with latitude presumably going from -90 to 90N, and longitude ... well, maybe it is not completely obvious exactly what the value of longitude is at the original.}
+
+The variable names of other data-sets that you might load (in place of passing \texttt{'grid\_topo'})  and experiment with in terms of plotting function, color scale, and any other refinements that help visualise the data, include:
+
+\begin{itemize}[noitemsep]
+\setlength{\itemindent}{.2in}
+\item \textsf{ocn\_sal} -- deep ocean salinity (units of per mil).
+\item \textsf{ocn\_O2} -- concentration of oxygen in bottom waters (units of mol kg\(^{-1}\)).
+\item \textsf{sed\_CaCO3} -- weight \% of calcium carbonate in surface sediments.
+\end{itemize}
+
+\item \textbf{Via a series of function calls to the netCDF library.}
 
 \noindent In the formal and more long-winded approach, you open the file and receive an ID for that file. The file can then be written to or read (including just interrogating its properties rather than necessarily extracting spatial data) using this ID. And of course, closed (using the same ID). The \textit{netCDF} standard is also little odd in how reading/writing is implemented and everything has to be done by determining the ID of a particular data variable or property of the file. 
 The general approach is as follows:
@@ -4514,22 +4551,11 @@ Note that you need to pass the ID of the \textit{netCDF} file for each and every
 
 \end{enumerate}
 
-\vspace{-1mm}
+\vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
-\vspace{-2mm}
+\vspace{2mm}
 
-\newthought{For a \textit{netCDF} Example}, we'll take the output of a low resolution climate model. To start off, download the 'model netCDF file -- 2D' \textit{netCDF} file -- \textsf{fields\_sedgem\_2d.nc}. The data here is relatively simple -- a 2D distribution of bottom-water and surface sediment properties, saved at a single point in time. In other words, there are only 2 (spatial) dimensions to the data\sidenote[][-1.0in]{Adding time would make it 3 dimensions (2 spatial + 1 of time). Adding height or depth in the ocean would also make it 3 (3 spatial). 3 spatial + time would make for a 4-dimensional dataset ...}.
-
-OK -- we'll start by opening the file. The ID\ of the variable we want to extract and plot  is called \textsf{'grid\_topo'}. To load/extract the 2D field and assign it to a variable \texttt{data}:
-\begin{docspecbold}
->> data2d = ncread('fields\_biogem\_2d.nc','grid\_topo');
-\end{docspecbold}
-
-You should now have an array called \texttt{data}. It should be 36\(\times\)36 in size. \textbf{Plot it}\sidenote[][-1.5in]{Your choice of 2D plotting function that you have already come across, e.g. \texttt{pcolor} or \texttt{image}, although not all work as well on this particular dataset (e.g. the auto scaling in \texttt{image} causes issues).}. Can you deduce what it might be of? Is it in the correct orientation? (If not -- correct it, by rotating the array, and/or flipping the rows or column.)
-
-(There are more appropriate ways of plotting this, which we will encounter later.)\sidenote[][-1.25in]{Missing here are the x and y axis values, which you should have correctly deduced are longitude and latitude, respectively, with latitude presumably going from -90 to 90N, and longitude ... well, maybe it is not completely obvious exactly what the value of longitude is at the original.
-
-A great strength of \textit{netCDF} its the ability of this file format to also contain the grid (axis) details that the data is on. There are ways of finding out the names of the axis variables (dimensions), but for now, I'll give you them:
+\noindent A great strength of \textit{netCDF} its the ability of this file format to also contain the grid (axis) details that the data is on. There are ways of finding out the names of the axis variables (dimensions), but for now, I'll give you them:
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
 \item \texttt{'lat'} -- is the latitude axis. (Technically, the axis values are the mid-points of the grid cells.)
@@ -4537,30 +4563,19 @@ A great strength of \textit{netCDF} its the ability of this file format to also 
 \end{itemize}
 
 The axes are held in the \textit{netCDF} file as vectors and we can retrieve this (1D) data in a similar way to the 2D data:
-\begin{docspecmargin}
+\begin{docspec}
 varid  = netcdf.inqVarID(ncid,'lat');
 \\lat \ \ = netcdf.getVar(ncid,varid);
 \\varid  = netcdf.inqVarID(ncid,'lon');
 \\lon \ \ = netcdf.getVar(ncid,varid);
-\end{docspecmargin}
-in which we obtain the ID of the axis variable \texttt{'lat'}, then retrieve the axis data and assign it to a vector \texttt{lat} (and then likewise for longitude). Do this, and confirm that you get plausible vectors representing positions along a longitude and latitude axis.
+\end{docspec}
+in which we obtain the ID of the axis variable \texttt{'lat'}, then retrieve the axis data and assign it to a vector \texttt{lat} (and then likewise for longitude). One could then take the 2 axis vectors, and create a pair of matrices -- one containing longitude values associated with the 2D data points, and one containing latitude values  associated with the 2D data points. For this, you would need to use the function \texttt{meshgrid}. (We'll re-visit this example once you have seen \texttt{meshgrid} in action.)
 
-The final task would then be to take the 2 axis vectors, and create a pair of matrices -- one containing longitude values associated with the 2D data points, and one containing latitude values  associated with the 2D data points. For this, you would need to use the function \texttt{meshgrid}. (We'll re-visit this example once you have seen \texttt{meshgrid} in action.)}
-
-The variable names of other data-sets that you might load (in place of passing \texttt{'grid\_topo'})  and experiment with in terms of plotting function, color scale, and any other refinements that help visualise the data, include:
-
-\begin{itemize}[noitemsep]
-\setlength{\itemindent}{.2in}
-\item \textsf{ocn\_sal} -- deep ocean salinity (units of per mil).
-\item \textsf{ocn\_O2} -- concentration of oxygen in bottom waters (units of mol kg\(^{-1}\)).
-\item \textsf{sed\_CaCO3} -- weight \% of calcium carbonate in surface sediments.
-\end{itemize}
-
-\vspace{-1mm}
+\vspace{1mm}
 \noindent\rule{4cm}{0.5pt}
-\vspace{-2mm}
+\vspace{2mm}
 
-\newthought{[\textbf{\textcolor{red}{OPTIONAL}}] In a related \textit{netCDF} Example}, we'll extend the problem to 3D -- 2 spatial dimensions (longitude and latitude) and one of time. The file you will need to download to experience these wonders, is called \textsf{fields\_biogem\_2d.nc}
+\newthought{[\textbf{\textcolor{red}{OPTIONAL}}]} We can extend the visualization problem to 3D -- 2 spatial dimensions (longitude and latitude) and one of time. The file you will need to download to experience these wonders, is called \textsf{fields\_biogem\_2d.nc}
 
 To load the variable \textsf{'atm\_temp'}:
 \begin{docspecbold}
@@ -4572,6 +4587,12 @@ How many dimensions does this array have (e.g. use \texttt{size}, or ensure that
 \textbf{Plot a lon-lat slice.} Note that you need to select all longitudes and all latitudes in the array, but only one time index.
 
 \textbf{Finally -- to test your understanding to date, create an animation of how the surface air temperature in the model evolves over time.}\sidenote[][-0.0in]{You have everything you need -- the \textit{vector} of years, and from this you can determine how many different time points (and 2D data slices) there are, and hence the number of iterations of a \textit{loop}.}
+
+%------------------------------------------------
+
+\subsection{Importing ... with \textbf{Import Data}}
+
+Finally, there is also a GUI icon \textsf{Import Data} and a little like Excel and gives you the option to specify the number of header lines to ignore etc. Try playing with this for any of the files imported in this section (except the netCDF one).
 
 %------------------------------------------------
 
