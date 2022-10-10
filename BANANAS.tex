@@ -3102,7 +3102,7 @@ if (strcmp(answer, 'yes') || strcmp(answer, 'YES'))
 
 How many bananas could you eat in a day? I bet it is less than ten. We'll let the computer ask and if the answer is 10 or more, you (the computer) replies: 'liar!'.\sidenote{This example is even more stupid than the last one. But no more stupid than in any computer programming textbook and it will at least demonstrate a subtly different usage of \texttt{if ...}.}
 
-The basic code is very similar to before. Create a new \textit{m-file}, add a comment line, define your question ('How many bananas do you think you could you eat in a single day?') and then get \textbf{MATLAB} to ask it and pass back whatever is entered in at the command line. 
+The basic code is very similar to before. Create a new \textit{m-file}, add a comment line, define your question string ('How many bananas do you think you could you eat in a single day?') and then get \textbf{MATLAB} to ask it and pass back whatever is entered in at the command line. 
 
 The only difference at this point -- refer to the usage of \texttt{input} (see earlier Box) -- is that we want a number input rather than a string. So instead of:
 \begin{docspec}
@@ -3135,6 +3135,8 @@ Write some  code along these lines (using this structure) and get it working. St
 
 Feel free to switch fruit / fruit consumption threshold, question/answers, or whatever.
 
+%------------------------------------------------
+\newpage
 %------------------------------------------------
 
 \subsection{\texttt{switch ...}}
@@ -3340,6 +3342,10 @@ my\_string = ['The value of n is: ' num2str(n)];
 \noindent\rule{4cm}{0.5pt}
 \vspace{-2mm}
 
+%------------------------------------------------
+\newpage
+%------------------------------------------------
+%
 \newthought{Loops in action}. So, consider the following (somewhat contrived) problem -- you want to be able to enter a series of numbers and return their sum (although equally one could perform and return all sorts of statistics).\sidenote{Obviously, one way to do this would be to enter the numbers into a file first, use the load function, and calculate the sum.} The basic code is simple and you can try it out by \textbf{first creating a new (\textit{script}) \textsf{m-file}}.
 
 Using the other (numerical input) form of \texttt{input} (see earlier), the code for entering 2 numbers, one after the other, might look like this (although in practice, your code is full of helpful comments, right?):
@@ -3495,6 +3501,8 @@ end
 \end{docspecmargin}
 Why? (Try it and see, even.)}
 
+%------------------------------------------------
+\newpage
 %------------------------------------------------
 
 \subsection{Other loop configurations and usages}
