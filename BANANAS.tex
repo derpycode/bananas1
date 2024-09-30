@@ -240,9 +240,9 @@ Throughout ... but also be aware (because it is probably not implemented particu
 
 \item \texttt{Typewriter font family typeface} -- indicates \textbf{MATLAB} commands and \textit{functions}, and lines of code (see examples below).
 
-\item Color highlights in the text are used to reflect the colors employed by \textbf{MATLAB} at the command line, or in the code editor.
+\item Color highlights in the text are used to mirror the colors employed by \textbf{MATLAB} at the command line, or in the code editor.
 
-\item Math is hi-lighted in a  different font, e.g:
+\item Math is highlighted in a  different font, e.g:
 
 \(a = 10\times b + c^{2}\)
 
@@ -282,7 +282,7 @@ Also appearing in grey boxes in the margin are overviews and summaries of \textb
 
 \section{Side notes and other distractions from the main text}
 
-\sidenote{I am a Side note!} sort of things will appear in the text -- side notes\sidenote{I am also a Side note!} and there will be some corresponding text or comment in the margin (as closely aligned vertically as possible). Most side notes are helpful and offer additional guidance or suggestions, and on balance, you should read them.\sidenote{Some are trivial and a little worthless educationally, but you wont know which is which until you have read them ... They  might also just brighten up your day a little.} In fact, the format of the book gives over substantial space to Side notes, explanation boxes, and figures, so be prepared that important information may frequently appear in the margins.
+\sidenote{I am a Side note!} sort of things will appear in the text -- side notes\sidenote{I am also a Side note!} and there will be some corresponding text or comment in the margin (as closely aligned vertically as possible). Most side notes are helpful and offer additional guidance or suggestions, and on balance, you should read them.\sidenote{Some are trivial and a little worthless educationally, but you wont know which is which until you have read them ... They  might also just brighten up your day a little.} In fact, the format of the book gives over substantial space to side notes, explanation boxes, and figures. Be prepared that important information may frequently appear in the margins.
 
 %------------------------------------------------
 
@@ -427,7 +427,7 @@ The \textbf{MATLAB} software suite is constantly evolving and new and/or improve
 \newthought{Graphics} is one of the important strengths of \textbf{MATLAB}. Although other software packages and scripting languages exist that perhaps have the edge on \textbf{MATLAB} in terms of visually appealing plots and graphs, \textbf{MATLAB} is worlds apart from e.g. \textbf{Excel}. And way way better than potato printing.
 
 \vspace{4mm}
-\noindent Note that for now (this Chapter), you will only be entering code at the \textit{Command line} (not in a file, which will come in Chapter 2).
+\noindent \uline{Note that for now (this Chapter), you will only be entering code at the \textit{Command line} (not in a file, which will come later in Chapter 2)}.
 
 \end{fullwidth}
 
@@ -444,7 +444,7 @@ The \textbf{MATLAB} software suite is constantly evolving and new and/or improve
 \subsection{Starting MATLAB}
 
 To start with: find the \textbf{MATLAB} icon on the desktop; run the program. You should see a number of sub-windows arranged within the main \textbf{MATLAB} window, hopefully including at the very least, the \textit{Command Window}\sidenote{Conveniently labelled \texttt{Command Window} -- you cannot possibly fail to identify it ...}. Depending on whether you have used \textbf{MATLAB} before and it has remembered your settings, windows may also include: \textit{Command History}, \textit{Workspace}, \textit{Current Folder}. If instead you see; 'Tetris', 'Grand Theft Auto: San Andreas', and 'Fortnite Battle Royale', then you have the wrong software running and are going to find learning \textbf{MATLAB} rather hard. However, there is big \$\$\$ to be made in on-line gaming tournaments these days. You could quit your degree now ...
-Conversely, there are also good jobs and  \$\$\$ in being able to program. So, maybe stick with the course and read on ...
+Conversely, there are also good jobs if you are able to program ... so maybe stick with the course and read on ...
 
 %------------------------------------------------
 
@@ -464,7 +464,7 @@ To get started, select MATLAB Help or Demos from the Help menu.
 >>
 \end{docspecmargin}}.
 
-If you are unfamiliar with using command-line driven software ... Don't Panic!\cite{Adams1979} Nothing bad can happen, regardless of what you do. Well, almost. It is possible to accidently clear \textbf{MATLAB}'s memory of the results of calculations and data processing and close plots and graphs before you have saved them, but \textbf{MATLAB} remembers all the commands you type, so in theory it is perfectly possible to quickly reproduce anything lost. (Later on (not now!) we will be placing the sequence of commands into a file (that is saved) and so ultimately, \textbf{MATLAB} should turn out to be mostly fool-proof.)
+If you are unfamiliar with using command-line driven software ... Don't Panic!\cite{Adams1979} Nothing bad can happen, regardless of what you do. Well, almost. It is possible to accidently clear \textbf{MATLAB}'s memory of the results of calculations and data processing and close plots and graphs before you have saved them, but \textbf{MATLAB} remembers all the commands you type, so in theory it is  possible to quickly reproduce anything lost. (Later on (not now!) we will be placing the sequence of commands into a file (that is saved) and so ultimately, \textbf{MATLAB} should turn out to be mostly fool-proof.)
 
 To convince yourself that nothing dreadful will happen ... type ... anything. Actually 'anything' will do.
 
@@ -537,7 +537,7 @@ BIG\\
 big\sidenote{Note that \textbf{MATLAB} distinguishes between lower and UPPER case letters in a variable (i.e. \texttt{BIG} and \texttt{big} would represent two different and distinct variables). But other programming languages may not.\\ I would \uline{strongly} advise to stick to all lower case (or all upper case), to avoid possible future confusion. (or come up with a naming convention, of whatever sort (e.g. capital first letter), and stick to it.)}
 \end{docspec}  
 
-\noindent (but noting that my personal preference/recommendation is to avoid uppercase characters and stick to all lowercase)
+\noindent 
 
 Variables are entirely useless unless they have some information assigned to them. In fact, you can type in any of the variable names above (at the command line) and \textbf{MATLAB} will deny it knows what you are talking about\sidenote[][0.25in]{Technically, \textbf{MATLAB} reports: \texttt{Undefined function or variable} which tells you it is neither a function name (more on this later), nor is defined as having any information associated with it.}.
 
@@ -549,7 +549,7 @@ First of, you need to know that variables can have the following \textit{types} 
 \setlength{\itemindent}{.2in}
 
 \item \textbf{Integer} -- An integer number is a counting number, i.e. \texttt{1, 2, 3, ...} and including zero and negative integers.
-(\textbf{MATLAB} has different representations for integer numbers, depending on how large a number you need to represent (and how much memory it will need to allocated to storing it). This is something of a throw-back to the days when computers only had 1/10000000\(^{th}\) of the memory of your iPhone and were slower than half a lemon nailed to the floor. So we will not, in this text, particularly worry about a numbers/computing concept called \textit{precision}.)
+\\ (\textbf{MATLAB} has different representations for integer numbers, depending on how large a number you need to represent (and how much memory it will need to allocated to storing it). This is something of a throw-back to the days when computers only had 1/10000000\(^{th}\) of the memory of your iPhone and were slower than half a lemon nailed to the floor. So we will not, in this text, particularly worry about a numbers/computing concept called \textit{precision}.)
 
 \item \textbf{Real (floating point)}\sidenote{The distinction (sort of) is that \textit{floating point} is a specific representation of a \textbf{real} number.} -- A \textit{real} number can have a non-integer component, e.g. 1.5 or 6.022140857 \(\times\) 10\(^{23}\). Real numbers also come in different precisions in \textbf{MATLAB} (also to do with memory allocation and speed), determining not just the number of decimal places that can be represented, but also the maximum size. (But as per for \textit{integers}, we will not worry about this in the course.)
 \\Be aware that you can configure\footnote{Under the menu item \textsf{Preferences} and then \textsf{Command Window}.} \textbf{MATLAB} to display a particular format for real numbers, e.g.
@@ -561,7 +561,7 @@ First of, you need to know that variables can have the following \textit{types} 
 \\These are identical \textit{real} numbers, just each with a different display format).
 
 \item \textbf{Character} -- One or more characters, but now allowing spaces (unlike in the case of naming \textit{variables}).
-Related to this is the \textbf{String} \textit{type}, which is more flexible esp. for creating arrays of characters. Which then confuses all the description in the text as a sequence of characters (or a \textit{vector} of characters) is since long-ago, known as a \textit{string}. In the text, \textit{string} will be used to refer to \textit{vector} of characters rather than the \textbf{MATLAB} \textbf{string} type.
+\\ Related to this is the \textbf{String} \textit{type}, which is more flexible esp. for creating arrays of characters. Which then confuses all the description in the text as a sequence of characters (or a \textit{vector} of characters) has since the dawn of time been known as a \textit{string}. In the text, \textit{string} will be used to refer to \textit{vector} of characters rather than the \textbf{MATLAB} \textbf{string} type.
 \\(Confused already? It will all become clearer with practice ...) 
 
 \item \textbf{Logical} -- a \textit{variable} that can be \texttt{true} or \texttt{false}\sidenote[][-0.5in]{As opposed to a Trump variable, that can have many different  alternative states of 'true', although generally, a Trump 'true' is in fact 'false'. An entire new branch of mathematics and logical deduction has been created just to process al this. } -- we'll come to quite what this means later.
@@ -782,8 +782,8 @@ Related to what you have seen so far and will see soon, some useful miscellaneou
 \begin{itemize}[noitemsep]
 \setlength{\itemindent}{.2in}
 \item \docenvdef{clear} --- Removes all variables from the workspace.
-\item \docenvdef{clear all} --- (Removes all information from the workspace.) \item \docenvdef{close} --- Closes the current figure window.
-\item \docenvdef{close all} --- (Closes all figure windows.)
+ \item \docenvdef{close} --- Closes the current figure window.
+\item \docenvdef{close all} --- Closes all figure windows.
 \item \docenvdef{exit} --- Exits \textbf{MATLAB} and hence enables an additional trip to Starbucks to be made.
 \end{itemize}
 
@@ -801,7 +801,7 @@ Note that there is also a \textsf{Command History} window that list all the prev
 
 \section{Vectors and arrays \#1}
 
-So far, most of your \textit{variables} have all been what are known as \textit{scalars} -- i.e. single numbers (whether \textit{real} or \textit{integer})\sidenote{An exception are when you assigned a string, which technically is a vector (assuming multiple characters in the string)}.
+The \textit{variables} that you have seen so far are known as \textit{scalars} -- i.e. single numbers (whether \textit{real} or \textit{integer})\sidenote{An exception are when you assigned a string, which technically is a vector (assuming multiple characters in the string)}.
 One of the most powerful things about \textbf{MATLAB} is its ability to represent vectors (1D columns or rows of numbers or characters) and arrays -- 2D and higher dimensional regular grids of numbers or strings. (\textit{matrix}\sidenote{Not to be confused with the film containing bad acting by Keanu Reeves.} is the name commonly given to a 2-D array.)
  
 %------------------------------------------------
@@ -833,19 +833,19 @@ Note that \textbf{MATLAB} is not inclined to let you directly create a vector of
 (More commonly, you might place the \textit{colon operator} and its min/(/increment)/max values inside a pair of brackets, i.e. \texttt{A = [0:3].} so that it is unambiguous that you are creating an \textit{array}
 \end{mdframed}}
 
-\textit{Vectors} are 1-D arrangements of numbers (or characters or \textit{strings}).  You can enter them into \textbf{MATLAB} as a list of space-separated value, encased in (square) brackets, \texttt{[ ]}, e.g. 
+\textit{Vectors} are 1-D arrangements of numbers (or characters or \textit{strings}).  You can enter them into \textbf{MATLAB} as a list of space-separated values, encased in (square) brackets, \texttt{[ ]}, e.g. 
 
 \begin{docspec}
 B = [0.5 1.0 1.5 2.0 2.5]
 \end{docspec}
 
-\noindent or with the value comma-separated:
+\noindent or with the values comma-separated:
  
 \begin{docspec}
 B = [0.5, 1.0, 1.5, 2.0, 2.5]
 \end{docspec}
 
-Either way, you end up with a \textit{vector} on its side as a single row of numbers which in math-speak would look like:
+Either way, you end up with a \textit{row vector} on its side as a single row of numbers which in math-speak would look like:
 
 \begin{docspec}
 \(B=\)
@@ -853,7 +853,7 @@ Either way, you end up with a \textit{vector} on its side as a single row of num
 \end{pmatrix}\)
 \end{docspec}
 
-You can also create the equivalent, upright orientated \textit{vector} (as a single column of numbers) by separating the elements by a semi-colon:
+You can also create the equivalent, upright orientated \textit{column vector} (as a single column of numbers) by separating the elements by a semi-colon:
 
 \begin{docspec}
 C = [0.5; 1.0; 1.5; 2.0; 2.5]
@@ -928,7 +928,7 @@ B = B.'
 Equivalently:
 
 \begin{docspec}
-B = transpose(B)'
+B = transpose(B)
 \end{docspec}
 
 (which does exactly the same thing).
@@ -955,11 +955,6 @@ Refer to the Box on the use of the \docenv{colon operator}. But basically, to cr
 \begin{docspec}
 X = [1:10];
 \end{docspec}
-Or, combining with the exponentation arithmetic \textit{operators} (see earlier):
-\begin{docspec}
-Y = [1:10].\(^{\wedge}\);
-\end{docspec}
-
 
 %------------------------------------------------
 
@@ -1254,9 +1249,7 @@ To close the current (active) \textsf{Figure window}, the command is:
 (Don't worry for now where you are saving it ... just note the save option, and we'll worry about the computer file system and folder locations later.)
 
 %------------------------------------------------
-
 \newpage
-
 %------------------------------------------------
 
 \section{Vectors and arrays \#2}
@@ -1277,7 +1270,7 @@ To enter the elements of a \textit{matrix}, there are only a few basic conventio
 \item Use a semicolon, \texttt{;} , to indicate the end of each row.
 \item Surround the entire list of elements with  brackets, \texttt{[ ]}.
 \end{itemize}
-\item Load matrices from external data files.
+\item Load matrices from an external data file.
 \item Generate matrices using built-in functions.
 \end{enumerate}
 
@@ -1336,7 +1329,6 @@ Similarly as for vectors, you can access more than a single element of a matrix 
 Finally -- a fundamental way of accessing data that you need to learn and be familiar with, is to employ the \textit{colon operator} to select specific columns (or rows) of data. You'll find that this skill  ends up inherent to many of your attempts to process and graph data. For instance, if your (\textit{x},\textit{y}) data to plot ended up in \textbf{MATLAB} workspace in matrix form (it very commonly does) rather than as 2 sperate vectors (as you had when you first plotted anything), you will need to select separately the \textit{x} (e.g. 1st column) data, and the \textit{y} (2nd column) data, and pass these to the \texttt{plot} function.
 For the example of matrix A above, all the first column data can be selected by typing \texttt{A(:,1)}\sidenote{Remembering the HUGE hint above in 100 pt font as to the order of rows and columns ...}, which says all the rows (\texttt{:}) in the first column. Similarly, all the 2nd column data alone can be selected by \texttt{A(:,2)}. (You'll practice this endlessly later on and hopefully get it!)
 
-
 \marginnote[-0.25in]{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 You can also determine the shape of your \textit{array} using the \docenvdef{size} function. For a 2D \textit{array} (\textit{matrix}), when you pass it the name of your array, it returns the number of rows followed by the number of columns (in that order). 
 \end{mdframed}}
@@ -1345,138 +1337,45 @@ You can also determine the shape of your \textit{array} using the \docenvdef{siz
 
 \subsection{Basic matrix manipulation}
 
-You can treat \textit{vectors} and \textit{matrices} (or parts of \textit{vectors} and \textit{matrices}), mathematically, as you would treat single values (i.e. \textit{scalars}) but unlike a \textit{scalar}, the transformation is applied to all specified elements of the \textit{array}. This applies for all the basic \textit{arithmetic operators}\sidenote{Technically ... or at least to be consistent with other operations, you might write multiplication as \texttt{.*} rather than just plain old \texttt{*}. The preceding dot tells \textbf{MATLAB} not to treat this as matrix multiplication but to carry out the operation on each element in turn. In this case, it is the same thing (and both notations work the same), but later, is not. (This will make more sense when you get to see it in action, later.)}. For example, for \textit{vector} \texttt{B} in the earlier example,
+You can treat \textit{vectors} and \textit{matrices} (or parts of \textit{vectors} and \textit{matrices}), mathematically, as you would treat single values (i.e. \textit{scalars}) but unlike a \textit{scalar}, the transformation is applied to all specified elements of the \textit{array}. This applies for all the basic \textit{arithmetic operators}\sidenote{Technically ... or at least to be consistent with other operations, you might write multiplication as \texttt{.*} rather than just plain old \texttt{*}. The preceding dot tells \textbf{MATLAB} not to treat this as matrix multiplication but to carry out the operation on each element in turn. In this case, it is the same thing (and both notations work the same), but later, is not. (This will make more sense when you get to see it in action, later.)}. For example, for \textit{array} \texttt{A},
 \begin{docspec}
->> 2*B
+>> 2*A
 \\ans =
-\\ \ \ \ \ 0     2     3     4     5
-\end{docspec}
-and
-\begin{docspec}
->> B-1.5
-\\ans =
-\\ \ \ \ \ -1.5000   -0.5000         0    0.5000    1.0000
+\\\ \ \ \ 30  14  22  12\\
+\ \ \ \ 26   2  12  20\\
+\ \ \ \ 42  34  10   6\\
+\ \ \ \ 10  30  40  18
 \end{docspec}
 
-\vspace{1mm}
-\noindent\rule{4cm}{0.5pt}
-\vspace{2mm}
-
-\noindent In the following, having previously created the matrix \texttt{A}, you will derive a matrix \texttt{C}, and then preform some operations on it. 
-
-To start with: multiply all the elements of \texttt{A} by the number \texttt{17} and assign the answer to a 3rd array (\texttt{C}).\sidenote[][-0.0in]{You should be typing in something like this:
-\begin{docspecmargin}
-\textbf{>> C = 17*A;}
-\end{docspecmargin}}
-
-
-Now: what is the sum of the 2nd row of \texttt{C}?
- For a \textit{matrix} (rather than a \textit{vector}) as input, \docenv{sum}  returns the individual sums of each column, and so on its own;
-\begin{docspec}
->> C\\
-C =\\
-\ \ \ \ 255   119   187   102\\
-\ \ \ \ 221    17   102   170\\
-\ \ \ \ 357   289    85    51\\
-\ \ \ \ 85   255   340   153\\
-\vspace{2mm}
-
->> sum(C)\\
-ans =\\
-\ \ \ \ 918   680   714   476\\
-\end{docspec}
-\noindent gives you a row \textit{vector} consisting of the sums of the individual columns of the \textit{matrix} \texttt{C} above.
-
-This is where the \docenv{transpose} function (\texttt{'}) comes in handy (see earlier). In this case, it flips a (2D) \textit{matrix} around its leading diagonal (columns become rows, and rows, columns)\sidenote[][-1.0in]{This is almost true. Technically the function you want is \texttt{.'}, as \texttt{'} will change the sign of any imaginary components. For real numbers, they are the same.}
+Additional matrix operations you will find useful include the \docenv{transpose} function (\texttt{'}) which flips a (2D) \textit{matrix} around its leading diagonal (columns become rows, and rows, columns)\sidenote[][-1.0in]{This is almost true. Technically the function you want is \texttt{.'}, as \texttt{'} will change the sign of any imaginary components. For real numbers, they are the same.}. Also \docenv{flipup} (e.g., >> \texttt{flipup(A)}) and \docenv{fliplr} (e.g., >> \texttt{fliplr(A)}).
 \marginnote{\begin{mdframed}[backgroundcolor=light-gray, roundcorner=10pt,leftmargin=1, rightmargin=1, innerleftmargin=5, innerrightmargin=5, innertopmargin=5,innerbottommargin=5, outerlinewidth=1, linecolor=light-gray]
 In addition to \docenv{transpose}, other useful array manipulation functions include:
 \\\noindent \docenv{flipup} -- flips the matrix in the up/down direction
 \\\noindent \docenv{fliplr} -- flips the matrix in the left/right direction
 \\\noindent \docenvdef{rotate} -- rotates the matrix
 \\\noindent(As always, refer to the \texttt{help} on specific functions.)
-\end{mdframed}}.
+\end{mdframed}}
+
+Try out these three operators on your matrix \texttt{A}.
+
+\noindent Lastly -- earlier you saw how to find the length and size of a \textit{vector} and \textit{array}. Determining the sum of all the elements also comes in handy. For a vector this is straightforward, and
 \begin{docspec}
->> C'\\
-ans =\\
-\ \ \ \ 255   221   357    85\\
-\ \ \ \ 119    17   289   255\\
-\ \ \ \ 187   102    85   340\\
-\ \ \ \ 102   170    51   153
+>> sum(B)
+\\ans = 7.5
 \end{docspec}
-\noindent (transposing the \textit{matrix} turns the rows into columns)
+(assuming that you did not alter any of the values in \texttt{B} earlier).
+
+For an \textit{array} (if you check out \textbf{MATLAB} help on \docenv{sum}) it is a little more complicated. As per detailed in help, "If A is a matrix, then sum(A) returns a row vector containing the sum of each column." If you want the sum of the entire matrix (not just the sums of each column), you have to request:
 \begin{docspec}
->> sum(C')\\
-ans =\\
-\ \ \ \ 663   510   782   833
-\end{docspec}
-\noindent Now you get a row \textit{vector} consisting of the sums of the individual columns of the \textit{matrix} C, but since you have transposed the \textit{matrix} \texttt{C} first, these four values are actually equal to the row sums.
+>> sum(A,"all")
+\end{docspec} 
 
-%------------------------------------------------
-%
-\newpage 
-
-%------------------------------------------------
-
-Finally, you could transpose the answer:
-\begin{docspec}
->> sum(C')'\\
-ans = \\
-\ \ \ \ 663\\
-\ \ \ \ 510\\
-\ \ \ \ 782\\
-\ \ \ \ 833
-\end{docspec}
-\noindent to give you  a row \textit{vector} format that corresponds to the rows  of the original \textit{matrix} \texttt{C}.
-\sidenote[][-0.25in]{Note how you can combine multiple \textit{functions} in the same statement to create \texttt{sum(C')'}. However, to start with, it is much safer to do each step separately and hence be sure what you are doing.}
-
-More recent versions of \textbf{MATLAB} let you calculate sums of rows more easily, by being able to specify the dimension that you sum across. e.g. in the original example:
-\begin{docspec}
->> C\\
-C =\\
-\ \ \ \ 255   119   187   102\\
-\ \ \ \ 221    17   102   170\\
-\ \ \ \ 357   289    85    51\\
-\ \ \ \ 85   255   340   153\\
+\vspace{1mm}
+\noindent\rule{4cm}{0.5pt}
 \vspace{2mm}
-\end{docspec}
-To sum the columns:
-\begin{docspec}
->> sum(C,1)\\
-ans =\\
-\ \ \ \ 918   680   714   476\\
-\end{docspec}
-and then to sum the rows:
-\begin{docspec}
->> sum(C,2)\\
-ans = \\
-\ \ \ \ 663\\
-\ \ \ \ 510\\
-\ \ \ \ 782\\
-\ \ \ \ 833
-\end{docspec}
 
-
-What then is the sum of *all* the elements in the \textit{matrix} \texttt{C}?
-
-You could sum all the columns to give you a row \textit{vector} of partial sums, and then sum the elements in the row \textit{vector} to give you the grant total sum of all the elements. You can do this, either in completely separate steps\sidenote{In general in programming -- use as many smaller, separate steps as you like and are most comfortable. The more you break down the calculation, the clearer it will be to you and the easier to debug if things go wrong. However, this does come at the expense of longer and longer code and sometimes more compact code is easier to deal with.}:
-\begin{docspec}
->> D = sum(C);\\
->> E = sum(D);
-\end{docspec}
-or all in one go:
-\begin{docspec}
->> F = sum(sum(C));
-\end{docspec}
-
-It does not matter if you sum the column of \texttt{C} first, or the row first -- maybe test this to satisfy yourself that this is true.
-
-More recent \textbf{MATLAB} versions also give you a short-cut:
-\begin{docspec}
->> sum(C,'all')\\
-ans = \\
-\ \ \ \ 2788\\
-\end{docspec}
-
+%------------------------------------------------
+\newpage
 %------------------------------------------------
 
 \subsection{Some matrix math :(}
